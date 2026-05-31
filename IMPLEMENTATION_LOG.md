@@ -94,12 +94,16 @@ persistence, multi-tenant `customer_id` threading, local + hosted LLM providers.
 Mocked (deterministic, demo-friendly): service logs (a coherent `trace_123`
 failure chain), AWS config validation, Jenkins deploy (now multi-region), sanity
 scripts, startup telemetry — each with `healthy` / `degraded` / `blocked`
-scenarios. Telegram is a webhook passthrough.
+scenarios.
+
+**Telegram gateway is real** — connect your own bot (validated via `getMe`),
+long-polling for messages (the self-hosted default, same as Hermes/OpenClaw), each
+chat run through the same agent pipeline and mirrored as a live session in the
+dashboard. One poller per tenant, resumed on startup; webhook mode is the
+documented cloud path.
 
 ## What was cut, and why
 
-- **Real Telegram bot** — the orchestrator path is identical; only the transport
-  is stubbed. Wiring a bot token adds no architectural insight for the demo.
 - **Real Jenkins/AWS/SDK calls** — mocked per the brief; the agent reasoning over
   their output is the interesting part, and is real.
 - **Job queue / worker pool** — designed for (documented under scaling) but not

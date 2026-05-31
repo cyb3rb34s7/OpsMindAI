@@ -231,16 +231,49 @@ build→feel→fix loop.
 
 ---
 
+## Iteration 8 — The gateway: a Telegram bot on the same brain
+
+The last piece was meeting the agent where engineers already are — chat. I wanted a
+user to connect *their own* bot and have OpsMindAI answer from it, sharing the same
+memory as the console.
+
+**The decision I researched first — transport.** Telegram bots receive messages two
+ways: long-polling (`getUpdates`, outbound) or webhooks (inbound, needs a public
+URL). I checked how the self-hosted agents in this space actually do it: both
+**Hermes** and **OpenClaw** default to **long-polling** for local/self-hosted, and
+treat webhook purely as a cloud optimization (so idle machines can sleep). Both also
+flag one hard constraint: **only one active poller per bot token**. So I built
+long-polling and made connecting a bot always stop any existing poller first.
+
+**The insight that made "see sessions" almost free.** The web chat already persists
+every turn to memory keyed by `(customer_id, thread_id)`. So I mapped each Telegram
+chat to a thread `tg-<chat_id>` and ran it through the *same* `run_turn` pipeline
+(route → agents → memory) — capturing the final reply to send back. Now Telegram
+conversations land in the exact same store as the web chat, and the dashboard's
+"live sessions" mirror is just a query for `tg-*` threads. The bot and the console
+are one brain, one memory.
+
+**What I built** (`gateway.py` + sidebar modal + a sessions view): connect
+(validate token via `getMe`, persist, start a poller), an always-on poll loop per
+tenant that resumes on startup, a "typing…" action while the agent works, and a
+read-only mirror that auto-refreshes — each chat expandable to its full transcript.
+
+**One bug worth recording:** my first `getUpdates` call collided on the name
+`timeout` — Telegram wants a `timeout` query param for the long-poll hold, but I was
+already using `timeout` for the HTTP client read timeout. Renaming the client one to
+`client_timeout` fixed a poller that otherwise returned instantly in a hot loop.
+
 ## What's real vs mocked (current, honest)
 
 **Real:** GitHub scan + context-repo commits, RCA reasoning, trace correlation,
 3-tier memory (FTS5 BM25 + recency/importance), skill persistence & recall, run
-persistence, SSE streaming for chat and release, multi-tenant `customer_id`
-threading, the onboarding golden cache, local + hosted LLM providers.
+persistence, SSE streaming for chat and release, the **Telegram gateway**
+(long-polling a real bot, shared memory, live session mirror), multi-tenant
+`customer_id` threading, the onboarding golden cache, local + hosted LLM providers.
 
 **Mocked (deterministic, scenario-driven):** service logs, AWS config validation,
 Jenkins deploy, sanity scripts, startup telemetry — each with
-`healthy / degraded / blocked` modes. Telegram is a webhook passthrough.
+`healthy / degraded / blocked` modes.
 
 ---
 
@@ -248,8 +281,8 @@ Jenkins deploy, sanity scripts, startup telemetry — each with
 
 - **Real Jenkins/AWS SDK calls** — mocked per the brief; the agent *reasoning over*
   their output is the interesting part, and that's real.
-- **Real Telegram bot** — the orchestrator path is identical; only the transport is
-  stubbed.
+- **Telegram webhook mode** — long-polling covers the self-hosted demo; webhook is
+  the documented cloud path (lets idle machines sleep), not built.
 - **Vector DB for memory** — FTS5 is enough at demo scale; embeddings are the
   documented upgrade path.
 - **A worker queue / auth enforcement** — designed for (single-process is fine for a
