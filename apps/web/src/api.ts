@@ -246,6 +246,47 @@ export async function streamChat(
   }
 }
 
+async function consumeSSE(res: Response, onEvent: (e: ChatEvent) => void): Promise<void> {
+  if (!res.body) throw new Error('No response stream')
+  const reader = res.body.getReader()
+  const decoder = new TextDecoder()
+  let buf = ''
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    buf += decoder.decode(value, { stream: true })
+    const frames = buf.split('\n\n')
+    buf = frames.pop() ?? ''
+    for (const frame of frames) {
+      const line = frame.split('\n').find((l) => l.startsWith('data: '))
+      if (line) {
+        try {
+          onEvent(JSON.parse(line.slice(6)) as ChatEvent)
+        } catch {
+          /* ignore */
+        }
+      }
+    }
+  }
+}
+
+export async function streamRelease(
+  customerId: string,
+  service: string,
+  version: string,
+  demoMode: string,
+  onEvent: (e: ChatEvent) => void,
+  signal?: AbortSignal,
+): Promise<void> {
+  const res = await fetch('/api/v1/agents/release/stream', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ customer_id: customerId, payload: { service, version, demo_mode: demoMode } }),
+    signal,
+  })
+  await consumeSSE(res, onEvent)
+}
+
 export async function stopChat(customerId: string, threadId: string): Promise<void> {
   await fetch('/api/v1/chat/stop', {
     method: 'POST',

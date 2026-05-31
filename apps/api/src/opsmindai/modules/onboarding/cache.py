@@ -45,6 +45,23 @@ def get_repo_report(repo_url: str) -> dict | None:
         return None
 
 
+def get_customer_report(customer_id: str) -> dict | None:
+    """Most recent onboarding report for a customer (for downstream agents that
+    need the system's services/components, e.g. the release agent)."""
+    init_db()
+    with get_connection() as conn:
+        row = conn.execute(
+            "SELECT result_json FROM onboarding_cache WHERE customer_id = ? ORDER BY created_at DESC LIMIT 1",
+            (customer_id,),
+        ).fetchone()
+    if row is None:
+        return None
+    try:
+        return json.loads(row["result_json"]).get("report")
+    except (ValueError, TypeError):
+        return None
+
+
 def get_cached(customer_id: str, repo_url: str, chash: str) -> dict | None:
     init_db()
     with get_connection() as conn:
