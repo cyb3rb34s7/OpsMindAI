@@ -91,6 +91,7 @@ class BotRuntime:
         chat_id = chat.get("id")
         if not text or chat_id is None:
             return
+        logger.info("telegram.message.in", extra={"event": "telegram.message.in", "chat_id": chat_id, "text": text[:60]})
 
         # /start is a Telegram convention — greet instead of routing it to an agent.
         if text == "/start":
@@ -125,7 +126,9 @@ class BotRuntime:
         finally:
             typing.cancel()
 
-        await self._send(chat_id, reply_holder.get("text") or "(no reply)")
+        out = reply_holder.get("text") or "(no reply)"
+        logger.info("telegram.reply.out", extra={"event": "telegram.reply.out", "chat_id": chat_id, "text": out[:60]})
+        await self._send(chat_id, out)
 
     async def _send(self, chat_id: int, text: str) -> None:
         try:
@@ -136,8 +139,8 @@ class BotRuntime:
     async def _send_action(self, chat_id: int, action: str) -> None:
         try:
             await _call(self.token, "sendChatAction", chat_id=chat_id, action=action)
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.warning("telegram.action.error", extra={"event": "telegram.action.error", "error": str(exc)})
 
     async def _typing_keepalive(self, chat_id: int) -> None:
         """Hold the 'typing…' indicator until the turn finishes (cancelled by caller)."""

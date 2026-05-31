@@ -37,7 +37,39 @@ and operational. If the memory doesn't cover something, say what you'd need
 rather than inventing incident details."""
 
 
+# High-confidence keyword routing. Catches the common cases without an LLM call,
+# so a turn is one model call (the reply) instead of two (classify + reply) — a big
+# latency win on local models. Ambiguous messages still fall through to the LLM router.
+_GREETING_RE = re.compile(r"^\s*(hi|hey|hello|yo|sup|gm|thanks|thank you|ok|okay|cool|nice|got it|howdy)\b[\s!.?]*$", re.IGNORECASE)
+_RELEASE_RE = re.compile(r"\b(deploy|release|roll ?back|rollout|ship it|ship to|promote)\b", re.IGNORECASE)
+_RCA_RE = re.compile(r"\b(error|errors|500s?|failing|failed|fail|down|crash(ing|ed)?|latency|timeout|timing out|incident|outage|broken|throwing|exception|stack ?trace)\b", re.IGNORECASE)
+_GENERAL_RE = re.compile(r"\b(architecture|stack|services|components|dependenc|risks?|healthy|status|overview|what('?s| is| are)|how many|which|list|explain|tell me about|who)\b", re.IGNORECASE)
+
+
+def _fast_route(message: str) -> dict | None:
+    """Deterministic routing for clear messages; None when genuinely ambiguous."""
+    if TRACE_RE.search(message):
+        return {"intent": "rca", "confidence": 0.95, "reasoning": "Detected a trace id."}
+    if REPO_RE.search(message):
+        return {"intent": "onboarding", "confidence": 0.95, "reasoning": "Detected a GitHub URL."}
+    if _GREETING_RE.match(message):
+        return {"intent": "general", "confidence": 0.95, "reasoning": "Greeting / small talk."}
+    if _RELEASE_RE.search(message):
+        return {"intent": "release", "confidence": 0.85, "reasoning": "Deploy/release keyword."}
+    # An informational question ("are my services healthy?", "what's my stack?") is
+    # general even if it mentions services — only treat it as RCA on failure language.
+    if _GENERAL_RE.search(message) and not _RCA_RE.search(message):
+        return {"intent": "general", "confidence": 0.8, "reasoning": "Informational question — answer from memory."}
+    if _RCA_RE.search(message):
+        return {"intent": "rca", "confidence": 0.85, "reasoning": "Incident/failure language."}
+    return None
+
+
 async def _route(message: str, provider: str | None) -> dict:
+    fast = _fast_route(message)
+    if fast is not None:
+        return fast
+    # Ambiguous — ask the LLM router.
     client = LLMClient(provider=provider)
     req = LLMRequest(
         system_prompt=CHAT_ROUTER_PROMPT,
@@ -50,11 +82,6 @@ async def _route(message: str, provider: str | None) -> dict:
         d = RouteDecision.model_validate(resp.structured_output)
         return d.model_dump()
     except Exception:
-        # Fall back to deterministic routing if the router call fails.
-        if TRACE_RE.search(message):
-            return {"intent": "rca", "confidence": 0.9, "reasoning": "Detected a trace id."}
-        if REPO_RE.search(message):
-            return {"intent": "onboarding", "confidence": 0.9, "reasoning": "Detected a GitHub URL."}
         return {"intent": "general", "confidence": 0.6, "reasoning": "Answering from memory."}
 
 
