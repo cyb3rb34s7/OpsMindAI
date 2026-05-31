@@ -9,6 +9,7 @@ from fastapi.responses import StreamingResponse
 from opsmindai.modules.chat.runtime import clear_task, is_busy, lock_for, register_task, stop
 from opsmindai.modules.chat.schemas import ChatRequest, ChatStopRequest
 from opsmindai.modules.chat.service import run_turn
+from opsmindai.modules.memory.service import memory
 from opsmindai.shared.responses import success_response
 
 router = APIRouter(prefix="/api/v1", tags=["chat"])
@@ -78,3 +79,13 @@ async def chat(req: ChatRequest):
 async def chat_stop(req: ChatStopRequest):
     cancelled = stop(req.customer_id, req.thread_id)
     return success_response({"cancelled": cancelled})
+
+
+@router.get("/chat/history/{customer_id}")
+async def chat_history(customer_id: str, thread_id: str = "main"):
+    """Persisted conversation history for a thread (survives refresh/sessions)."""
+    return success_response({
+        "customer_id": customer_id,
+        "thread_id": thread_id,
+        "turns": memory.conversation_history(customer_id, thread_id),
+    })

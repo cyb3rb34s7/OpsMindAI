@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Icon, Button, Badge, Card } from '../ui'
-import { streamChat, stopChat, getSkills, type ChatEvent, type Skill } from '../api'
+import { streamChat, stopChat, getSkills, getChatHistory, type ChatEvent, type Skill } from '../api'
 
 interface ToolEvt { name: string; status: string; summary?: string }
 interface Msg {
@@ -117,6 +117,15 @@ export default function Home({ customerId }: { customerId: string }) {
 
   const loadSkills = () => getSkills(customerId).then(setSkills).catch(() => undefined)
   useEffect(() => { loadSkills() }, [customerId])
+
+  // Load persisted conversation history so the thread survives refresh/sessions.
+  useEffect(() => {
+    getChatHistory(customerId)
+      .then((turns) => {
+        if (turns.length) setMessages(turns.map((t) => ({ role: t.role, text: t.text, thinking: [], tools: [], status: 'done' as const })))
+      })
+      .catch(() => undefined)
+  }, [customerId])
   useEffect(() => { scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' }) }, [messages])
 
   function patchLast(fn: (m: Msg) => void) {

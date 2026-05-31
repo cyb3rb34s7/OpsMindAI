@@ -239,3 +239,14 @@ export async function stopChat(customerId: string, threadId: string): Promise<vo
     body: JSON.stringify({ customer_id: customerId, thread_id: threadId }),
   }).catch(() => undefined)
 }
+
+export interface ChatTurn {
+  role: 'user' | 'assistant'
+  text: string
+  ts?: string
+}
+
+export async function getChatHistory(customerId: string, threadId = 'main'): Promise<ChatTurn[]> {
+  const r = await get<ApiEnvelope<{ turns: ChatTurn[] }>>(`/chat/history/${customerId}?thread_id=${threadId}`)
+  return r.data.turns
+}

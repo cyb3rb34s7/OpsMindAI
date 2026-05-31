@@ -137,6 +137,29 @@ class MemoryService:
         except Exception:
             return []
 
+    def conversation_history(self, customer_id: str, thread_id: str, limit: int = 200) -> list[dict]:
+        """Full ordered chat history for a thread, parsed into {role, text}."""
+        cid = _key(customer_id)
+        try:
+            init_db()
+            with get_connection() as conn:
+                rows = conn.execute(
+                    "SELECT content, created_at FROM memory_fts "
+                    "WHERE customer_id = ? AND category = ? AND thread_id = ? "
+                    "ORDER BY created_at LIMIT ?",
+                    (cid, _CONVERSATION, thread_id, limit),
+                ).fetchall()
+            out: list[dict] = []
+            for r in rows:
+                c = r["content"]
+                if c.startswith("user: "):
+                    out.append({"role": "user", "text": c[6:], "ts": r["created_at"]})
+                elif c.startswith("assistant: "):
+                    out.append({"role": "assistant", "text": c[11:], "ts": r["created_at"]})
+            return out
+        except Exception:
+            return []
+
     def core(self, customer_id: str) -> list[str]:
         cid = _key(customer_id)
         try:
