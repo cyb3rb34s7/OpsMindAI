@@ -189,3 +189,53 @@ export interface OrchestratorResult {
 export async function runOrchestrator(customerId: string, message: string, payload: Record<string, unknown> = {}) {
   return post<OrchestratorResult>('/orchestrator/run', { customer_id: customerId, message, payload })
 }
+
+// ---- Chat SSE (hand-rolled reader) ----
+export interface ChatEvent {
+  type: 'queued' | 'memory' | 'routing' | 'thinking' | 'tool' | 'reply' | 'result' | 'done' | 'cancelled' | 'error'
+  [k: string]: unknown
+}
+
+export async function streamChat(
+  customerId: string,
+  threadId: string,
+  message: string,
+  onEvent: (e: ChatEvent) => void,
+  signal?: AbortSignal,
+): Promise<void> {
+  const res = await fetch('/api/v1/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ customer_id: customerId, thread_id: threadId, message }),
+    signal,
+  })
+  if (!res.body) throw new Error('No response stream')
+  const reader = res.body.getReader()
+  const decoder = new TextDecoder()
+  let buf = ''
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    buf += decoder.decode(value, { stream: true })
+    const frames = buf.split('\n\n')
+    buf = frames.pop() ?? ''
+    for (const frame of frames) {
+      const line = frame.split('\n').find((l) => l.startsWith('data: '))
+      if (line) {
+        try {
+          onEvent(JSON.parse(line.slice(6)) as ChatEvent)
+        } catch {
+          /* ignore malformed frame */
+        }
+      }
+    }
+  }
+}
+
+export async function stopChat(customerId: string, threadId: string): Promise<void> {
+  await fetch('/api/v1/chat/stop', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ customer_id: customerId, thread_id: threadId }),
+  }).catch(() => undefined)
+}

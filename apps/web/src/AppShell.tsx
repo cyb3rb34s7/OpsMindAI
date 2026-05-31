@@ -1,13 +1,15 @@
 import { Icon } from './ui'
+import Home from './views/Home'
 import Onboarding from './views/Onboarding'
 import ContextRepo from './views/ContextRepo'
 import Incident from './views/Incident'
 import Release from './views/Release'
 import Knowledge from './views/Knowledge'
 
-export type Section = 'onboarding' | 'context' | 'incident' | 'release' | 'knowledge'
+export type Section = 'home' | 'onboarding' | 'context' | 'incident' | 'release' | 'knowledge'
 
 const NAV: { key: Section; label: string; icon: string }[] = [
+  { key: 'home', label: 'Chat', icon: 'forum' },
   { key: 'onboarding', label: 'Onboarding', icon: 'rocket_launch' },
   { key: 'context', label: 'Context Repo', icon: 'menu_book' },
   { key: 'incident', label: 'Investigation', icon: 'psychology' },
@@ -77,6 +79,7 @@ export default function AppShell({
           </div>
         </header>
         <div key={section} className="p-6 max-w-[1200px] mx-auto animate-page">
+          {section === 'home' && <Home customerId={customerId} />}
           {section === 'onboarding' && <Onboarding customerId={customerId} onViewContext={() => setSection('context')} />}
           {section === 'context' && <ContextRepo customerId={customerId} />}
           {section === 'incident' && <Incident customerId={customerId} />}

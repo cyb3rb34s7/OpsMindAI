@@ -7,12 +7,12 @@ type View = 'landing' | 'login' | 'app'
 
 export default function App() {
   const [view, setView] = useState<View>('landing')
-  const [section, setSection] = useState<Section>('onboarding')
+  const [section, setSection] = useState<Section>('home')
   // A single demo tenant; the backend threads customer_id through everything.
   const customerId = 'acme'
 
   // Landing CTAs go through the login screen first, remembering where to land.
-  const goLogin = (s: Section = 'onboarding') => {
+  const goLogin = (s: Section = 'home') => {
     setSection(s)
     setView('login')
   }
