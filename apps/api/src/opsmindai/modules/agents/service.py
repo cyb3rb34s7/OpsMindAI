@@ -45,7 +45,7 @@ async def execute_agent(
     try:
         # Bound the run so a throttled provider fails gracefully instead of
         # spinning forever (the free tier can stall LLM calls under load).
-        result = await asyncio.wait_for(agent.run(context, payload), timeout=120)
+        result = await asyncio.wait_for(agent.run(context, payload), timeout=240)
         update_run(
             run.run_id,
             status="completed",

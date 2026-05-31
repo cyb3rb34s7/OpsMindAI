@@ -42,7 +42,7 @@ async def chat(req: ChatRequest):
                     # Bound the turn so a throttled provider never hangs the UI.
                     await asyncio.wait_for(
                         run_turn(customer_id, thread_id, message, emit, provider=req.provider),
-                        timeout=90,
+                        timeout=240,
                     )
                     await queue.put({"type": "done"})
                 except asyncio.TimeoutError:

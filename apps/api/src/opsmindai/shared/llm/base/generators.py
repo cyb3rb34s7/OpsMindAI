@@ -190,7 +190,7 @@ async def ollama_generate(
     request: LLMRequest,
 ) -> LLMResponse:
     start = perf_counter()
-    payload = {
+    payload: dict[str, Any] = {
         "model": model,
         "messages": [
             {"role": "system", "content": _content_with_schema(request)},
@@ -198,18 +198,28 @@ async def ollama_generate(
         ],
         "options": {
             "temperature": request.temperature,
-            "num_predict": request.max_tokens,
+            # JSON-mode grammar can spend tokens on whitespace before content, so
+            # give structured calls a floor to avoid truncating to empty output.
+            "num_predict": max(request.max_tokens, 768) if request.response_schema is not None else request.max_tokens,
         },
         "stream": False,
     }
+    # Ollama's JSON mode makes small local models reliably emit valid JSON.
+    if request.response_schema is not None:
+        payload["format"] = "json"
 
-    async with httpx.AsyncClient(base_url=base_url, timeout=settings.request_timeout_seconds) as client:
+    # Local generation is slower than a hosted API — allow generous time.
+    async with httpx.AsyncClient(base_url=base_url, timeout=max(settings.request_timeout_seconds, 300)) as client:
         response = await client.post("/api/chat", json=payload)
         response.raise_for_status()
         data = response.json()
 
     content = data.get("message", {}).get("content", "")
-    structured = parse_structured_output(content, request.response_schema)
+    structured = (
+        parse_structured_output(content, request.response_schema)
+        if request.response_schema is not None
+        else None
+    )
     return LLMResponse(
         content=content,
         structured_output=structured,
