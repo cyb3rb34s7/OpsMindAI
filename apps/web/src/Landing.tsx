@@ -148,8 +148,11 @@ export default function Landing({ onEnter }: { onEnter: (s?: Section) => void })
       <main>
         {/* Hero */}
         <section className="relative pt-24 pb-20 overflow-hidden min-h-[88vh] flex flex-col justify-center">
-          <div className="absolute inset-0 wireframe-bg opacity-30 z-0" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background z-0" />
+          <div
+            className="absolute inset-0 z-0 opacity-15 bg-cover bg-center"
+            style={{ backgroundImage: "url('/hero-bg.png')" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/95 z-0" />
           <div className="max-w-[1440px] mx-auto px-6 relative z-10 flex flex-col items-center text-center">
             <Badge tone="primary" className="mb-8">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" /> System Status: Operational
