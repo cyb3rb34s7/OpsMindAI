@@ -48,6 +48,18 @@ def init_db() -> None:
         )
         conn.execute(
             """
+            CREATE TABLE IF NOT EXISTS onboarding_cache (
+                customer_id TEXT NOT NULL,
+                repo_url TEXT NOT NULL,
+                context_hash TEXT NOT NULL,
+                result_json TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                PRIMARY KEY (customer_id, repo_url)
+            )
+            """
+        )
+        conn.execute(
+            """
             CREATE TABLE IF NOT EXISTS skills (
                 id TEXT PRIMARY KEY,
                 customer_id TEXT NOT NULL,

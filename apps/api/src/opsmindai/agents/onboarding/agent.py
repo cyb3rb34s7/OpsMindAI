@@ -8,6 +8,7 @@ from opsmindai.agents.onboarding.analyzer import build_onboarding_context
 from opsmindai.agents.onboarding.context_repo import ContextRepoGenerator
 from opsmindai.agents.onboarding.schemas import OnboardingReport
 from opsmindai.agents.prompts import ONBOARDING_SYSTEM_PROMPT
+from opsmindai.modules.onboarding.cache import context_hash, get_cached, put_cached
 from opsmindai.runtime.runner import CognitiveRunner
 from opsmindai.tools.github.schemas import RepositoryScanResult
 from opsmindai.tools.github.tool import GitHubScannerTool
@@ -31,6 +32,19 @@ class OnboardingAgent(BaseAgent):
                 data={},
                 warnings=["repo_url missing"],
             )
+
+        # Cache: identical (repo + pasted context) returns instantly. The demo
+        # runs on one repo, so this keeps replays fast and deterministic.
+        chash = context_hash(payload)
+        if not payload.get("force_refresh"):
+            cached = get_cached(context.customer_id, repo_url, chash)
+            if cached is not None:
+                return AgentResult(
+                    success=True,
+                    summary="Repository onboarding (cached)",
+                    data={**cached, "cached": True},
+                    warnings=cached.get("report", {}).get("warnings", []),
+                )
 
         scan_result = await self.scanner.execute(
             {"repo_url": repo_url, "customer_id": context.customer_id}
@@ -56,12 +70,13 @@ class OnboardingAgent(BaseAgent):
             "extra_docs": payload.get("extra_docs", ""),
         }
 
-        # Onboarding cognition is synthesis over an already-fetched scan, so it
-        # needs few iterations; extra loops just re-call the scan tool and waste
-        # GitHub calls + LLM round-trips.
+        # Onboarding is pure synthesis over an already-fetched scan, so we skip
+        # the tool loop entirely (max_iterations=0 -> one synthesis call). This
+        # keeps a single LLM request well under the provider's per-minute token
+        # budget, which matters with rich file contents in the prompt.
         runner = CognitiveRunner(
             provider=self.provider,
-            max_iterations=payload.get("max_iterations", 2),
+            max_iterations=payload.get("max_iterations", 0),
         )
         result = await runner.run(
             system_prompt=ONBOARDING_SYSTEM_PROMPT,
@@ -80,9 +95,11 @@ class OnboardingAgent(BaseAgent):
 
         report = OnboardingReport.model_validate(result["final"])
         report.source_repo_url = repo_url
+        scanned = scan_result.data
         report.evidence = [
-            json.dumps(scan_result.data, default=str),
-            *[json.dumps(item, default=str) for item in result["tool_results"]],
+            f"Scanned {scanned.get('file_count', 0)} files; read contents of "
+            f"{len(scanned.get('file_contents', {}))} high-signal files: "
+            + ", ".join(list(scanned.get("file_contents", {}).keys())[:10]),
         ]
 
         repo_result = await self.context_repo.generate(context.customer_id, report)
@@ -91,13 +108,16 @@ class OnboardingAgent(BaseAgent):
         report.context_repo_full_name = repo_result.get("context_repo_full_name")
         report.warnings = [*report.warnings, *repo_result.get("warnings", [])]
 
+        data = {
+            "report": report.model_dump(),
+            "context_repo": repo_result,
+            "model": result.get("model"),
+        }
+        put_cached(context.customer_id, repo_url, chash, data)
+
         return AgentResult(
             success=True,
             summary="Repository onboarding completed",
-            data={
-                "report": report.model_dump(),
-                "context_repo": repo_result,
-                "execution": result,
-            },
+            data={**data, "execution": result, "cached": False},
             warnings=report.warnings,
         )

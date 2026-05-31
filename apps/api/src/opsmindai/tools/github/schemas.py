@@ -13,4 +13,5 @@ class RepositoryScanResult(BaseModel):
     file_count: int = 0
     truncated: bool = False
     html_url: str | None = None
+    file_contents: dict[str, str] = Field(default_factory=dict)
     warnings: list[str] = Field(default_factory=list)

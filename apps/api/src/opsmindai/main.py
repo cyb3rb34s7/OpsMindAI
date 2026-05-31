@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 
 from opsmindai.modules.agents.router import router as agents_router
 from opsmindai.modules.orchestrator.router import router as orchestrator_router
+from opsmindai.modules.context.router import router as context_router
 from opsmindai.modules.runs.router import router as runs_router
 from opsmindai.modules.skills.router import router as skills_router
 from opsmindai.modules.telegram.router import router as telegram_router
@@ -55,6 +56,7 @@ app.include_router(orchestrator_router)
 app.include_router(agents_router)
 app.include_router(runs_router)
 app.include_router(skills_router)
+app.include_router(context_router)
 app.include_router(telegram_router)
 
 

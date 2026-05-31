@@ -26,6 +26,58 @@ CONFIG_FILENAMES = {
 CONFIG_SUFFIXES = (".yml", ".yaml", ".tf", ".toml")
 CONFIG_DIR_HINTS = (".github/workflows/", "k8s/", "kubernetes/", "helm/", "deploy/", "infra/")
 
+# Bounded content reading: regardless of repo size we read the contents of at
+# most MAX_CONTENT_FILES high-signal files, each capped — so token cost is fixed.
+MAX_CONTENT_FILES = 10
+CONTENT_CHAR_CAP = 1800
+MAX_BLOB_BYTES = 80_000
+
+_ORCHESTRATION_FILES = {"skaffold.yaml", "skaffold.yml", "docker-compose.yml", "docker-compose.yaml"}
+_ORCHESTRATION_DIRS = ("kubernetes-manifests", "release/", "kustomize", "/helm", "k8s/", "deploy/")
+_LANG_MANIFESTS = {
+    "package.json", "requirements.txt", "pyproject.toml", "go.mod", "pom.xml",
+    "build.gradle", "cargo.toml", "gemfile", "composer.json", "setup.py",
+}
+_ENTRYPOINT_RE = re.compile(r"(^|/)(main|app|server|index)\.(go|py|js|ts|java|cs|rb|cpp|rs)$", re.IGNORECASE)
+_NOISE_DIRS = ("node_modules/", "vendor/", "dist/", "build/", ".git/", "test", "mock")
+
+
+def _signal_score(path: str) -> int:
+    """Lower is higher priority. Returns 99 for files we never read."""
+    lower = path.lower()
+    name = lower.rsplit("/", 1)[-1]
+    if any(n in lower for n in _NOISE_DIRS):
+        return 99
+    if "/" not in path and (lower.endswith(".md") or lower.endswith(".txt")):
+        return 0  # top-level docs (ARCHITECTURE.md, etc.)
+    if name in _ORCHESTRATION_FILES or any(d in lower for d in _ORCHESTRATION_DIRS):
+        return 1  # topology / manifests
+    if name in _LANG_MANIFESTS:
+        return 2
+    if name == "dockerfile":
+        return 3
+    if _ENTRYPOINT_RE.search(path):
+        return 4
+    return 99
+
+
+def _select_high_signal(tree_nodes: list[dict]) -> list[dict]:
+    """Pick the highest-signal blobs to read, bounded by count and size."""
+    candidates = []
+    for n in tree_nodes:
+        if n.get("type") != "blob":
+            continue
+        size = n.get("size") or 0
+        if size > MAX_BLOB_BYTES:
+            continue
+        score = _signal_score(n["path"])
+        if score >= 99:
+            continue
+        depth = n["path"].count("/")
+        candidates.append((score, depth, size, n))
+    candidates.sort(key=lambda c: (c[0], c[1], c[2]))
+    return [c[3] for c in candidates[:MAX_CONTENT_FILES]]
+
 
 class GitHubError(RuntimeError):
     """Raised when a GitHub API call fails in a way the caller must surface."""
@@ -142,6 +194,15 @@ class GitHubClient:
             )
             languages = list(lang_resp.json().keys()) if lang_resp.status_code == 200 else []
 
+            # Bounded content read: fetch the contents of high-signal files so the
+            # agent reasons from real code, not just filenames. Capped by count
+            # and size, so cost is fixed regardless of repo size.
+            file_contents: dict[str, str] = {}
+            for node in _select_high_signal(tree_data.get("tree", [])):
+                text = await self._fetch_blob(client, owner, repo, node["sha"])
+                if text:
+                    file_contents[node["path"]] = text[:CONTENT_CHAR_CAP]
+
         file_count = len(blobs)
         truncated = bool(tree_data.get("truncated")) or file_count > settings.large_repo_file_threshold
 
@@ -170,8 +231,23 @@ class GitHubClient:
             "file_count": file_count,
             "truncated": truncated,
             "html_url": meta.get("html_url", f"https://github.com/{owner}/{repo}"),
+            "file_contents": file_contents,
             "warnings": warnings,
         }
+
+    async def _fetch_blob(self, client: httpx.AsyncClient, owner: str, repo: str, sha: str) -> str:
+        try:
+            resp = await client.get(
+                f"{self.api}/repos/{owner}/{repo}/git/blobs/{sha}", headers=self._headers()
+            )
+            if resp.status_code != 200:
+                return ""
+            data = resp.json()
+            if data.get("encoding") == "base64":
+                return base64.b64decode(data.get("content", "")).decode("utf-8", errors="replace")
+            return data.get("content", "")
+        except (httpx.HTTPError, ValueError):
+            return ""
 
     async def commit_context_files(
         self,
