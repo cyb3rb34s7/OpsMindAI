@@ -105,9 +105,11 @@ class BotRuntime:
             if event_type == "reply" and data.get("text"):
                 reply_holder["text"] = data["text"]
 
-        # Telegram's typing action only lasts ~5s, but a local-model turn can take
-        # much longer — so re-send it on a timer for the whole turn, otherwise the
-        # chat looks dead until the reply lands.
+        # A real placeholder message is the only loader that's guaranteed visible on
+        # every Telegram client (the 'typing…' action is subtle/flaky). We post it
+        # instantly, then edit it in place into the final answer. The typing action
+        # is kept too as a nice-to-have when the client does show it.
+        placeholder_id = await self._send(chat_id, "💭 Working on it…")
         typing = asyncio.create_task(self._typing_keepalive(chat_id))
         try:
             async with lock_for(self.customer_id, thread_id):
@@ -128,13 +130,25 @@ class BotRuntime:
 
         out = reply_holder.get("text") or "(no reply)"
         logger.info("telegram.reply.out", extra={"event": "telegram.reply.out", "chat_id": chat_id, "text": out[:60]})
-        await self._send(chat_id, out)
+        # Edit the placeholder into the answer; fall back to a fresh message.
+        if not (placeholder_id and await self._edit(chat_id, placeholder_id, out)):
+            await self._send(chat_id, out)
 
-    async def _send(self, chat_id: int, text: str) -> None:
+    async def _send(self, chat_id: int, text: str) -> int | None:
         try:
-            await _call(self.token, "sendMessage", chat_id=chat_id, text=text)
+            res = await _call(self.token, "sendMessage", chat_id=chat_id, text=text)
+            return res.get("message_id")
         except Exception as exc:
             logger.warning("telegram.send.error", extra={"event": "telegram.send.error", "error": str(exc)})
+            return None
+
+    async def _edit(self, chat_id: int, message_id: int, text: str) -> bool:
+        try:
+            await _call(self.token, "editMessageText", chat_id=chat_id, message_id=message_id, text=text)
+            return True
+        except Exception as exc:
+            logger.warning("telegram.edit.error", extra={"event": "telegram.edit.error", "error": str(exc)})
+            return False
 
     async def _send_action(self, chat_id: int, action: str) -> None:
         try:
