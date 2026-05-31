@@ -13,10 +13,13 @@ from opsmindai.tools.aws.tool import ValidateAwsConfigTool
 DEFAULT_REGIONS = ["us-east-1", "eu-west-1", "ap-south-1"]
 
 # Step pacing so the streamed rollout is watchable (mock infra is instant).
-PRE_DEPLOY_S = 1.4
-DEPLOY_S = 1.6
-STARTUP_S = 1.3
-SANITY_S = 1.1
+# Each phase shows a loader for the base duration, then regions complete one at a
+# time STAGGER_S apart so the rollout cascades instead of snapping all at once.
+PRE_DEPLOY_S = 2.4
+DEPLOY_S = 2.4
+STARTUP_S = 2.2
+SANITY_S = 1.8
+STAGGER_S = 0.7
 
 
 def _system_context(customer_id: str, service: str) -> dict:
@@ -89,7 +92,9 @@ class ReleaseAgent(BaseAgent):
         for r in regions:
             await context.send("tool", name=f"deploy {r}", status="running")
         await asyncio.sleep(DEPLOY_S)
-        for r in regions:
+        for i, r in enumerate(regions):
+            if i:
+                await asyncio.sleep(STAGGER_S)
             logs[r] += [
                 f"[{r}] Triggering Jenkins pipeline release-{service} (build {deploy_ids[r]})",
                 f"[{r}] Pulling image {service}:{version}",
@@ -103,7 +108,9 @@ class ReleaseAgent(BaseAgent):
             await context.send("tool", name=f"startup {r}", status="running")
         await asyncio.sleep(STARTUP_S)
         startup: dict[str, str] = {}
-        for r in regions:
+        for i, r in enumerate(regions):
+            if i:
+                await asyncio.sleep(STAGGER_S)
             fail = r == failing_region
             if fail:
                 startup[r] = "failed"
@@ -126,7 +133,9 @@ class ReleaseAgent(BaseAgent):
             await context.send("tool", name=f"sanity {r}", status="running")
         await asyncio.sleep(SANITY_S)
         results: list[RegionResult] = []
-        for r in regions:
+        for i, r in enumerate(regions):
+            if i:
+                await asyncio.sleep(STAGGER_S)
             fail = r == failing_region
             sanity = [
                 {"name": "health endpoint reachable", "ok": True},
