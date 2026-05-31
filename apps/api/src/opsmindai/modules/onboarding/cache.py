@@ -24,6 +24,27 @@ def context_hash(payload: dict) -> str:
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()[:16]
 
 
+def get_repo_report(repo_url: str) -> dict | None:
+    """Return a prior successful onboarding REPORT for this repo (any customer).
+
+    The analysis is about the repository, not the customer, so a fresh tenant can
+    reuse a golden report instead of making a fresh (throttle-prone) LLM call.
+    The per-customer context repo + memory are still generated live.
+    """
+    init_db()
+    with get_connection() as conn:
+        row = conn.execute(
+            "SELECT result_json FROM onboarding_cache WHERE repo_url = ? ORDER BY created_at DESC LIMIT 1",
+            (repo_url,),
+        ).fetchone()
+    if row is None:
+        return None
+    try:
+        return json.loads(row["result_json"]).get("report")
+    except (ValueError, TypeError):
+        return None
+
+
 def get_cached(customer_id: str, repo_url: str, chash: str) -> dict | None:
     init_db()
     with get_connection() as conn:

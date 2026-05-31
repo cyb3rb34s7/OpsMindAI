@@ -9,7 +9,7 @@ from opsmindai.agents.onboarding.context_repo import ContextRepoGenerator
 from opsmindai.agents.onboarding.schemas import OnboardingReport
 from opsmindai.agents.prompts import ONBOARDING_SYSTEM_PROMPT
 from opsmindai.modules.memory.service import memory
-from opsmindai.modules.onboarding.cache import context_hash, get_cached, put_cached
+from opsmindai.modules.onboarding.cache import context_hash, get_cached, get_repo_report, put_cached
 from opsmindai.runtime.runner import CognitiveRunner
 from opsmindai.tools.github.schemas import RepositoryScanResult
 from opsmindai.tools.github.tool import GitHubScannerTool
@@ -47,61 +47,62 @@ class OnboardingAgent(BaseAgent):
                     warnings=cached.get("report", {}).get("warnings", []),
                 )
 
-        scan_result = await self.scanner.execute(
-            {"repo_url": repo_url, "customer_id": context.customer_id}
-        )
-        if not scan_result.success:
-            return AgentResult(
-                success=False,
-                summary="Repository scan failed",
-                data=scan_result.data,
-                warnings=[scan_result.error or "scan failed"],
+        # Golden report: reuse a prior successful analysis of this repo (any
+        # tenant) so a fresh tenant gets instant, reliable onboarding without a
+        # throttle-prone live LLM call. The per-customer context repo + memory
+        # below still run live.
+        model_used = "cache"
+        golden = None if payload.get("force_refresh") else get_repo_report(repo_url)
+        if golden is not None:
+            report = OnboardingReport.model_validate(golden)
+            report.warnings = [*report.warnings, "Reused a cached analysis of this repository."]
+        else:
+            scan_result = await self.scanner.execute(
+                {"repo_url": repo_url, "customer_id": context.customer_id}
             )
+            if not scan_result.success:
+                return AgentResult(
+                    success=False,
+                    summary="Repository scan failed",
+                    data=scan_result.data,
+                    warnings=[scan_result.error or "scan failed"],
+                )
 
-        scan_ctx = build_onboarding_context(
-            RepositoryScanResult.model_validate(scan_result.data)
-        )
+            scan_ctx = build_onboarding_context(
+                RepositoryScanResult.model_validate(scan_result.data)
+            )
+            provided_context = {
+                "decision_records": payload.get("decisions", ""),
+                "transcripts": payload.get("transcripts", ""),
+                "business_context": payload.get("business_context", ""),
+                "extra_docs": payload.get("extra_docs", ""),
+            }
+            # Pure synthesis over the scan; skip the tool loop (one LLM call).
+            runner = CognitiveRunner(provider=self.provider, max_iterations=payload.get("max_iterations", 0))
+            result = await runner.run(
+                system_prompt=ONBOARDING_SYSTEM_PROMPT,
+                user_prompt=json.dumps(
+                    {
+                        "customer_id": context.customer_id,
+                        "repo_url": repo_url,
+                        "scan_context": scan_ctx,
+                        "provided_context": provided_context,
+                    },
+                    indent=2,
+                    default=str,
+                ),
+                final_schema=OnboardingReport,
+            )
+            report = OnboardingReport.model_validate(result["final"])
+            model_used = result.get("model")
+            scanned = scan_result.data
+            report.evidence = [
+                f"Scanned {scanned.get('file_count', 0)} files; read contents of "
+                f"{len(scanned.get('file_contents', {}))} high-signal files: "
+                + ", ".join(list(scanned.get("file_contents", {}).keys())[:10]),
+            ]
 
-        # Additional human-provided context sources beyond the code itself.
-        # Empty strings are fine — the agent simply has less to work with.
-        provided_context = {
-            "decision_records": payload.get("decisions", ""),
-            "transcripts": payload.get("transcripts", ""),
-            "business_context": payload.get("business_context", ""),
-            "extra_docs": payload.get("extra_docs", ""),
-        }
-
-        # Onboarding is pure synthesis over an already-fetched scan, so we skip
-        # the tool loop entirely (max_iterations=0 -> one synthesis call). This
-        # keeps a single LLM request well under the provider's per-minute token
-        # budget, which matters with rich file contents in the prompt.
-        runner = CognitiveRunner(
-            provider=self.provider,
-            max_iterations=payload.get("max_iterations", 0),
-        )
-        result = await runner.run(
-            system_prompt=ONBOARDING_SYSTEM_PROMPT,
-            user_prompt=json.dumps(
-                {
-                    "customer_id": context.customer_id,
-                    "repo_url": repo_url,
-                    "scan_context": scan_ctx,
-                    "provided_context": provided_context,
-                },
-                indent=2,
-                default=str,
-            ),
-            final_schema=OnboardingReport,
-        )
-
-        report = OnboardingReport.model_validate(result["final"])
         report.source_repo_url = repo_url
-        scanned = scan_result.data
-        report.evidence = [
-            f"Scanned {scanned.get('file_count', 0)} files; read contents of "
-            f"{len(scanned.get('file_contents', {}))} high-signal files: "
-            + ", ".join(list(scanned.get("file_contents", {}).keys())[:10]),
-        ]
 
         repo_result = await self.context_repo.generate(context.customer_id, report)
         report.artifact_path = repo_result.get("local_path")
@@ -120,13 +121,13 @@ class OnboardingAgent(BaseAgent):
         data = {
             "report": report.model_dump(),
             "context_repo": repo_result,
-            "model": result.get("model"),
+            "model": model_used,
         }
         put_cached(context.customer_id, repo_url, chash, data)
 
         return AgentResult(
             success=True,
-            summary="Repository onboarding completed",
-            data={**data, "execution": result, "cached": False},
+            summary="Repository onboarding completed" + (" (cached analysis)" if golden is not None else ""),
+            data={**data, "cached": golden is not None},
             warnings=report.warnings,
         )

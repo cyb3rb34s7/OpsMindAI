@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from uuid import uuid4
+import asyncio
 
 from opsmindai.agents.base.schemas import ExecutionContext
 from opsmindai.agents.onboarding.agent import OnboardingAgent
@@ -43,7 +43,9 @@ async def execute_agent(
     )
 
     try:
-        result = await agent.run(context, payload)
+        # Bound the run so a throttled provider fails gracefully instead of
+        # spinning forever (the free tier can stall LLM calls under load).
+        result = await asyncio.wait_for(agent.run(context, payload), timeout=120)
         update_run(
             run.run_id,
             status="completed",
@@ -54,6 +56,9 @@ async def execute_agent(
             "run": update_run(run.run_id, status="completed", output_json=result.model_dump()).model_dump(),
             "result": result.model_dump(),
         }
+    except asyncio.TimeoutError:
+        update_run(run.run_id, status="failed", error_json={"error": "timeout"})
+        raise RuntimeError("The model is busy (free-tier rate limit). Please try again in a moment.")
     except Exception as exc:
         update_run(
             run.run_id,

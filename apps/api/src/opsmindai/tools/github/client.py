@@ -28,8 +28,8 @@ CONFIG_DIR_HINTS = (".github/workflows/", "k8s/", "kubernetes/", "helm/", "deplo
 
 # Bounded content reading: regardless of repo size we read the contents of at
 # most MAX_CONTENT_FILES high-signal files, each capped — so token cost is fixed.
-MAX_CONTENT_FILES = 10
-CONTENT_CHAR_CAP = 1800
+MAX_CONTENT_FILES = 8
+CONTENT_CHAR_CAP = 1400
 MAX_BLOB_BYTES = 80_000
 
 _ORCHESTRATION_FILES = {"skaffold.yaml", "skaffold.yml", "docker-compose.yml", "docker-compose.yaml"}
