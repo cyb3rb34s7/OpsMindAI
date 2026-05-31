@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./apps/api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - redis
+
+  web:
+    build: ./apps/web
+    ports:
+      - "5173:5173"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
