@@ -46,7 +46,12 @@ class RCAAgent(BaseAgent):
                 warnings=["trace_id missing"],
             )
 
+        await context.send("tool", name="fetch_logs", status="running")
         logs_result = await self.log_tool.execute({"trace_id": trace_id})
+        await context.send(
+            "tool", name="fetch_logs", status="done",
+            summary=f"{len(logs_result.data.get('logs', []))} log spans" if logs_result.success else "failed",
+        )
         if not logs_result.success:
             return AgentResult(
                 success=False,
@@ -55,8 +60,13 @@ class RCAAgent(BaseAgent):
                 warnings=[logs_result.error or "log fetch failed"],
             )
 
+        await context.send("tool", name="correlate_trace", status="running")
         trace_result = await self.trace_tool.execute(
             {"logs": logs_result.data["logs"]}
+        )
+        await context.send(
+            "tool", name="correlate_trace", status="done",
+            summary=(trace_result.data.get("summary", "") or "correlated")[:120] if trace_result.success else "failed",
         )
         if not trace_result.success:
             return AgentResult(
@@ -77,6 +87,7 @@ class RCAAgent(BaseAgent):
             context.customer_id, f"{incident_text} {logs_text}"
         )
 
+        await context.send("thinking", text="Correlating the trace and reasoning about the root cause")
         runner = CognitiveRunner(
             provider=self.provider,
             max_iterations=payload.get("max_iterations", 4),

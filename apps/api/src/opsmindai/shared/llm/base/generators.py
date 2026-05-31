@@ -114,7 +114,13 @@ async def openai_compatible_generate(
 
             data = response.json()
             content = data["choices"][0]["message"]["content"]
-            structured = parse_structured_output(content, request.response_schema)
+            # Only parse JSON when a schema was requested; plain-text replies
+            # (chat) must pass through untouched.
+            structured = (
+                parse_structured_output(content, request.response_schema)
+                if request.response_schema is not None
+                else None
+            )
             return LLMResponse(
                 content=content,
                 structured_output=structured,
