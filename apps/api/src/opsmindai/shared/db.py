@@ -89,6 +89,19 @@ def init_db() -> None:
             )
             """
         )
+        # A connected Telegram bot per tenant. One row = one always-on poller the
+        # gateway resumes on startup. Token is the user's own bot token.
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS telegram_bots (
+                customer_id TEXT PRIMARY KEY,
+                token TEXT NOT NULL,
+                bot_username TEXT NOT NULL,
+                bot_name TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+            """
+        )
         conn.commit()
 
 

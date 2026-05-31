@@ -305,3 +305,44 @@ export async function getChatHistory(customerId: string, threadId = 'main'): Pro
   const r = await get<ApiEnvelope<{ turns: ChatTurn[] }>>(`/chat/history/${customerId}?thread_id=${threadId}`)
   return r.data.turns
 }
+
+// ---- Telegram gateway ----
+export interface TelegramStatus {
+  connected: boolean
+  bot_username?: string
+  bot_name?: string
+  running?: boolean
+  messages?: number
+  last_error?: string | null
+}
+
+export interface TelegramSession {
+  thread_id: string
+  count: number
+  last_at: string
+  last_message: string
+}
+
+export async function getTelegramStatus(customerId: string): Promise<TelegramStatus> {
+  const r = await get<ApiEnvelope<TelegramStatus>>(`/telegram/status/${customerId}`)
+  return r.data
+}
+
+export async function connectTelegram(customerId: string, token: string, name: string): Promise<TelegramStatus> {
+  const r = await post<ApiEnvelope<TelegramStatus>>('/telegram/connect', { customer_id: customerId, token, name })
+  return r.data
+}
+
+export async function disconnectTelegram(customerId: string): Promise<void> {
+  await post<ApiEnvelope<unknown>>('/telegram/disconnect', { customer_id: customerId })
+}
+
+export async function getTelegramSessions(customerId: string): Promise<TelegramSession[]> {
+  const r = await get<ApiEnvelope<{ sessions: TelegramSession[] }>>(`/telegram/sessions/${customerId}`)
+  return r.data.sessions
+}
+
+export async function getTelegramSessionHistory(customerId: string, threadId: string): Promise<ChatTurn[]> {
+  const r = await get<ApiEnvelope<{ turns: ChatTurn[] }>>(`/telegram/sessions/${customerId}/${threadId}`)
+  return r.data.turns
+}

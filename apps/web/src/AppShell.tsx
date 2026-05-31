@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Icon } from './ui'
-import { getContext } from './api'
+import { getContext, getTelegramStatus, type TelegramStatus } from './api'
 import Home from './views/Home'
 import Onboarding from './views/Onboarding'
 import ContextRepo from './views/ContextRepo'
 import Incident from './views/Incident'
 import Release from './views/Release'
 import Knowledge from './views/Knowledge'
+import Telegram from './views/Telegram'
+import TelegramConnectModal from './TelegramConnectModal'
 
-export type Section = 'home' | 'onboarding' | 'context' | 'incident' | 'release' | 'knowledge'
+export type Section = 'home' | 'onboarding' | 'context' | 'incident' | 'release' | 'knowledge' | 'telegram'
 
 const NAV: { key: Section; label: string; icon: string }[] = [
   { key: 'home', label: 'Chat', icon: 'forum' },
@@ -35,6 +37,13 @@ export default function AppShell({
   onExit: () => void
 }) {
   const [hasContext, setHasContext] = useState(false)
+  const [tg, setTg] = useState<TelegramStatus>({ connected: false })
+  const [tgModal, setTgModal] = useState(false)
+
+  // Reflect any already-connected Telegram bot in the sidebar on load.
+  useEffect(() => {
+    getTelegramStatus(customerId).then(setTg).catch(() => undefined)
+  }, [customerId])
 
   // Probe for a context repo once on load. If none, force onboarding-first.
   // (Runs on mount only — re-fetching on every section change raced with the
@@ -105,6 +114,26 @@ export default function AppShell({
           })}
         </nav>
         <div className="p-3 border-t border-outline-variant/30">
+          {/* Telegram gateway: connect a bot, or jump to its live sessions. */}
+          <button
+            onClick={() => (tg.connected ? setSection('telegram') : setTgModal(true))}
+            className={`w-full mb-2 flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
+              section === 'telegram'
+                ? 'bg-[#229ED9]/15 text-[#229ED9] font-semibold'
+                : 'text-on-surface-variant hover:bg-surface-variant/50'
+            }`}
+          >
+            <Icon name="send" className="!text-lg text-[#229ED9]" style={{ fontVariationSettings: "'FILL' 1" }} />
+            {tg.connected ? (
+              <span className="flex-1 text-left min-w-0">
+                <span className="block truncate">@{tg.bot_username}</span>
+                <span className="block text-[10px] text-on-surface-variant font-mono uppercase tracking-wide">Telegram · live</span>
+              </span>
+            ) : (
+              <span className="flex-1 text-left">Connect Telegram</span>
+            )}
+            {tg.connected && <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse" />}
+          </button>
           <div className="flex items-center gap-2 px-3 py-2 text-xs text-on-surface-variant">
             <Icon name="account_circle" className="!text-lg" />
             <div>
@@ -143,10 +172,29 @@ export default function AppShell({
               {section === 'incident' && <Incident customerId={customerId} />}
               {section === 'release' && <Release customerId={customerId} />}
               {section === 'knowledge' && <Knowledge customerId={customerId} />}
+              {section === 'telegram' && (
+                <Telegram
+                  customerId={customerId}
+                  onConnect={() => setTgModal(true)}
+                  onDisconnected={() => setTg({ connected: false })}
+                />
+              )}
             </div>
           </div>
         )}
       </main>
+
+      {tgModal && (
+        <TelegramConnectModal
+          customerId={customerId}
+          onClose={() => setTgModal(false)}
+          onConnected={(st) => {
+            setTg(st)
+            setTgModal(false)
+            setSection('telegram')
+          }}
+        />
+      )}
     </div>
   )
 }

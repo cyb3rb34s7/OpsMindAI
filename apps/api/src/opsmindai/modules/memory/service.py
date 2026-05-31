@@ -160,6 +160,44 @@ class MemoryService:
         except Exception:
             return []
 
+    def threads(self, customer_id: str, prefix: str) -> list[dict]:
+        """List conversation threads whose id starts with `prefix` (e.g. 'tg-'),
+        with their message count, last message, and last-activity time. Powers the
+        Telegram sessions mirror — the bot and the dashboard share one store."""
+        cid = _key(customer_id)
+        try:
+            init_db()
+            with get_connection() as conn:
+                rows = conn.execute(
+                    """
+                    SELECT thread_id,
+                           COUNT(*) AS count,
+                           MAX(created_at) AS last_at,
+                           (SELECT content FROM memory_fts m2
+                            WHERE m2.customer_id = m.customer_id AND m2.category = m.category
+                              AND m2.thread_id = m.thread_id
+                            ORDER BY m2.created_at DESC LIMIT 1) AS last_content
+                    FROM memory_fts m
+                    WHERE customer_id = ? AND category = ? AND thread_id LIKE ?
+                    GROUP BY thread_id
+                    ORDER BY last_at DESC
+                    """,
+                    (cid, _CONVERSATION, f"{prefix}%"),
+                ).fetchall()
+            out: list[dict] = []
+            for r in rows:
+                c = r["last_content"] or ""
+                last = c[6:] if c.startswith("user: ") else c[11:] if c.startswith("assistant: ") else c
+                out.append({
+                    "thread_id": r["thread_id"],
+                    "count": r["count"],
+                    "last_at": r["last_at"],
+                    "last_message": last,
+                })
+            return out
+        except Exception:
+            return []
+
     def core(self, customer_id: str) -> list[str]:
         cid = _key(customer_id)
         try:

@@ -21,6 +21,13 @@ app = FastAPI(title="OpsMindAI")
 async def startup_event():
     init_db()
     register_default_tools()
+    # Bring previously-connected Telegram bots back online (best-effort).
+    try:
+        from opsmindai.modules.telegram import gateway
+
+        await gateway.resume_all()
+    except Exception as exc:  # never block startup on the gateway
+        logger.warning("telegram.resume.failed", extra={"event": "telegram.resume.failed", "error": str(exc)})
 
 
 @app.middleware("http")
