@@ -13,11 +13,18 @@ OpsMindAI was built in phases (see `docs/phase-*.md`):
 4. **Three agents** — onboarding, RCA, release — each composing the runtime with real/mocked tools.
 5. **Convergence** — orchestrator routing, the API surface, persistence, and a gateway.
 6. **Product surface** — a landing page + functional console wired to the live API.
+7. **Agentic experience** — multi-source onboarding, a 3-tier memory system (FTS5),
+   a streaming chat that shows thinking/tools, onboarding-first console gating, and
+   a multi-region release bot with a streamed step-by-step rollout.
 
 The guiding principle was to make the parts that demonstrate *real intelligence*
 genuinely real (GitHub scanning/commits, trace correlation, skill memory) and to
 mock only the parts that are purely operational plumbing (Jenkins, AWS, sanity
 scripts) with deterministic, story-driven data.
+
+> For the *chronological* account — the problems hit and how each was solved
+> (throttling → golden cache, Ollama empty output → `num_predict` floor, the gating
+> race, the release-console rework) — see **`BUILD_JOURNAL.md`**.
 
 ## Key decisions
 
@@ -80,12 +87,14 @@ each customer gets their own repo — same commit code, different target.
 ## What is mocked vs real
 
 Real: GitHub scan, GitHub context-repo commits, RCA reasoning, trace correlation,
-skill persistence/recall, run persistence, multi-tenant `customer_id` threading.
+skill persistence/recall, 3-tier memory (FTS5 BM25 + recency/importance), SSE
+streaming for chat and the release rollout, the onboarding golden cache, run
+persistence, multi-tenant `customer_id` threading, local + hosted LLM providers.
 
 Mocked (deterministic, demo-friendly): service logs (a coherent `trace_123`
-failure chain), AWS config validation, Jenkins deploy, sanity scripts, startup
-telemetry — each with `healthy` / `blocked` scenarios. Telegram is a webhook
-passthrough.
+failure chain), AWS config validation, Jenkins deploy (now multi-region), sanity
+scripts, startup telemetry — each with `healthy` / `degraded` / `blocked`
+scenarios. Telegram is a webhook passthrough.
 
 ## What was cut, and why
 
