@@ -46,6 +46,22 @@ def init_db() -> None:
             )
             """
         )
+        # Memory store: one FTS5 table holds all tiers (content indexed for BM25;
+        # metadata columns UNINDEXED for filtering). customer_id namespaces every
+        # row so store and recall use the exact same key.
+        conn.execute(
+            """
+            CREATE VIRTUAL TABLE IF NOT EXISTS memory_fts USING fts5(
+                content,
+                customer_id UNINDEXED,
+                category UNINDEXED,
+                thread_id UNINDEXED,
+                importance UNINDEXED,
+                created_at UNINDEXED,
+                tokenize = 'porter'
+            )
+            """
+        )
         conn.execute(
             """
             CREATE TABLE IF NOT EXISTS onboarding_cache (

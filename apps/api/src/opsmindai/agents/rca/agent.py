@@ -10,6 +10,7 @@ from opsmindai.agents.rca.analyzer import build_rca_context
 from opsmindai.agents.rca.report_generator import RCAReportWriter
 from opsmindai.agents.rca.schemas import RCAReport
 from opsmindai.agents.rca.skill_extractor import extract_skill
+from opsmindai.modules.memory.service import memory
 from opsmindai.modules.skills.repository import find_relevant_skills, save_skill
 from opsmindai.runtime.runner import CognitiveRunner
 from opsmindai.tools.logs.tool import FetchLogsTool
@@ -126,6 +127,17 @@ class RCAAgent(BaseAgent):
             failure_pattern=skill_data["failure_pattern"],
             resolution=skill_data["resolution"],
             confidence=skill_data["success_score"],
+        )
+
+        # Episodic memory: a recallable record of this incident across sessions.
+        incident_id = payload.get("incident_id", "incident")
+        fix = report.recommendations[0] if report.recommendations else "investigated"
+        memory.store(
+            context.customer_id,
+            "episode",
+            f"Incident {incident_id} ({trace_id}): {report.root_cause}. "
+            f"Impacted: {', '.join(report.impacted_services[:5])}. Fix: {fix}",
+            importance=8 if report.confidence >= 0.7 else 6,
         )
 
         return AgentResult(

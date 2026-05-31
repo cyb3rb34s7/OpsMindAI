@@ -8,6 +8,7 @@ from opsmindai.agents.onboarding.analyzer import build_onboarding_context
 from opsmindai.agents.onboarding.context_repo import ContextRepoGenerator
 from opsmindai.agents.onboarding.schemas import OnboardingReport
 from opsmindai.agents.prompts import ONBOARDING_SYSTEM_PROMPT
+from opsmindai.modules.memory.service import memory
 from opsmindai.modules.onboarding.cache import context_hash, get_cached, put_cached
 from opsmindai.runtime.runner import CognitiveRunner
 from opsmindai.tools.github.schemas import RepositoryScanResult
@@ -107,6 +108,14 @@ class OnboardingAgent(BaseAgent):
         report.context_repo_url = repo_result.get("context_repo_url")
         report.context_repo_full_name = repo_result.get("context_repo_full_name")
         report.warnings = [*report.warnings, *repo_result.get("warnings", [])]
+
+        # Seed core memory (always-in-context facts) + an episode for recall.
+        memory.store(context.customer_id, "core", f"System {report.repo_name}: {report.architecture_summary[:280]}", importance=9)
+        if report.services:
+            memory.store(context.customer_id, "core", f"Services: {', '.join(report.services[:12])}", importance=8)
+        for risk in report.risks[:3]:
+            memory.store(context.customer_id, "core", f"Risk: {risk}", importance=7)
+        memory.store(context.customer_id, "episode", f"Onboarded {report.repo_name} from {repo_url}.", importance=5)
 
         data = {
             "report": report.model_dump(),
