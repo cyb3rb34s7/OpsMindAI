@@ -6,6 +6,8 @@ class OnboardingReport(BaseModel):
     tech_stack: list[str]
     services: list[str]
     architecture_summary: str
+    business_context: str = ""
+    key_decisions: list[str] = Field(default_factory=list)
     open_questions: list[str]
     warnings: list[str] = Field(default_factory=list)
     evidence: list[str] = Field(default_factory=list)

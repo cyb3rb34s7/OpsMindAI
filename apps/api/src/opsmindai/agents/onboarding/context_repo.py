@@ -14,6 +14,7 @@ def _render_markdown(report: OnboardingReport) -> dict[str, str]:
     services = "\n".join(f"- {x}" for x in report.services) or "- (none detected)"
     questions = "\n".join(f"- [ ] {x}" for x in report.open_questions) or "- (none)"
     warnings = "\n".join(f"- {x}" for x in report.warnings) or "- (none)"
+    decisions = "\n".join(f"- {x}" for x in report.key_decisions) or "- (none captured yet)"
 
     return {
         "README.md": (
@@ -31,15 +32,20 @@ def _render_markdown(report: OnboardingReport) -> dict[str, str]:
         ),
         "tech_stack.md": f"# Tech Stack\n\n{tech}\n",
         "service_map.md": f"# Service Map\n\n{services}\n",
+        "business_context.md": (
+            "# Business Context\n\n"
+            f"{report.business_context or '_No business context provided during onboarding._'}\n"
+        ),
         "open_questions.md": (
             "# Open Questions (assign to humans)\n\n"
             "These are gaps the agent could not resolve from the codebase alone.\n\n"
             f"{questions}\n"
         ),
         "decision_tree.md": (
-            "# Decision Tree\n\n"
-            "Operational decisions and their rationale accumulate here as the "
-            "team and agents learn the system.\n\n"
+            "# Decision Records\n\n"
+            "Key architectural and operational decisions, extracted from provided "
+            "decision records and transcripts.\n\n"
+            f"{decisions}\n\n"
             f"## Open risks / warnings\n{warnings}\n"
         ),
     }

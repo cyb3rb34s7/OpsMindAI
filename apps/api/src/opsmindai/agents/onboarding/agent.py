@@ -47,6 +47,15 @@ class OnboardingAgent(BaseAgent):
             RepositoryScanResult.model_validate(scan_result.data)
         )
 
+        # Additional human-provided context sources beyond the code itself.
+        # Empty strings are fine — the agent simply has less to work with.
+        provided_context = {
+            "decision_records": payload.get("decisions", ""),
+            "transcripts": payload.get("transcripts", ""),
+            "business_context": payload.get("business_context", ""),
+            "extra_docs": payload.get("extra_docs", ""),
+        }
+
         # Onboarding cognition is synthesis over an already-fetched scan, so it
         # needs few iterations; extra loops just re-call the scan tool and waste
         # GitHub calls + LLM round-trips.
@@ -61,6 +70,7 @@ class OnboardingAgent(BaseAgent):
                     "customer_id": context.customer_id,
                     "repo_url": repo_url,
                     "scan_context": scan_ctx,
+                    "provided_context": provided_context,
                 },
                 indent=2,
                 default=str,

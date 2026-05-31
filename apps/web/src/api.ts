@@ -11,11 +11,21 @@ export interface OnboardingReport {
   tech_stack: string[]
   services: string[]
   architecture_summary: string
+  business_context: string
+  key_decisions: string[]
   open_questions: string[]
   warnings: string[]
   context_repo_url: string | null
   context_repo_full_name: string | null
   source_repo_url: string | null
+}
+
+export interface OnboardingSources {
+  repo_url: string
+  business_context?: string
+  decisions?: string
+  transcripts?: string
+  extra_docs?: string
 }
 
 export interface ContextRepoResult {
@@ -112,10 +122,10 @@ function unwrap<R>(result: AgentResult<R>): AgentResult<R> {
   return result
 }
 
-export async function runOnboarding(customerId: string, repoUrl: string) {
+export async function runOnboarding(customerId: string, sources: OnboardingSources) {
   const r = await post<AgentRunEnvelope<{ report: OnboardingReport; context_repo: ContextRepoResult }>>(
     '/agents/onboarding',
-    { customer_id: customerId, payload: { repo_url: repoUrl } },
+    { customer_id: customerId, payload: { ...sources } },
   )
   return unwrap(r.data.result)
 }
