@@ -19,8 +19,9 @@ const NAV: { key: Section; label: string; icon: string }[] = [
   { key: 'knowledge', label: 'Knowledge', icon: 'school' },
 ]
 
-// These need a context repo before they're useful.
-const GATED: Section[] = ['incident', 'release', 'knowledge']
+// Everything except onboarding itself needs a context repo first. Onboarding is
+// the mandatory first step, so the rest is locked until it produces context.
+const GATED: Section[] = ['home', 'context', 'incident', 'release', 'knowledge']
 
 export default function AppShell({
   customerId,
@@ -33,28 +34,36 @@ export default function AppShell({
   setSection: (s: Section) => void
   onExit: () => void
 }) {
-  const [hasContext, setHasContext] = useState(true)
+  const [hasContext, setHasContext] = useState(false)
 
-  // Probe for a context repo on mount and whenever the section changes (so the
-  // consoles unlock the moment onboarding completes).
+  // Probe for a context repo. If none, force the onboarding-first flow.
   useEffect(() => {
     let cancelled = false
     getContext(customerId)
-      .then((r) => !cancelled && setHasContext(r.exists))
+      .then((r) => {
+        if (cancelled) return
+        setHasContext(r.exists)
+        if (!r.exists && GATED.includes(section)) setSection('onboarding')
+      })
       .catch(() => !cancelled && setHasContext(false))
     return () => {
       cancelled = true
     }
-  }, [customerId, section])
+  }, [customerId, section, setSection])
 
   const isLocked = (key: Section) => GATED.includes(key) && !hasContext
 
   const go = (key: Section) => {
     if (isLocked(key)) {
-      setSection('onboarding') // nudge: onboard first
+      setSection('onboarding')
       return
     }
     setSection(key)
+  }
+
+  const onboarded = () => {
+    setHasContext(true)
+    setSection('home')
   }
 
   return (
@@ -71,7 +80,7 @@ export default function AppShell({
               <button
                 key={n.key}
                 onClick={() => go(n.key)}
-                title={locked ? 'Run onboarding first to create a context repo' : undefined}
+                title={locked ? 'Onboard a repo first to unlock this' : undefined}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                   section === n.key
                     ? 'bg-primary-container/40 text-primary font-semibold'
@@ -96,13 +105,13 @@ export default function AppShell({
             </div>
           </div>
           <button onClick={onExit} className="w-full mt-1 flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-on-surface-variant hover:bg-surface-variant/50">
-            <Icon name="logout" className="!text-base" /> Back to site
+            <Icon name="logout" className="!text-base" /> Log out
           </button>
         </div>
       </aside>
 
-      <main className="flex-1 min-w-0">
-        <header className="h-14 border-b border-outline-variant/30 bg-surface/80 backdrop-blur-xl sticky top-0 z-20 flex items-center justify-between px-6">
+      <main className="flex-1 min-w-0 flex flex-col h-screen">
+        <header className="h-14 shrink-0 border-b border-outline-variant/30 bg-surface/80 backdrop-blur-xl flex items-center justify-between px-6">
           <div className="flex items-center gap-2 text-on-surface-variant text-sm">
             <Icon name="bolt" className="text-primary !text-base" />
             <span className="font-mono uppercase tracking-wide text-label-sm">{NAV.find((n) => n.key === section)?.label} Console</span>
@@ -112,14 +121,23 @@ export default function AppShell({
             <span className="text-label-sm font-mono uppercase text-on-surface-variant">Live · Groq</span>
           </div>
         </header>
-        <div key={section} className="p-6 max-w-[1200px] mx-auto animate-page">
-          {section === 'home' && <Home customerId={customerId} />}
-          {section === 'onboarding' && <Onboarding customerId={customerId} onViewContext={() => setSection('context')} />}
-          {section === 'context' && <ContextRepo customerId={customerId} />}
-          {section === 'incident' && <Incident customerId={customerId} />}
-          {section === 'release' && <Release customerId={customerId} />}
-          {section === 'knowledge' && <Knowledge customerId={customerId} />}
-        </div>
+
+        {/* Chat is full-bleed (panel flush right); other consoles are constrained. */}
+        {section === 'home' ? (
+          <div key="home" className="flex-1 min-h-0 px-6 py-5 animate-page">
+            <Home customerId={customerId} />
+          </div>
+        ) : (
+          <div key={section} className="flex-1 overflow-y-auto p-6 animate-page">
+            <div className="max-w-[1200px] mx-auto">
+              {section === 'onboarding' && <Onboarding customerId={customerId} onViewContext={() => setSection('context')} onOnboarded={onboarded} />}
+              {section === 'context' && <ContextRepo customerId={customerId} />}
+              {section === 'incident' && <Incident customerId={customerId} />}
+              {section === 'release' && <Release customerId={customerId} />}
+              {section === 'knowledge' && <Knowledge customerId={customerId} />}
+            </div>
+          </div>
+        )}
       </main>
     </div>
   )

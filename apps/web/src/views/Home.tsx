@@ -169,7 +169,7 @@ export default function Home({ customerId }: { customerId: string }) {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-[calc(100vh-7rem)]">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-full">
       {/* Chat */}
       <div className="lg:col-span-2 flex flex-col min-h-0">
         <div ref={scrollRef} className="flex-1 overflow-y-auto pr-2 space-y-4">

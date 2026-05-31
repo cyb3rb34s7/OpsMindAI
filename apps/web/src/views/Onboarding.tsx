@@ -25,7 +25,7 @@ const FIELDS: Field[] = [
   { key: 'extra_docs', label: 'Other docs / runbooks', icon: 'description', placeholder: 'Anything else operationally relevant…', multiline: true },
 ]
 
-export default function Onboarding({ customerId, onViewContext }: { customerId: string; onViewContext?: () => void }) {
+export default function Onboarding({ customerId, onViewContext, onOnboarded }: { customerId: string; onViewContext?: () => void; onOnboarded?: () => void }) {
   const [sources, setSources] = useState<OnboardingSources>({ repo_url: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -54,18 +54,22 @@ export default function Onboarding({ customerId, onViewContext }: { customerId: 
 
   return (
     <div className="space-y-6">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-headline-md font-heading mb-1">Onboarding Agent</h1>
-          <p className="text-on-surface-variant max-w-2xl">
-            Connect a repo and paste any context that isn't in the code — decisions, transcripts, business context. The
-            agent consolidates all of it into a structured context repo on GitHub.
+      <Card className="p-5 flex items-start gap-4">
+        <div className="w-11 h-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+          <Icon name="hub" className="text-primary !text-2xl" style={{ fontVariationSettings: "'FILL' 1" }} />
+        </div>
+        <div className="flex-1">
+          <h1 className="text-headline-sm font-heading">Hi, I'm your onboarding agent.</h1>
+          <p className="text-on-surface-variant mt-1 max-w-2xl">
+            Before I can investigate incidents or gate releases, I need to learn your system. Point me at a repo — and
+            paste any decisions, transcripts, or business context that isn't in the code — and I'll build your context
+            repo. This is the one mandatory step; everything else unlocks after.
           </p>
         </div>
         <Button variant="ghost" onClick={() => setSources(DEMO)}>
           <Icon name="auto_fix_high" className="!text-sm" /> Prefill demo data
         </Button>
-      </div>
+      </Card>
 
       <Card className="p-5 space-y-4">
         {FIELDS.map((f) => (
@@ -131,8 +135,13 @@ export default function Onboarding({ customerId, onViewContext }: { customerId: 
                 <Icon name="sync" className={`!text-sm ${loading ? 'animate-spin' : ''}`} /> Re-scan live
               </Button>
               {onViewContext && (
-                <Button onClick={onViewContext}>
-                  <Icon name="menu_book" className="!text-sm" /> Open Context Repo
+                <Button variant="ghost" onClick={onViewContext}>
+                  <Icon name="menu_book" className="!text-sm" /> Context Repo
+                </Button>
+              )}
+              {onOnboarded && (
+                <Button onClick={onOnboarded}>
+                  <Icon name="forum" className="!text-sm" /> Start chatting <Icon name="arrow_forward" className="!text-sm" />
                 </Button>
               )}
             </div>

@@ -4,7 +4,7 @@ import type { Section } from './AppShell'
 
 function TopNav({ onEnter }: { onEnter: (s?: Section) => void }) {
   const links: { label: string; section: Section }[] = [
-    { label: 'Intelligence', section: 'onboarding' },
+    { label: 'Intelligence', section: 'home' },
     { label: 'Investigation', section: 'incident' },
     { label: 'Releases', section: 'release' },
     { label: 'Knowledge', section: 'knowledge' },
@@ -33,7 +33,7 @@ function TopNav({ onEnter }: { onEnter: (s?: Section) => void }) {
             ))}
           </nav>
         </div>
-        <Button onClick={() => onEnter('onboarding')}>Launch Console</Button>
+        <Button onClick={() => onEnter('home')}>Launch Console</Button>
       </div>
     </header>
   )
@@ -348,7 +348,7 @@ export default function Landing({ onEnter }: { onEnter: (s?: Section) => void })
             <div className="text-headline-sm font-heading font-bold flex items-center gap-2 mb-2"><Icon name="hub" className="text-primary" /> OpsMindAI</div>
             <p className="text-label-sm font-mono text-on-surface-variant uppercase tracking-wider">Kinetic Operational Intelligence.</p>
           </div>
-          <Button onClick={() => onEnter('onboarding')}>Launch Console <Icon name="arrow_forward" className="!text-sm" /></Button>
+          <Button onClick={() => onEnter('home')}>Launch Console <Icon name="arrow_forward" className="!text-sm" /></Button>
         </div>
       </footer>
     </div>
