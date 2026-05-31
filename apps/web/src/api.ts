@@ -88,11 +88,28 @@ async function get<T>(path: string): Promise<T> {
   return json as T
 }
 
+export interface AgentResult<R> {
+  success: boolean
+  summary: string
+  data: R
+  warnings: string[]
+}
+
 export interface AgentRunEnvelope<R> {
   data: {
     run: { run_id: string; trace_id: string; status: string }
-    result: { success: boolean; summary: string; data: R; warnings: string[] }
+    result: AgentResult<R>
   }
+}
+
+// Agents can complete the HTTP call but still fail at the domain level
+// (e.g. RCA before onboarding exists). Surface that as a visible error.
+function unwrap<R>(result: AgentResult<R>): AgentResult<R> {
+  if (!result.success) {
+    const detail = [result.summary, ...(result.warnings || [])].filter(Boolean).join(' — ')
+    throw new Error(detail || 'Agent reported failure')
+  }
+  return result
 }
 
 export async function runOnboarding(customerId: string, repoUrl: string) {
@@ -100,7 +117,7 @@ export async function runOnboarding(customerId: string, repoUrl: string) {
     '/agents/onboarding',
     { customer_id: customerId, payload: { repo_url: repoUrl } },
   )
-  return r.data.result
+  return unwrap(r.data.result)
 }
 
 export async function runRCA(customerId: string, traceId: string, description: string) {
@@ -110,7 +127,7 @@ export async function runRCA(customerId: string, traceId: string, description: s
     customer_id: customerId,
     payload: { trace_id: traceId, description, incident_id: `INC-${Date.now().toString().slice(-5)}` },
   })
-  return r.data.result
+  return unwrap(r.data.result)
 }
 
 export async function runRelease(
@@ -123,7 +140,7 @@ export async function runRelease(
     customer_id: customerId,
     payload: { service, version, demo_mode: demoMode },
   })
-  return r.data.result
+  return unwrap(r.data.result)
 }
 
 export async function getSkills(customerId: string): Promise<Skill[]> {
