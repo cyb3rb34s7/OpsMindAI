@@ -79,12 +79,26 @@ export interface Skill {
   updated_at: string
 }
 
+export interface RegionResult {
+  region: string
+  status: string
+  deployment_id: string
+  startup_health: string
+  sanity_passed: boolean
+  sanity: { name: string; ok: boolean }[]
+  logs: string[]
+}
+
 export interface ReleaseReport {
+  service: string
+  version: string
   deployment_status: string
+  regions: RegionResult[]
   infra_warnings: string[]
+  changelog: string[]
+  rollback_recommended: boolean
   startup_health: string
   sanity_results: string[]
-  rollback_recommended: boolean
   warnings: string[]
 }
 
@@ -155,7 +169,7 @@ export async function runRelease(
   customerId: string,
   service: string,
   version: string,
-  demoMode: 'healthy' | 'blocked',
+  demoMode: 'healthy' | 'degraded' | 'blocked',
 ) {
   const r = await post<AgentRunEnvelope<{ report: ReleaseReport }>>('/agents/release', {
     customer_id: customerId,

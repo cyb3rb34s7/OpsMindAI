@@ -125,12 +125,21 @@ async def run_turn(customer_id: str, thread_id: str, message: str, emit: Emit, p
                 await emit("result", {"agent": "onboarding", "data": result.data})
 
         elif intent == "release":
-            mode = "blocked" if re.search(r"block|fail|bad", message, re.I) else "healthy"
-            await emit("thinking", {"text": "Running the release gate"})
+            if re.search(r"block|misconfig|security", message, re.I):
+                mode = "blocked"
+            elif re.search(r"degrad|fail|partial|broken", message, re.I):
+                mode = "degraded"
+            else:
+                mode = "healthy"
+            svc_match = re.search(r"([a-z0-9-]+service|[a-z0-9-]+-service)", message, re.I)
+            service = svc_match.group(0) if svc_match else "payment-service"
             result = await _run_agent(ReleaseAgent(provider=provider), customer_id,
-                                      {"service": "payment-service", "version": "v1.0.0", "demo_mode": mode}, emit)
+                                      {"service": service, "version": "v1.4.0", "demo_mode": mode}, emit)
             rep = result.data.get("report", {})
-            reply = f"Release gate: {rep.get('deployment_status','?')} (rollback {'recommended' if rep.get('rollback_recommended') else 'not needed'})."
+            healthy = sum(1 for r in rep.get("regions", []) if r.get("status") == "deployed")
+            total = len(rep.get("regions", []))
+            reply = (f"Release {rep.get('deployment_status','?')}: {healthy}/{total} regions healthy."
+                     if total else f"Release {rep.get('deployment_status','?')}.")
             await emit("reply", {"text": reply})
             await emit("result", {"agent": "release", "data": result.data})
 

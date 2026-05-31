@@ -10,23 +10,34 @@ class ReleaseReportWriter:
         report_dir = REPORT_ROOT / deployment_id
         report_dir.mkdir(parents=True, exist_ok=True)
 
-        content = [
-            f"# Release Report — {deployment_id}",
+        lines = [
+            f"# Release Report — {report.service} {report.version}",
             "",
-            f"## Status",
-            report.deployment_status,
+            f"**Status:** {report.deployment_status}  |  "
+            f"**Rollback recommended:** {report.rollback_recommended}",
             "",
-            "## Infra Warnings",
-            *[f"- {x}" for x in report.infra_warnings],
+            "## Changelog",
+            *[f"- {c}" for c in report.changelog],
             "",
-            f"## Startup Health",
-            report.startup_health,
-            "",
-            "## Sanity Results",
-            *[f"- {x}" for x in report.sanity_results],
-            "",
-            f"## Rollback Recommended",
-            str(report.rollback_recommended),
         ]
-        (report_dir / "release_report.md").write_text("\n".join(content))
+        if report.infra_warnings:
+            lines += ["## Pre-deploy findings", *[f"- {w}" for w in report.infra_warnings], ""]
+
+        lines += ["## Regions", "", "| Region | Status | Deployment | Startup | Sanity |", "|---|---|---|---|---|"]
+        for r in report.regions:
+            lines.append(
+                f"| `{r.region}` | {r.status} | `{r.deployment_id}` | {r.startup_health} | "
+                f"{'pass' if r.sanity_passed else 'fail'} |"
+            )
+        lines.append("")
+
+        lines += ["## Release logs", ""]
+        for r in report.regions:
+            lines.append(f"### {r.region}")
+            lines.append("```")
+            lines += r.logs
+            lines.append("```")
+            lines.append("")
+
+        (report_dir / "release_report.md").write_text("\n".join(lines), encoding="utf-8")
         return str(report_dir / "release_report.md")

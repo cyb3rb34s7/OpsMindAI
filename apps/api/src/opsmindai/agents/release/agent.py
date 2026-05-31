@@ -1,100 +1,140 @@
 from __future__ import annotations
 
-import json
+from uuid import uuid4
 
 from opsmindai.agents.base.agent import BaseAgent
 from opsmindai.agents.base.schemas import AgentResult, ExecutionContext
-from opsmindai.agents.prompts import RELEASE_SYSTEM_PROMPT
-from opsmindai.agents.release.analyzer import build_release_context
 from opsmindai.agents.release.report_generator import ReleaseReportWriter
-from opsmindai.agents.release.schemas import ReleaseReport
-from opsmindai.runtime.runner import CognitiveRunner
+from opsmindai.agents.release.schemas import RegionResult, ReleaseReport
 from opsmindai.tools.aws.tool import ValidateAwsConfigTool
-from opsmindai.tools.jenkins.tool import TriggerDeploymentTool
-from opsmindai.tools.sanity.tool import RunSanityChecksTool
-from opsmindai.tools.startup.tool import MonitorStartupTool
+
+DEFAULT_REGIONS = ["us-east-1", "eu-west-1", "ap-south-1"]
+
+
+def _build_logs(service: str, version: str, region: str, deploy_id: str) -> list[str]:
+    return [
+        f"[{region}] Triggering Jenkins pipeline release-{service} (build {deploy_id})",
+        f"[{region}] Pulling image {service}:{version}",
+        f"[{region}] Applying k8s manifests to cluster {region}",
+        f"[{region}] Rollout started",
+    ]
+
+
+def _startup_logs(service: str, region: str, failing: bool) -> tuple[str, list[str]]:
+    if failing:
+        return "failed", [
+            f"[{region}] {service} container starting…",
+            f"[{region}] ERROR readiness probe failed: dial tcp :8080 connect: connection refused",
+            f"[{region}] CrashLoopBackOff after 3 restarts — startup aborted",
+        ]
+    return "healthy", [
+        f"[{region}] {service} container starting…",
+        f"[{region}] connected to datastore, migrations up to date",
+        f"[{region}] readiness probe OK — now serving traffic",
+    ]
+
+
+def _sanity(failing: bool) -> list[dict]:
+    return [
+        {"name": "health endpoint reachable", "ok": True},
+        {"name": "redis connectivity", "ok": not failing},
+        {"name": "db connectivity", "ok": True},
+    ]
 
 
 class ReleaseAgent(BaseAgent):
+    """Multi-region release bot: pre-deploy gate -> per-region deploy + startup +
+    sanity (streamed step-by-step) -> consolidated release report.
+
+    Orchestration is deterministic (a release is a pipeline, not a guess); the
+    infra calls are mocked. demo_mode: healthy | blocked | degraded.
+    """
+
     name = "release"
 
     def __init__(self, provider: str | None = None):
         super().__init__()
         self.provider = provider
         self.aws_tool = ValidateAwsConfigTool()
-        self.jenkins_tool = TriggerDeploymentTool()
-        self.startup_tool = MonitorStartupTool()
-        self.sanity_tool = RunSanityChecksTool()
         self.report_writer = ReleaseReportWriter()
 
     async def execute(self, context: ExecutionContext, payload: dict) -> AgentResult:
-        runner = CognitiveRunner(
-            provider=self.provider,
-            max_iterations=payload.get("max_iterations", 4),
+        service = payload.get("service", "payment-service")
+        version = payload.get("version", "v1.0.0")
+        regions = payload.get("regions") or DEFAULT_REGIONS
+        mode = payload.get("demo_mode", "healthy")
+
+        # 1. Pre-deploy gate.
+        await context.send("thinking", text=f"Running pre-deploy checks for {service} {version}")
+        await context.send("tool", name="pre_deploy_checks", status="running")
+        aws = await self.aws_tool.execute({"demo_mode": "blocked" if mode == "blocked" else "healthy"})
+        infra_warnings = aws.data.get("findings", [])
+        passed = aws.data.get("valid", True)
+        await context.send(
+            "tool", name="pre_deploy_checks", status="done",
+            summary="passed" if passed else "BLOCKED: " + "; ".join(infra_warnings),
         )
 
-        # 'healthy' by default; pass demo_mode='blocked' to exercise the
-        # intentional AWS misconfiguration / failed-sanity scenario.
-        demo_mode = payload.get("demo_mode", "healthy")
-
-        aws_validation = await self.aws_tool.execute({"demo_mode": demo_mode})
-        if not aws_validation.success:
-            return AgentResult(
-                success=False,
-                summary="AWS validation failed",
-                data=aws_validation.data,
-                warnings=[aws_validation.error or "AWS validation failed"],
+        if not passed:
+            report = ReleaseReport(
+                service=service, version=version, deployment_status="blocked",
+                infra_warnings=infra_warnings, rollback_recommended=True,
+                changelog=[f"{service} {version} (blocked at pre-deploy)"],
+                startup_health="not started", sanity_results=[],
             )
+            report.artifact_path = self.report_writer.generate(f"blocked_{uuid4().hex[:6]}", report)
+            return AgentResult(success=True, summary="Release blocked at pre-deploy checks", data={"report": report.model_dump()}, warnings=infra_warnings)
 
-        startup_result = await self.startup_tool.execute({"demo_mode": demo_mode})
-        sanity_result = await self.sanity_tool.execute({"demo_mode": demo_mode})
+        # 2. Roll out region by region.
+        results: list[RegionResult] = []
+        for region in regions:
+            failing = mode == "degraded" and region == "eu-west-1"
+            deploy_id = f"deploy_{uuid4().hex[:8]}"
 
-        final = await runner.run(
-            system_prompt=RELEASE_SYSTEM_PROMPT,
-            user_prompt=json.dumps(
-                {
-                    "release_request": payload,
-                    "aws_validation": aws_validation.data,
-                    "startup_result": startup_result.data,
-                    "sanity_results": sanity_result.data,
-                },
-                indent=2,
-                default=str,
-            ),
-            final_schema=ReleaseReport,
+            await context.send("tool", name=f"deploy {region}", status="running")
+            logs = _build_logs(service, version, region, deploy_id)
+            await context.send("tool", name=f"deploy {region}", status="done", summary=deploy_id)
+
+            await context.send("tool", name=f"startup {region}", status="running")
+            startup_status, startup_logs = _startup_logs(service, region, failing)
+            logs += startup_logs
+            await context.send("tool", name=f"startup {region}", status="done", summary=startup_status)
+
+            await context.send("tool", name=f"sanity {region}", status="running")
+            sanity = _sanity(failing)
+            sanity_ok = all(c["ok"] for c in sanity)
+            await context.send("tool", name=f"sanity {region}", status="done", summary="pass" if sanity_ok else "fail")
+
+            region_ok = startup_status == "healthy" and sanity_ok
+            if not region_ok:
+                logs.append(f"[{region}] Health gate failed — rolling back this region")
+            results.append(RegionResult(
+                region=region, status="deployed" if region_ok else "failed",
+                deployment_id=deploy_id, startup_health=startup_status,
+                sanity_passed=sanity_ok, sanity=sanity, logs=logs,
+            ))
+
+        failed = [r for r in results if r.status != "deployed"]
+        overall = "released" if not failed else "partial"
+        await context.send("thinking", text=f"Release {overall}: {len(results) - len(failed)}/{len(results)} regions healthy")
+
+        report = ReleaseReport(
+            service=service, version=version, deployment_status=overall,
+            regions=results, infra_warnings=infra_warnings,
+            rollback_recommended=bool(failed),
+            changelog=[
+                f"Deployed {service} {version} to {len(results) - len(failed)}/{len(results)} regions",
+                *([f"Rolled back {r.region} (startup/sanity failed)" for r in failed]),
+            ],
+            startup_health="healthy" if not failed else "degraded",
+            sanity_results=[f"{r.region}: {'pass' if r.sanity_passed else 'fail'}" for r in results],
+            warnings=[f"{r.region} failed startup/sanity" for r in failed],
         )
-
-        report = ReleaseReport.model_validate(final["final"])
-        report.evidence = [
-            json.dumps(aws_validation.data, default=str),
-            json.dumps(startup_result.data, default=str),
-            json.dumps(sanity_result.data, default=str),
-            *[json.dumps(item, default=str) for item in final["tool_results"]],
-        ]
-
-        if report.deployment_status == "successful":
-            deployment = await self.jenkins_tool.execute(payload)
-            report.evidence.append(json.dumps(deployment.data, default=str))
-            report.artifact_path = self.report_writer.generate(
-                deployment.data["deployment_id"],
-                report,
-            )
-        else:
-            report.artifact_path = self.report_writer.generate("blocked_release", report)
-
-        report_context = build_release_context(
-            aws_validation.data,
-            startup_result.data,
-            sanity_result.data.get("checks", []),
-        )
+        report.artifact_path = self.report_writer.generate(results[0].deployment_id if results else "release", report)
 
         return AgentResult(
             success=True,
-            summary="Release workflow completed",
-            data={
-                "report": report.model_dump(),
-                "context": report_context,
-                "execution": final,
-            },
+            summary=f"Release {overall} — {len(results) - len(failed)}/{len(results)} regions healthy",
+            data={"report": report.model_dump()},
             warnings=report.warnings,
         )

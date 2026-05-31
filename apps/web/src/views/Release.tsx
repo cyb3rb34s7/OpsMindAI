@@ -1,11 +1,50 @@
 import { useState } from 'react'
-import { Icon, Button, Badge, Card, ErrorBanner } from '../ui'
-import { runRelease, type ReleaseReport } from '../api'
+import { Icon, Button, Badge, Card, CardHeader, ErrorBanner } from '../ui'
+import { runRelease, type ReleaseReport, type RegionResult } from '../api'
+
+type Mode = 'healthy' | 'degraded' | 'blocked'
+
+function RegionCard({ r }: { r: RegionResult }) {
+  const [open, setOpen] = useState(false)
+  const ok = r.status === 'deployed'
+  return (
+    <div className={`rounded-lg border overflow-hidden ${ok ? 'border-tertiary/30' : 'border-error/30'}`}>
+      <div className="flex items-center justify-between px-4 py-3 bg-surface">
+        <div className="flex items-center gap-2">
+          <Icon name={ok ? 'check_circle' : 'cancel'} className={ok ? 'text-tertiary' : 'text-error'} style={{ fontVariationSettings: "'FILL' 1" }} />
+          <span className="font-mono text-sm">{r.region}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge tone={ok ? 'success' : 'error'}>{r.status}</Badge>
+          <button onClick={() => setOpen((o) => !o)} className="text-on-surface-variant hover:text-primary text-xs font-mono flex items-center gap-1">
+            logs <Icon name={open ? 'expand_less' : 'expand_more'} className="!text-sm" />
+          </button>
+        </div>
+      </div>
+      <div className="px-4 py-2 flex flex-wrap gap-2 text-xs border-t border-outline-variant/20">
+        <span className="font-mono text-on-surface-variant">{r.deployment_id}</span>
+        <Badge tone={r.startup_health === 'healthy' ? 'success' : 'error'}>startup: {r.startup_health}</Badge>
+        {r.sanity.map((c) => (
+          <span key={c.name} className="inline-flex items-center gap-1 text-on-surface-variant">
+            <Icon name={c.ok ? 'check_circle' : 'cancel'} className={`!text-xs ${c.ok ? 'text-tertiary' : 'text-error'}`} />{c.name}
+          </span>
+        ))}
+      </div>
+      {open && (
+        <div className="bg-[#0f1115] p-3 font-mono text-[11px] text-[#c9d1d9] space-y-0.5 max-h-48 overflow-auto term-scroll">
+          {r.logs.map((l, i) => (
+            <div key={i} className={/error|fail|refused|crash|rolling back/i.test(l) ? 'text-[#ff7b72]' : ''}>{l}</div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function Release({ customerId }: { customerId: string }) {
   const [service, setService] = useState('payment-service')
-  const [version, setVersion] = useState('v1.4.2')
-  const [demoMode, setDemoMode] = useState<'healthy' | 'blocked'>('healthy')
+  const [version, setVersion] = useState('v1.4.0')
+  const [mode, setMode] = useState<Mode>('healthy')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [report, setReport] = useState<ReleaseReport | null>(null)
@@ -15,7 +54,7 @@ export default function Release({ customerId }: { customerId: string }) {
     setError(null)
     setReport(null)
     try {
-      const res = await runRelease(customerId, service.trim(), version.trim(), demoMode)
+      const res = await runRelease(customerId, service.trim(), version.trim(), mode)
       setReport(res.data.report)
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
@@ -24,21 +63,18 @@ export default function Release({ customerId }: { customerId: string }) {
     }
   }
 
-  const blocked = report ? report.rollback_recommended || report.deployment_status.toLowerCase().includes('block') : false
-  const pipeline = [
-    { icon: 'check', label: 'Build', state: 'done' },
-    { icon: 'check', label: 'Test', state: 'done' },
-    { icon: report ? (blocked ? 'cancel' : 'check') : 'hourglass_empty', label: 'Canary Gate', state: report ? (blocked ? 'fail' : 'done') : 'active' },
-    { icon: 'done_all', label: 'Production', state: report ? (blocked ? 'pending' : 'done') : 'pending' },
-  ]
+  const blocked = report?.deployment_status === 'blocked'
+  const partial = report?.deployment_status === 'partial'
+  const healthyCount = report?.regions.filter((r) => r.status === 'deployed').length ?? 0
+  const modeColor: Record<Mode, string> = { healthy: 'bg-tertiary text-on-tertiary', degraded: 'bg-[#fbbc04] text-[#3a2d00]', blocked: 'bg-error text-on-error' }
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-headline-md font-heading mb-1">Release Agent</h1>
         <p className="text-on-surface-variant">
-          Validates AWS config, monitors startup, runs sanity checks, and gates the deploy. Try a healthy release vs. a
-          blocked one with an injected misconfiguration.
+          A multi-region release bot: pre-deploy checks → trigger pipelines per region → verify startup logs → run sanity
+          scripts → publish a release report. Infra is mocked; pick a scenario to see each path.
         </p>
       </div>
 
@@ -55,77 +91,62 @@ export default function Release({ customerId }: { customerId: string }) {
           <div>
             <label className="text-label-sm font-mono uppercase tracking-wide text-on-surface-variant">Scenario</label>
             <div className="flex mt-2 rounded-md overflow-hidden border border-outline-variant/40">
-              {(['healthy', 'blocked'] as const).map((m) => (
-                <button key={m} onClick={() => setDemoMode(m)} className={`flex-1 py-2.5 text-xs font-mono uppercase ${demoMode === m ? (m === 'healthy' ? 'bg-tertiary text-on-tertiary' : 'bg-error text-on-error') : 'bg-surface text-on-surface-variant'}`}>{m}</button>
+              {(['healthy', 'degraded', 'blocked'] as const).map((m) => (
+                <button key={m} onClick={() => setMode(m)} className={`flex-1 py-2.5 text-[11px] font-mono uppercase ${mode === m ? modeColor[m] : 'bg-surface text-on-surface-variant'}`}>{m}</button>
               ))}
             </div>
           </div>
           <Button onClick={run} disabled={loading}>
             {loading ? <Icon name="sync" className="animate-spin !text-sm" /> : <Icon name="rocket_launch" className="!text-sm" />}
-            {loading ? 'Running gate' : 'Run Release Gate'}
+            {loading ? 'Releasing' : 'Run Release'}
           </Button>
         </div>
+        <div className="mt-3 text-xs text-on-surface-variant font-mono">Regions: us-east-1 · eu-west-1 · ap-south-1</div>
       </Card>
 
       {error && <ErrorBanner message={error} />}
 
       {report && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <Card className="md:col-span-2 p-6">
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-headline-sm font-heading flex items-center gap-2"><Icon name="rocket_launch" /> {service}: {version}</h3>
-              <Badge tone={blocked ? 'error' : 'success'}>{report.deployment_status}</Badge>
-            </div>
-            <div className="relative flex justify-between items-center">
-              <div className="absolute left-0 top-4 w-full h-0.5 bg-outline-variant/30 -z-10" />
-              {pipeline.map((p) => (
-                <div key={p.label} className="flex flex-col items-center gap-2 bg-surface px-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 border-surface ${p.state === 'done' ? 'bg-tertiary text-on-tertiary' : p.state === 'active' ? 'bg-primary-container text-primary border-primary animate-pulse' : p.state === 'fail' ? 'bg-error text-on-error' : 'bg-surface-variant text-outline'}`}>
-                    <Icon name={p.icon} className="!text-sm" />
-                  </div>
-                  <span className="text-label-sm font-mono">{p.label}</span>
+        <div className="space-y-3">
+          {/* Status banner */}
+          <Card className={`p-5 flex items-center justify-between ${blocked ? 'bg-error-container/10 border-error/20' : partial ? 'bg-[#fbbc04]/5 border-[#fbbc04]/30' : 'bg-tertiary-container/10 border-tertiary/20'}`}>
+            <div className="flex items-center gap-3">
+              <Icon name={blocked ? 'gpp_maybe' : partial ? 'warning' : 'verified'} className={`!text-3xl ${blocked ? 'text-error' : partial ? 'text-[#9a7400]' : 'text-tertiary'}`} style={{ fontVariationSettings: "'FILL' 1" }} />
+              <div>
+                <div className="text-headline-sm font-heading capitalize">{report.deployment_status}</div>
+                <div className="text-sm text-on-surface-variant">
+                  {blocked ? 'Blocked at pre-deploy — nothing shipped.' : `${healthyCount}/${report.regions.length} regions healthy.${report.rollback_recommended ? ' Rollback recommended for failed regions.' : ''}`}
                 </div>
-              ))}
-            </div>
-            <div className="mt-10 grid grid-cols-2 gap-4">
-              <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-4">
-                <div className="text-label-sm font-mono uppercase text-on-surface-variant mb-1">Startup Health</div>
-                <div className={`text-headline-sm font-heading ${report.startup_health === 'healthy' ? 'text-tertiary' : 'text-[#9a7400]'}`}>{report.startup_health}</div>
-              </div>
-              <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-4">
-                <div className="text-label-sm font-mono uppercase text-on-surface-variant mb-2">Sanity Checks</div>
-                <ul className="space-y-1">
-                  {report.sanity_results.map((s, i) => (
-                    <li key={i} className="flex items-center gap-1.5 text-xs"><Icon name={/fail|error/i.test(s) ? 'cancel' : 'check_circle'} className={`!text-sm ${/fail|error/i.test(s) ? 'text-error' : 'text-tertiary'}`} />{s}</li>
-                  ))}
-                </ul>
               </div>
             </div>
+            <Badge tone="neutral">{report.service} {report.version}</Badge>
           </Card>
 
-          <Card className={`p-0 overflow-hidden flex flex-col ${blocked ? 'bg-error-container/10 border-error/20' : 'bg-tertiary-container/10 border-tertiary/20'}`}>
-            <div className="p-6 border-b border-outline-variant/20 bg-surface">
-              <div className="flex items-center gap-2 mb-2">
-                <Icon name={blocked ? 'gpp_maybe' : 'verified'} className={blocked ? 'text-error' : 'text-tertiary'} />
-                <span className={`text-label-sm font-mono uppercase tracking-wider ${blocked ? 'text-error' : 'text-tertiary'}`}>Risk Assessment</span>
+          {/* Pre-deploy findings (blocked) */}
+          {report.infra_warnings.length > 0 && (
+            <Card className="p-5">
+              <div className="text-label-sm font-mono uppercase text-on-surface-variant mb-2 flex items-center gap-2"><Icon name="gpp_maybe" className="text-error !text-base" /> Pre-deploy findings</div>
+              <ul className="space-y-1.5">{report.infra_warnings.map((w, i) => <li key={i} className="flex items-start gap-2 text-sm"><Icon name="cancel" className="text-error !text-base shrink-0" />{w}</li>)}</ul>
+            </Card>
+          )}
+
+          {/* Per-region rollout */}
+          {report.regions.length > 0 && (
+            <Card className="p-0 overflow-hidden">
+              <CardHeader icon="public" title="Regional rollout" right={<Badge tone={partial ? 'error' : 'success'}>{healthyCount}/{report.regions.length} healthy</Badge>} />
+              <div className="p-4 space-y-2">
+                {report.regions.map((r) => <RegionCard key={r.region} r={r} />)}
               </div>
-              <div className={`text-display-lg font-heading ${blocked ? 'text-error' : 'text-tertiary'}`}>{blocked ? 'High' : 'Low'}</div>
-              <p className="text-body-md text-on-surface-variant mt-1">{blocked ? 'Deployment blocked by agent policy.' : 'Cleared for rollout across regions.'}</p>
-            </div>
-            <div className="p-6 flex-grow flex flex-col justify-between">
-              <ul className="space-y-3 text-sm">
-                {report.infra_warnings.length ? report.infra_warnings.map((w, i) => (
-                  <li key={i} className="flex items-start gap-2"><Icon name="cancel" className="text-error !text-base shrink-0" />{w}</li>
-                )) : <li className="flex items-start gap-2 text-tertiary"><Icon name="check_circle" className="!text-base shrink-0" />No infrastructure misconfigurations detected.</li>}
-              </ul>
-              {blocked && (
-                <div className="mt-6 flex gap-2">
-                  <Button variant="ghost" className="flex-1">Override</Button>
-                  <Button variant="danger" className="flex-1">Rollback</Button>
-                </div>
-              )}
-            </div>
-          </Card>
+            </Card>
+          )}
+
+          {/* Changelog */}
+          {report.changelog.length > 0 && (
+            <Card className="p-5">
+              <div className="text-label-sm font-mono uppercase text-on-surface-variant mb-2 flex items-center gap-2"><Icon name="receipt_long" className="text-primary !text-base" /> Release report</div>
+              <ul className="space-y-1.5">{report.changelog.map((c, i) => <li key={i} className="flex items-start gap-2 text-sm"><Icon name="arrow_right" className="text-primary !text-base shrink-0" />{c}</li>)}</ul>
+            </Card>
+          )}
         </div>
       )}
     </div>

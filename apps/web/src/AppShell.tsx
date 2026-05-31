@@ -36,20 +36,28 @@ export default function AppShell({
 }) {
   const [hasContext, setHasContext] = useState(false)
 
-  // Probe for a context repo. If none, force the onboarding-first flow.
+  // Probe for a context repo once on load. If none, force onboarding-first.
+  // (Runs on mount only — re-fetching on every section change raced with the
+  // onboarding commit and wrongly bounced the user back.) After onboarding,
+  // `onboarded()` flips the gate directly.
   useEffect(() => {
     let cancelled = false
     getContext(customerId)
       .then((r) => {
         if (cancelled) return
         setHasContext(r.exists)
-        if (!r.exists && GATED.includes(section)) setSection('onboarding')
+        if (!r.exists) setSection('onboarding')
       })
-      .catch(() => !cancelled && setHasContext(false))
+      .catch(() => {
+        if (cancelled) return
+        setHasContext(false)
+        setSection('onboarding')
+      })
     return () => {
       cancelled = true
     }
-  }, [customerId, section, setSection])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customerId])
 
   const isLocked = (key: Section) => GATED.includes(key) && !hasContext
 

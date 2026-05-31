@@ -68,12 +68,29 @@ function ResultCard({ agent, data }: { agent: string; data: any }) {
   }
   if (agent === 'release') {
     const rep = data.report
-    const blocked = rep.rollback_recommended
+    const blocked = rep.deployment_status === 'blocked'
+    const partial = rep.deployment_status === 'partial'
+    const healthy = (rep.regions ?? []).filter((r: any) => r.status === 'deployed').length
     return (
-      <Card className={`mt-3 p-4 ${blocked ? 'bg-error-container/10 border-error/20' : 'bg-tertiary-container/10'}`}>
-        <div className="text-label-sm font-mono uppercase text-on-surface-variant">Release Gate</div>
-        <div className={`text-headline-sm font-heading ${blocked ? 'text-error' : 'text-tertiary'}`}>{rep.deployment_status}</div>
-        {(rep.infra_warnings ?? []).map((w: string, i: number) => <div key={i} className="text-sm flex items-center gap-1.5"><Icon name="cancel" className="text-error !text-sm" />{w}</div>)}
+      <Card className={`mt-3 p-4 ${blocked ? 'bg-error-container/10 border-error/20' : partial ? 'bg-[#fbbc04]/5 border-[#fbbc04]/30' : 'bg-tertiary-container/10'}`}>
+        <div className="flex items-center gap-2 mb-2">
+          <Icon name={blocked ? 'gpp_maybe' : partial ? 'warning' : 'verified'} className={blocked ? 'text-error' : partial ? 'text-[#9a7400]' : 'text-tertiary'} style={{ fontVariationSettings: "'FILL' 1" }} />
+          <span className="text-label-sm font-mono uppercase">{rep.service} {rep.version} — {rep.deployment_status}</span>
+        </div>
+        {blocked ? (
+          (rep.infra_warnings ?? []).map((w: string, i: number) => <div key={i} className="text-sm flex items-center gap-1.5"><Icon name="cancel" className="text-error !text-sm" />{w}</div>)
+        ) : (
+          <div className="space-y-1">
+            <div className="text-xs text-on-surface-variant mb-1">{healthy}/{(rep.regions ?? []).length} regions healthy</div>
+            {(rep.regions ?? []).map((r: any) => (
+              <div key={r.region} className="flex items-center gap-2 text-sm">
+                <Icon name={r.status === 'deployed' ? 'check_circle' : 'cancel'} className={`!text-sm ${r.status === 'deployed' ? 'text-tertiary' : 'text-error'}`} />
+                <span className="font-mono text-xs">{r.region}</span>
+                <span className="text-on-surface-variant text-xs">{r.status === 'deployed' ? 'deployed' : 'rolled back'}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </Card>
     )
   }
