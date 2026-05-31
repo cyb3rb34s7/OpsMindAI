@@ -98,14 +98,16 @@ class BotRuntime:
             return
 
         thread_id = f"tg-{chat_id}"
-        await self._send_action(chat_id, "typing")
-
         reply_holder: dict[str, str] = {}
 
         async def emit(event_type: str, data: dict) -> None:
             if event_type == "reply" and data.get("text"):
                 reply_holder["text"] = data["text"]
 
+        # Telegram's typing action only lasts ~5s, but a local-model turn can take
+        # much longer — so re-send it on a timer for the whole turn, otherwise the
+        # chat looks dead until the reply lands.
+        typing = asyncio.create_task(self._typing_keepalive(chat_id))
         try:
             async with lock_for(self.customer_id, thread_id):
                 await asyncio.wait_for(
@@ -120,6 +122,8 @@ class BotRuntime:
         except Exception as exc:
             logger.warning("telegram.turn.error", extra={"event": "telegram.turn.error", "error": str(exc)})
             reply_holder.setdefault("text", "Something went wrong handling that. Please try again.")
+        finally:
+            typing.cancel()
 
         await self._send(chat_id, reply_holder.get("text") or "(no reply)")
 
@@ -133,6 +137,15 @@ class BotRuntime:
         try:
             await _call(self.token, "sendChatAction", chat_id=chat_id, action=action)
         except Exception:
+            pass
+
+    async def _typing_keepalive(self, chat_id: int) -> None:
+        """Hold the 'typing…' indicator until the turn finishes (cancelled by caller)."""
+        try:
+            while True:
+                await self._send_action(chat_id, "typing")
+                await asyncio.sleep(4)
+        except asyncio.CancelledError:
             pass
 
 
