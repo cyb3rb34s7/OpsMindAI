@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react'
 import { Icon } from './ui'
+import { getContext } from './api'
 import Home from './views/Home'
 import Onboarding from './views/Onboarding'
 import ContextRepo from './views/ContextRepo'
@@ -17,6 +19,9 @@ const NAV: { key: Section; label: string; icon: string }[] = [
   { key: 'knowledge', label: 'Knowledge', icon: 'school' },
 ]
 
+// These need a context repo before they're useful.
+const GATED: Section[] = ['incident', 'release', 'knowledge']
+
 export default function AppShell({
   customerId,
   section,
@@ -28,29 +33,59 @@ export default function AppShell({
   setSection: (s: Section) => void
   onExit: () => void
 }) {
+  const [hasContext, setHasContext] = useState(true)
+
+  // Probe for a context repo on mount and whenever the section changes (so the
+  // consoles unlock the moment onboarding completes).
+  useEffect(() => {
+    let cancelled = false
+    getContext(customerId)
+      .then((r) => !cancelled && setHasContext(r.exists))
+      .catch(() => !cancelled && setHasContext(false))
+    return () => {
+      cancelled = true
+    }
+  }, [customerId, section])
+
+  const isLocked = (key: Section) => GATED.includes(key) && !hasContext
+
+  const go = (key: Section) => {
+    if (isLocked(key)) {
+      setSection('onboarding') // nudge: onboard first
+      return
+    }
+    setSection(key)
+  }
+
   return (
     <div className="min-h-screen flex bg-background">
-      {/* Sidebar */}
       <aside className="w-60 shrink-0 border-r border-outline-variant/30 bg-surface flex flex-col sticky top-0 h-screen">
         <button onClick={onExit} className="px-5 py-5 flex items-center gap-2 border-b border-outline-variant/30 text-left">
           <Icon name="hub" className="text-primary" style={{ fontVariationSettings: "'FILL' 1" }} />
           <span className="text-headline-sm font-heading font-bold tracking-tight">OpsMindAI</span>
         </button>
         <nav className="flex-1 p-3 flex flex-col gap-1">
-          {NAV.map((n) => (
-            <button
-              key={n.key}
-              onClick={() => setSection(n.key)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
-                section === n.key
-                  ? 'bg-primary-container/40 text-primary font-semibold'
-                  : 'text-on-surface-variant hover:bg-surface-variant/50'
-              }`}
-            >
-              <Icon name={n.icon} className="!text-lg" />
-              {n.label}
-            </button>
-          ))}
+          {NAV.map((n) => {
+            const locked = isLocked(n.key)
+            return (
+              <button
+                key={n.key}
+                onClick={() => go(n.key)}
+                title={locked ? 'Run onboarding first to create a context repo' : undefined}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
+                  section === n.key
+                    ? 'bg-primary-container/40 text-primary font-semibold'
+                    : locked
+                      ? 'text-on-surface-variant/40 hover:bg-surface-variant/30'
+                      : 'text-on-surface-variant hover:bg-surface-variant/50'
+                }`}
+              >
+                <Icon name={n.icon} className="!text-lg" />
+                <span className="flex-1 text-left">{n.label}</span>
+                {locked && <Icon name="lock" className="!text-sm" />}
+              </button>
+            )
+          })}
         </nav>
         <div className="p-3 border-t border-outline-variant/30">
           <div className="flex items-center gap-2 px-3 py-2 text-xs text-on-surface-variant">
@@ -66,7 +101,6 @@ export default function AppShell({
         </div>
       </aside>
 
-      {/* Main */}
       <main className="flex-1 min-w-0">
         <header className="h-14 border-b border-outline-variant/30 bg-surface/80 backdrop-blur-xl sticky top-0 z-20 flex items-center justify-between px-6">
           <div className="flex items-center gap-2 text-on-surface-variant text-sm">
