@@ -1,15 +1,17 @@
 import { Icon } from './ui'
 import Onboarding from './views/Onboarding'
+import ContextRepo from './views/ContextRepo'
 import Incident from './views/Incident'
 import Release from './views/Release'
 import Knowledge from './views/Knowledge'
 
-export type Section = 'onboarding' | 'incident' | 'release' | 'knowledge'
+export type Section = 'onboarding' | 'context' | 'incident' | 'release' | 'knowledge'
 
 const NAV: { key: Section; label: string; icon: string }[] = [
-  { key: 'onboarding', label: 'Onboarding', icon: 'account_tree' },
+  { key: 'onboarding', label: 'Onboarding', icon: 'rocket_launch' },
+  { key: 'context', label: 'Context Repo', icon: 'menu_book' },
   { key: 'incident', label: 'Investigation', icon: 'psychology' },
-  { key: 'release', label: 'Releases', icon: 'rocket_launch' },
+  { key: 'release', label: 'Releases', icon: 'deployed_code' },
   { key: 'knowledge', label: 'Knowledge', icon: 'school' },
 ]
 
@@ -74,8 +76,9 @@ export default function AppShell({
             <span className="text-label-sm font-mono uppercase text-on-surface-variant">Live · Groq</span>
           </div>
         </header>
-        <div className="p-6 max-w-[1200px] mx-auto">
-          {section === 'onboarding' && <Onboarding customerId={customerId} />}
+        <div key={section} className="p-6 max-w-[1200px] mx-auto animate-page">
+          {section === 'onboarding' && <Onboarding customerId={customerId} onViewContext={() => setSection('context')} />}
+          {section === 'context' && <ContextRepo customerId={customerId} />}
           {section === 'incident' && <Incident customerId={customerId} />}
           {section === 'release' && <Release customerId={customerId} />}
           {section === 'knowledge' && <Knowledge customerId={customerId} />}

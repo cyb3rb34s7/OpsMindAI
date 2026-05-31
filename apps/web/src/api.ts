@@ -6,12 +6,23 @@ export interface ApiEnvelope<T> {
   trace_id?: string
 }
 
+export interface Component {
+  name: string
+  responsibility: string
+  tech: string
+  dependencies: string[]
+  data_store: string
+}
+
 export interface OnboardingReport {
   repo_name: string
   tech_stack: string[]
   services: string[]
   architecture_summary: string
   business_context: string
+  components: Component[]
+  data_flows: string[]
+  risks: string[]
   key_decisions: string[]
   open_questions: string[]
   warnings: string[]
@@ -122,10 +133,10 @@ function unwrap<R>(result: AgentResult<R>): AgentResult<R> {
   return result
 }
 
-export async function runOnboarding(customerId: string, sources: OnboardingSources) {
-  const r = await post<AgentRunEnvelope<{ report: OnboardingReport; context_repo: ContextRepoResult }>>(
+export async function runOnboarding(customerId: string, sources: OnboardingSources, forceRefresh = false) {
+  const r = await post<AgentRunEnvelope<{ report: OnboardingReport; context_repo: ContextRepoResult; cached: boolean }>>(
     '/agents/onboarding',
-    { customer_id: customerId, payload: { ...sources } },
+    { customer_id: customerId, payload: { ...sources, force_refresh: forceRefresh } },
   )
   return unwrap(r.data.result)
 }
@@ -151,6 +162,16 @@ export async function runRelease(
     payload: { service, version, demo_mode: demoMode },
   })
   return unwrap(r.data.result)
+}
+
+export interface ContextFile {
+  name: string
+  content: string
+}
+
+export async function getContext(customerId: string): Promise<{ exists: boolean; files: ContextFile[] }> {
+  const r = await get<ApiEnvelope<{ exists: boolean; files: ContextFile[] }>>(`/context/${customerId}`)
+  return r.data
 }
 
 export async function getSkills(customerId: string): Promise<Skill[]> {

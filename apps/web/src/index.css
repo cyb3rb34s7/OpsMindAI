@@ -161,6 +161,46 @@ body {
 .animate-flow-right { animation: flowRight 1.5s infinite; }
 .animate-pulse-glow { animation: pulseGlow 2s infinite; }
 
+/* page + element entrance transitions */
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-page { animation: pageIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-scale-in { animation: scaleIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes rowIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-row-in { animation: rowIn 0.4s ease both; }
+
+@keyframes ringSpin { to { transform: rotate(360deg); } }
+.animate-ring { animation: ringSpin 0.9s linear infinite; }
+
 /* thin scrollbars for terminals */
 .term-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
 .term-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
+
+/* rendered markdown (context repo viewer) */
+.ctx-md { color: var(--color-on-surface); font-size: 14px; line-height: 1.65; }
+.ctx-md h1 { font-family: var(--font-heading); font-size: 24px; font-weight: 600; margin: 0 0 12px; letter-spacing: -0.01em; }
+.ctx-md h2 { font-family: var(--font-heading); font-size: 18px; font-weight: 600; margin: 22px 0 10px; }
+.ctx-md h3 { font-weight: 600; margin: 16px 0 8px; }
+.ctx-md p { margin: 0 0 12px; color: var(--color-on-surface-variant); }
+.ctx-md ul { margin: 0 0 12px; padding-left: 20px; list-style: disc; }
+.ctx-md li { margin: 4px 0; color: var(--color-on-surface-variant); }
+.ctx-md a { color: var(--color-primary); text-decoration: none; }
+.ctx-md a:hover { text-decoration: underline; }
+.ctx-md code { font-family: var(--font-mono); font-size: 12px; background: var(--color-surface-variant); padding: 1px 6px; border-radius: 4px; color: var(--color-on-surface); }
+.ctx-md pre { background: #0f1115; color: #c9d1d9; padding: 12px; border-radius: 8px; overflow-x: auto; margin: 0 0 12px; }
+.ctx-md pre code { background: transparent; padding: 0; color: inherit; }
+.ctx-md table { width: 100%; border-collapse: collapse; margin: 0 0 16px; font-size: 13px; }
+.ctx-md th, .ctx-md td { border: 1px solid var(--color-outline-variant); padding: 8px 10px; text-align: left; vertical-align: top; }
+.ctx-md th { background: var(--color-surface-container); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; }
+.ctx-md blockquote { border-left: 3px solid var(--color-primary); padding-left: 12px; color: var(--color-on-surface-variant); font-style: italic; margin: 0 0 12px; }

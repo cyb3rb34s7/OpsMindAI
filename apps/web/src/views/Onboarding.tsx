@@ -5,15 +5,15 @@ import { runOnboarding, type OnboardingReport, type ContextRepoResult, type Onbo
 const STEPS = ['Connecting to source', 'Scanning files', 'Reading provided context', 'Synthesizing intelligence', 'Committing context repo']
 
 const DEMO: OnboardingSources = {
-  repo_url: 'https://github.com/lootsblog/IntelliParse',
+  repo_url: 'https://github.com/GoogleCloudPlatform/microservices-demo',
   business_context:
-    'IntelliParse powers our enterprise document ingestion pipeline. Legal and compliance teams depend on it to convert contracts into AI-ready markdown; an outage blocks contract-review SLAs and downstream AI review.',
+    'Online Boutique is our flagship e-commerce storefront. Checkout availability directly affects revenue and is the most SLA-critical path; the cart must survive pod restarts.',
   decisions:
-    'ADR-007: chose markdown over JSON for AI output (token efficiency).\nADR-012: synchronous CLI for now; async worker queue deferred until >100 docs/min.\nADR-019: zero content-loss guarantee enforced via post-conversion validation.',
+    'ADR-003: gRPC between services for typed contracts and low latency.\nADR-009: cart state externalized to Redis so cartservice stays stateless and horizontally scalable.\nADR-014: each service owns its Dockerfile; deploys are gated through Skaffold + Kustomize per environment.',
   transcripts:
-    'Standup 05-20: agreed to defer the async worker queue. Biggest risk flagged: large PDFs causing memory spikes during conversion. Owner: Priya.\nIncident 05-18: a 400-page PDF OOM-killed the converter; mitigated by a per-file size cap.',
+    'Standup 05-28: flagged redis-cart as a single point of failure for checkout — if it drops, carts fail and checkout aborts. Owner: Maya.\nIncident 05-26: brief redis-cart connection drop caused a checkout error spike for ~2 minutes.',
   extra_docs:
-    'Runbook: restart converter pod and re-queue failed docs from the dead-letter folder. On-call: #docops.',
+    'Runbook: if checkout errors spike, first check redis-cart connectivity and the cartservice pod, then restart redis-cart if connections are refused. On-call: #boutique-sre.',
 }
 
 type Field = { key: keyof OnboardingSources; label: string; icon: string; placeholder: string; multiline?: boolean }
@@ -25,24 +25,26 @@ const FIELDS: Field[] = [
   { key: 'extra_docs', label: 'Other docs / runbooks', icon: 'description', placeholder: 'Anything else operationally relevant…', multiline: true },
 ]
 
-export default function Onboarding({ customerId }: { customerId: string }) {
+export default function Onboarding({ customerId, onViewContext }: { customerId: string; onViewContext?: () => void }) {
   const [sources, setSources] = useState<OnboardingSources>({ repo_url: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [report, setReport] = useState<OnboardingReport | null>(null)
   const [ctx, setCtx] = useState<ContextRepoResult | null>(null)
+  const [cached, setCached] = useState(false)
 
   const set = (k: keyof OnboardingSources, v: string) => setSources((s) => ({ ...s, [k]: v }))
 
-  async function run() {
+  async function run(force = false) {
     setLoading(true)
     setError(null)
     setReport(null)
     setCtx(null)
     try {
-      const res = await runOnboarding(customerId, sources)
+      const res = await runOnboarding(customerId, sources, force)
       setReport(res.data.report)
       setCtx(res.data.context_repo)
+      setCached(Boolean(res.data.cached))
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
     } finally {
@@ -94,7 +96,7 @@ export default function Onboarding({ customerId }: { customerId: string }) {
           </div>
         ))}
         <div className="flex justify-end pt-1">
-          <Button onClick={run} disabled={loading || !sources.repo_url.trim()}>
+          <Button onClick={() => run(false)} disabled={loading || !sources.repo_url.trim()}>
             {loading ? <Icon name="sync" className="animate-spin !text-sm" /> : <Icon name="bolt" className="!text-sm" />}
             {loading ? 'Discovering' : 'Initialize Discovery'}
           </Button>
@@ -118,7 +120,24 @@ export default function Onboarding({ customerId }: { customerId: string }) {
       {error && <ErrorBanner message={error} />}
 
       {report && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <Badge tone="success"><Icon name="check_circle" className="!text-xs" /> Onboarding complete</Badge>
+              {cached && <Badge tone="neutral"><Icon name="bolt" className="!text-xs" /> cached</Badge>}
+            </div>
+            <div className="flex gap-2">
+              <Button variant="ghost" onClick={() => run(true)} disabled={loading}>
+                <Icon name="sync" className={`!text-sm ${loading ? 'animate-spin' : ''}`} /> Re-scan live
+              </Button>
+              {onViewContext && (
+                <Button onClick={onViewContext}>
+                  <Icon name="menu_book" className="!text-sm" /> Open Context Repo
+                </Button>
+              )}
+            </div>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
           <Card className="lg:col-span-2 p-0 overflow-hidden">
             <CardHeader icon="account_tree" title={`Context: ${report.repo_name}`} right={<Badge tone="success">Analysis Complete</Badge>} />
             <div className="p-5 space-y-5">
@@ -141,6 +160,45 @@ export default function Onboarding({ customerId }: { customerId: string }) {
                   <div className="flex flex-wrap gap-2">{report.services.length ? report.services.map((s) => <Badge key={s}>{s}</Badge>) : <span className="text-sm text-on-surface-variant">—</span>}</div>
                 </div>
               </div>
+
+              {report.components.length > 0 && (
+                <div>
+                  <div className="text-label-sm font-mono uppercase text-on-surface-variant mb-2 flex items-center gap-1.5"><Icon name="lan" className="!text-sm text-primary" /> Components ({report.components.length})</div>
+                  <div className="overflow-x-auto rounded-lg border border-outline-variant/30">
+                    <table className="w-full text-sm">
+                      <thead className="bg-surface-container text-on-surface-variant text-[11px] uppercase font-mono">
+                        <tr>
+                          <th className="text-left px-3 py-2">Component</th>
+                          <th className="text-left px-3 py-2">Tech</th>
+                          <th className="text-left px-3 py-2">Depends on</th>
+                          <th className="text-left px-3 py-2">Store</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {report.components.map((c) => (
+                          <tr key={c.name} className="border-t border-outline-variant/20">
+                            <td className="px-3 py-2 font-mono text-xs text-on-surface">{c.name}</td>
+                            <td className="px-3 py-2 text-on-surface-variant">{c.tech || '—'}</td>
+                            <td className="px-3 py-2 text-on-surface-variant text-xs">{c.dependencies.join(', ') || '—'}</td>
+                            <td className="px-3 py-2">{c.data_store ? <Badge tone="primary">{c.data_store}</Badge> : <span className="text-on-surface-variant">—</span>}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {report.data_flows.length > 0 && (
+                <div>
+                  <div className="text-label-sm font-mono uppercase text-on-surface-variant mb-2 flex items-center gap-1.5"><Icon name="sync_alt" className="!text-sm text-primary" /> Data Flows</div>
+                  <div className="space-y-1.5">
+                    {report.data_flows.map((d) => (
+                      <div key={d} className="font-mono text-xs bg-surface-container-low border border-outline-variant/30 rounded px-3 py-2 text-on-surface">{d}</div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {report.key_decisions.length > 0 && (
                 <div>
@@ -183,12 +241,19 @@ export default function Onboarding({ customerId }: { customerId: string }) {
                 <p className="text-sm text-on-surface-variant">Committed locally (no GitHub token configured).</p>
               )}
             </Card>
+            {report.risks.length > 0 && (
+              <Card className="p-5">
+                <div className="text-label-sm font-mono uppercase text-on-surface-variant mb-2 flex items-center gap-2"><Icon name="gpp_maybe" className="text-error !text-base" /> Operational Risks</div>
+                <ul className="space-y-1.5">{report.risks.map((r, i) => <li key={i} className="flex items-start gap-2 text-xs text-on-surface-variant"><Icon name="priority_high" className="!text-sm text-error shrink-0" />{r}</li>)}</ul>
+              </Card>
+            )}
             {report.warnings.length > 0 && (
               <Card className="p-5">
                 <div className="text-label-sm font-mono uppercase text-on-surface-variant mb-2 flex items-center gap-2"><Icon name="warning" className="text-[#9a7400] !text-base" /> Agent Warnings</div>
                 <ul className="space-y-1.5">{report.warnings.map((w, i) => <li key={i} className="text-xs text-on-surface-variant">{w}</li>)}</ul>
               </Card>
             )}
+          </div>
           </div>
         </div>
       )}
