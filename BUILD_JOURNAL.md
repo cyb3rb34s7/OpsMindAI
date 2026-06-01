@@ -263,13 +263,52 @@ read-only mirror that auto-refreshes — each chat expandable to its full transc
 already using `timeout` for the HTTP client read timeout. Renaming the client one to
 `client_timeout` fixed a poller that otherwise returned instantly in a hot loop.
 
+## Iteration 9 — Mindy: the orchestrator becomes a real agent
+
+Testing the bot exposed the weakest part of the system. I asked it *"check my server
+health for payment-service"* and it replied *"Which trace ID should I investigate?"* —
+because the chat brain was a **router**: it pattern-matched an intent and either fired
+one specialist agent or chatted from memory. It had no identity and no abilities of
+its own, so any operational question got bounced to a specialist or answered vaguely.
+
+**The reframe:** the orchestrator should *be* the agent the user talks to — with a
+personality, its own tools, and the judgment to delegate. I named it **Mindy**.
+
+**What I gave her:**
+- **Identity** — one persona prompt used for every reply; warm, proactive, grounded in
+  the customer's system from memory.
+- **Her own read-only DevOps tools** — `service_status`, `pod_status`,
+  `tail_service_logs` (deterministic, scenario-aware, reading the onboarded services).
+  Now *"is payment-service healthy?"* runs an actual status check.
+- **Delegation** — she invokes RCA / Release / Onboarding when the task needs a
+  specialist.
+
+**The boundary that made it click.** The instinct is to let the agent do everything.
+But the user was explicit: the orchestrator should *check and report*, not *resolve* —
+resolution is RCA's job. So Mindy's tools are read-only, and when a check surfaces a
+problem she **offers to escalate** (*"I can run a full root-cause investigation — just
+say the word 🔍"*) instead of trying to fix it. That single rule keeps the agents'
+responsibilities clean and makes the hand-off feel deliberate rather than chaotic.
+
+**Routing stayed deterministic-first** (fast, no extra LLM call), and I drew the line
+carefully: symptom language (*"X is down"*) is a **status check** — look, report, offer
+RCA — while explicit intent (*"investigate", "why is X failing", a trace id*) goes
+straight to RCA. So the common case is helpful and fast; the deep case is one step away.
+
+This is the same brain behind both the web console and the Telegram bot, so Mindy is
+consistent everywhere.
+
 ## What's real vs mocked (current, honest)
 
 **Real:** GitHub scan + context-repo commits, RCA reasoning, trace correlation,
-3-tier memory (FTS5 BM25 + recency/importance), skill persistence & recall, run
-persistence, SSE streaming for chat and release, the **Telegram gateway**
-(long-polling a real bot, shared memory, live session mirror), multi-tenant
+3-tier memory (FTS5 BM25 + recency/importance), skill persistence & recall, the
+**Mindy orchestrator** (identity, deterministic-first routing, read-only ops tools,
+delegation), run persistence, SSE streaming for chat and release, the **Telegram
+gateway** (long-polling a real bot, shared memory, live session mirror), multi-tenant
 `customer_id` threading, the onboarding golden cache, local + hosted LLM providers.
+
+**Mocked but scenario-driven:** Mindy's ops tools (`service_status`, `pod_status`,
+`tail_service_logs`) return deterministic telemetry tied to the active scenario.
 
 **Mocked (deterministic, scenario-driven):** service logs, AWS config validation,
 Jenkins deploy, sanity scripts, startup telemetry — each with

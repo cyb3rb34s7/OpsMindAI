@@ -53,6 +53,29 @@ marketing front door. Click **Launch Console**.
 - **Talking point:** AWS/Jenkins are mocked, but the agent's risk reasoning over
   their output is real.
 
+### 5. Chat — Mindy, the conversational DevOps agent (60s)
+- Open **Chat**. You're talking to **Mindy**, the orchestrator — she has an identity,
+  her own read-only ops tools, and delegates to the specialists.
+- Type **"check my server health for payment-service"** → she runs a **status check**
+  (watch the tool chip) and replies *"✅ payment-service is healthy — 3/3 regions up,
+  latency ~57ms."* (Not "give me a trace ID" — that was the old router.)
+- Type **"is cartservice ok?"** → *"⚠️ cartservice is degraded — eu-west-1 failing its
+  readiness probe (Redis connection refused)… I can run a full root-cause investigation
+  — just say the word 🔍."*
+- Take her up on it: **"yes, investigate trace_123"** → she **delegates to RCA**, which
+  returns the timed trace timeline + root cause + confidence.
+- **Talking point:** the orchestrator *checks and reports* but never resolves —
+  resolution is the RCA agent's job. One agent, clear boundaries, real hand-off.
+
+### 6. Telegram gateway — same agent, in your pocket (45s)
+- In the sidebar, click **Connect Telegram**, paste a bot token from `@BotFather`.
+- Message the bot: **"check payment-service health"** → Mindy answers from Telegram,
+  with a live **"💭 Working on it…"** loader that edits into the reply.
+- Back in the app, open the **Telegram** view → the conversation appears as a **live
+  session** (the bot and the dashboard share one brain and one memory).
+- **Talking point:** long-polling (no public URL needed), the same `run_turn` pipeline,
+  one poller per tenant, resumed on restart.
+
 ## Edge cases to show (optional, 30s)
 - **Missing context:** open Investigation for a fresh tenant before onboarding →
   the agent refuses with "Run onboarding first" (surfaced as an error banner).
@@ -62,6 +85,7 @@ marketing front door. Click **Launch Console**.
   failover (visible as a slightly longer run, never a failure).
 
 ## One-line pitch
-"Marketing front door → sign in → real agents that scan your repo into a GitHub
-context repo, root-cause incidents across traces, learn from every fix, and gate
-your releases — all behind one orchestrator, provider-agnostic by design."
+"Marketing front door → sign in → talk to Mindy, a DevOps agent who checks service
+health, root-causes incidents across traces, learns from every fix, runs multi-region
+releases, and lives in your Telegram too — real agents behind one orchestrator,
+provider-agnostic by design."
