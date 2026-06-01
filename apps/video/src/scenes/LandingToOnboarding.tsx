@@ -512,6 +512,228 @@ const RcaShot: React.FC = () => {
   );
 };
 
+/* ---------------- Shot 8: skill creation (learns with you) ---------------- */
+const SkillShot: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const winY = interpolate(frame, [16, 44], [140, 0], OUT);
+  const winO = interpolate(frame, [16, 42], [0, 1], OUT);
+  const cardAt = 56;
+  const glow = 0.35 + 0.4 * (0.5 + 0.5 * Math.sin(frame / 8));
+  const zoom = interpolate(frame, [cardAt, cardAt + 28], [1, 1.1], OUT);
+  return (
+    <AbsoluteFill>
+      <div style={{ position: 'absolute', top: 70, left: 0, right: 0, textAlign: 'center' }}>
+        <div style={{ ...fadeUp(frame, 4, 14), fontSize: 54, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em' }}>Your system learns with you.</div>
+        <div style={{ ...fadeUp(frame, 16, 14), fontSize: 26, color: 'rgba(255,255,255,0.8)', fontFamily: "'Inter', sans-serif", marginTop: 8 }}>Every incident it resolves becomes a reusable skill — applied automatically next time.</div>
+      </div>
+      <div style={{ position: 'absolute', top: 300, left: '50%', transform: 'translateX(-50%)' }}>
+        <div style={{ transform: `translateY(${winY}px) scale(${zoom})`, transformOrigin: '50% 40%', opacity: winO }}>
+          <AppWindow width={1180} height={520}>
+            <div style={{ width: 1180, height: 468, padding: '30px 40px' }}>
+              <div className="font-mono uppercase tracking-wide text-on-surface-variant flex items-center gap-2" style={{ fontSize: 13, marginBottom: 18 }}>
+                <Icon name="school" className="!text-base text-primary" /> Learned Skills · SRE Playbook
+              </div>
+              <div
+                className="rounded-2xl p-6 bg-surface-container-low"
+                style={{
+                  border: '2px solid #006b4d',
+                  boxShadow: `0 0 ${20 + 24 * glow}px rgba(0,107,77,${0.25 + 0.3 * glow})`,
+                  ...popIn(frame, fps, cardAt),
+                }}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2 font-heading text-on-surface" style={{ fontSize: 22 }}>
+                    <Icon name="lightbulb" className="text-tertiary" style={{ fontSize: 26, fontVariationSettings: "'FILL' 1" }} /> New skill learned
+                  </div>
+                  <Badge tone="success" className="!text-xs">NEW</Badge>
+                </div>
+                <div className="font-mono text-on-surface" style={{ fontSize: 18, marginBottom: 10 }}>cartservice: redis connection refused</div>
+                <div className="flex items-start gap-2 text-on-surface-variant" style={{ fontSize: 16 }}>
+                  <Icon name="flare" className="text-primary !text-lg shrink-0" /> Verify redis-cart health &amp; network; restart if connections are refused.
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <Badge tone="neutral" className="!text-[10px]"><Icon name="psychology" className="!text-xs" /> learned by RCA agent</Badge>
+                  <Badge tone="primary" className="!text-[10px]">×1 · reinforces on repeat</Badge>
+                  <Badge tone="success" className="!text-[10px]">95% confidence</Badge>
+                </div>
+              </div>
+            </div>
+          </AppWindow>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/* ---------------- Shot 9: skills tab (the playbook) ---------------- */
+const NAV: [string, string][] = [
+  ['forum', 'Chat'],
+  ['rocket_launch', 'Onboarding'],
+  ['menu_book', 'Context Repo'],
+  ['psychology', 'Investigation'],
+  ['deployed_code', 'Releases'],
+  ['school', 'Knowledge'],
+];
+const SKILLS: [string, string, number][] = [
+  ['cartservice: redis connection refused', 'Verify redis-cart health & network; restart if connections are refused.', 2],
+  ['productcatalogservice: db pool exhaustion', 'Raise the connection pool ceiling; add backpressure on burst traffic.', 1],
+];
+
+const SkillsTabShot: React.FC = () => {
+  const frame = useCurrentFrame();
+  const winY = interpolate(frame, [14, 40], [140, 0], OUT);
+  const winO = interpolate(frame, [14, 38], [0, 1], OUT);
+  return (
+    <AbsoluteFill>
+      <div style={{ position: 'absolute', top: 58, left: 0, right: 0, textAlign: 'center' }}>
+        <div style={{ ...fadeUp(frame, 4, 14), fontSize: 52, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em' }}>A playbook that writes itself.</div>
+      </div>
+      <div style={{ position: 'absolute', top: 188, left: '50%', transform: 'translateX(-50%)' }}>
+        <div style={{ transform: `translateY(${winY}px)`, opacity: winO }}>
+          <AppWindow width={1540} height={800}>
+            <div style={{ position: 'relative', width: 1540, height: 748, display: 'flex' }}>
+              {/* sidebar */}
+              <div style={{ width: 250, borderRight: '1px solid rgba(0,0,0,0.07)', background: '#fdf8fd', padding: '18px 12px' }}>
+                <div className="flex items-center gap-2 px-2 mb-5">
+                  <div style={{ width: 30, height: 30, borderRadius: 9, background: '#005ac2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon name="hub" style={{ fontSize: 18, color: '#fff', fontVariationSettings: "'FILL' 1" }} /></div>
+                  <span className="font-heading" style={{ fontSize: 18, fontWeight: 700 }}>OpsMindAI</span>
+                </div>
+                {NAV.map(([ic, label]) => {
+                  const active = label === 'Knowledge';
+                  return (
+                    <div key={label} className="flex items-center gap-3 rounded-lg px-3 py-2.5" style={{ background: active ? 'rgba(0,90,194,0.12)' : 'transparent', marginBottom: 2 }}>
+                      <Icon name={ic} style={{ fontSize: 18, color: active ? '#005ac2' : '#79747e' }} />
+                      <span style={{ fontSize: 14, color: active ? '#005ac2' : '#49454f', fontWeight: active ? 600 : 400 }}>{label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              {/* main */}
+              <div style={{ flex: 1, padding: '28px 36px' }}>
+                <div className="flex items-center gap-2 mb-1" style={fadeUp(frame, 8, 12)}>
+                  <Icon name="school" className="text-primary !text-xl" />
+                  <span className="font-heading text-on-surface" style={{ fontSize: 26 }}>Learned Skills</span>
+                  <Badge tone="success" className="!text-xs">{SKILLS.length}</Badge>
+                </div>
+                <p className="text-on-surface-variant" style={{ fontSize: 15, marginBottom: 18, ...fadeUp(frame, 12, 12) }}>Every resolved incident, captured as a reusable runbook — reinforced each time it recurs.</p>
+                <div className="space-y-3">
+                  {SKILLS.map(([pat, res, count], i) => (
+                    <div key={pat} className="rounded-xl border border-outline-variant/40 bg-surface-container-low p-4" style={fadeUp(frame, 24 + i * 12, 12, 16)}>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="font-mono text-on-surface" style={{ fontSize: 16, fontWeight: 600 }}>{pat}</div>
+                        <Badge tone="success">×{count}</Badge>
+                      </div>
+                      <div className="flex items-start gap-2 text-on-surface-variant mt-2" style={{ fontSize: 14 }}><Icon name="flare" className="text-primary !text-base shrink-0" />{res}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </AppWindow>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/* ---------------- Shot 10: release agent (multi-region rollout) ---------------- */
+const REGIONS = ['us-east-1', 'eu-west-1', 'ap-south-1'];
+const FAIL_REGION = 1; // eu-west-1 fails startup/sanity (degraded scenario)
+
+function relState(frame: number, start: number, doneAt: number, fail: boolean): 'pending' | 'running' | 'done' | 'failed' {
+  if (frame < start) return 'pending';
+  if (frame < doneAt) return 'running';
+  return fail ? 'failed' : 'done';
+}
+function RelStep({ label, state, frame, start, doneAt }: { label: string; state: string; frame: number; start: number; doneAt: number }) {
+  const spin = interpolate(frame, [start, doneAt], [0, 360]);
+  return (
+    <div className="flex items-center gap-2 py-1.5" style={{ fontSize: 14 }}>
+      {state === 'done' ? <Icon name="check_circle" className="text-tertiary !text-lg" style={{ fontVariationSettings: "'FILL' 1" }} />
+        : state === 'failed' ? <Icon name="cancel" className="text-error !text-lg" style={{ fontVariationSettings: "'FILL' 1" }} />
+        : state === 'running' ? <Icon name="progress_activity" className="text-primary !text-lg" style={{ transform: `rotate(${spin}deg)` }} />
+        : <Icon name="radio_button_unchecked" className="text-outline-variant !text-lg" />}
+      <span className={state === 'pending' ? 'text-on-surface-variant/60' : state === 'failed' ? 'text-error' : 'text-on-surface'}>{label}</span>
+    </div>
+  );
+}
+
+const ReleaseShot: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const winY = interpolate(frame, [14, 42], [150, 0], OUT);
+  const winO = interpolate(frame, [14, 40], [0, 1], OUT);
+  const runClick = 48;
+  const preDeploy = relState(frame, 56, 82, false);
+  const reportAt = 214;
+  return (
+    <AbsoluteFill>
+      <div style={{ position: 'absolute', top: 56, left: 0, right: 0, textAlign: 'center' }}>
+        <div style={{ ...fadeUp(frame, 4, 14), fontSize: 52, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em' }}>Ship to every region — with a safety net.</div>
+      </div>
+      <div style={{ position: 'absolute', top: 176, left: '50%', transform: 'translateX(-50%)' }}>
+        <div style={{ transform: `translateY(${winY}px)`, opacity: winO }}>
+          <AppWindow width={1560} height={812}>
+            <div style={{ position: 'relative', width: 1560, height: 760, padding: '28px 40px' }}>
+              <div className="flex items-center justify-between" style={{ marginBottom: 18 }}>
+                <div className="flex items-center gap-3">
+                  <Icon name="rocket_launch" className="text-primary !text-2xl" />
+                  <span className="font-heading text-on-surface" style={{ fontSize: 24 }}>Rolling out payment-service v1.4.0</span>
+                </div>
+                <div style={{ transform: `scale(${frame >= runClick && frame < runClick + 9 ? 0.95 : 1})` }}>
+                  <Button className="!text-sm !px-5 !py-2.5">{frame < runClick + 4 ? <><Icon name="rocket_launch" className="!text-sm" /> Run Release</> : <><Icon name="sync" className="!text-sm" style={{ transform: `rotate(${interpolate(frame, [runClick, reportAt], [0, 1440])}deg)` }} /> Releasing</>}</Button>
+                </div>
+              </div>
+
+              {frame >= 56 && (
+                <div className="flex items-center gap-2" style={{ fontSize: 15, marginBottom: 16, ...fadeUp(frame, 56, 8) }}>
+                  {preDeploy === 'done' ? <Icon name="check_circle" className="text-tertiary !text-lg" style={{ fontVariationSettings: "'FILL' 1" }} /> : <Icon name="progress_activity" className="text-primary !text-lg" style={{ transform: `rotate(${interpolate(frame, [56, 82], [0, 360])}deg)` }} />}
+                  <span className="text-on-surface">Pre-deploy checks (AWS config, policy)</span>
+                </div>
+              )}
+
+              {frame >= 86 && (
+                <div className="grid grid-cols-3 gap-4" style={fadeUp(frame, 86, 10)}>
+                  {REGIONS.map((r, i) => {
+                    const fail = i === FAIL_REGION;
+                    const deploy = relState(frame, 86, 102 + i * 8, false);
+                    const startup = relState(frame, 120, 140 + i * 8, fail);
+                    const sanity = relState(frame, 158, 178 + i * 8, fail);
+                    return (
+                      <div key={r} className="rounded-xl border border-outline-variant/30 p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Icon name="public" className="text-primary !text-lg" />
+                          <span className="font-mono text-on-surface" style={{ fontSize: 15 }}>{r}</span>
+                        </div>
+                        <RelStep label="Deploy pipeline" state={deploy} frame={frame} start={86} doneAt={102 + i * 8} />
+                        <RelStep label="Startup logs" state={startup} frame={frame} start={120} doneAt={140 + i * 8} />
+                        <RelStep label="Sanity checks" state={sanity} frame={frame} start={158} doneAt={178 + i * 8} />
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {frame >= reportAt && (
+                <div className="rounded-xl p-5 mt-6 flex items-center gap-4 bg-[#fbbc04]/5 border border-[#fbbc04]/30" style={popIn(frame, fps, reportAt)}>
+                  <Icon name="warning" className="!text-3xl" style={{ color: '#9a7400', fontVariationSettings: "'FILL' 1" }} />
+                  <div className="flex-1">
+                    <div className="font-heading text-on-surface" style={{ fontSize: 22 }}>Partial — 2/3 regions healthy</div>
+                    <div className="text-on-surface-variant" style={{ fontSize: 15 }}>eu-west-1 failed its startup health gate (redis-cart connection refused) and was automatically rolled back.</div>
+                  </div>
+                  <Badge tone="warning" className="!text-xs">payment-service v1.4.0</Badge>
+                </div>
+              )}
+              <Cursor path={[{ f: 0, x: 1200, y: 200 }, { f: 42, x: 1420, y: 56 }, { f: runClick, x: 1420, y: 56 }, { f: 300, x: 1420, y: 56 }]} clicks={[runClick]} />
+            </div>
+          </AppWindow>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 /* ---------------- assembled cinematic composition ---------------- */
 export const LandingToOnboarding: React.FC = () => {
   const slideIn = springTiming({ config: { damping: 200 }, durationInFrames: 22 });
@@ -541,6 +763,18 @@ export const LandingToOnboarding: React.FC = () => {
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
         <TransitionSeries.Sequence durationInFrames={320}>
           <RcaShot />
+        </TransitionSeries.Sequence>
+        <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
+        <TransitionSeries.Sequence durationInFrames={200}>
+          <SkillShot />
+        </TransitionSeries.Sequence>
+        <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
+        <TransitionSeries.Sequence durationInFrames={190}>
+          <SkillsTabShot />
+        </TransitionSeries.Sequence>
+        <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
+        <TransitionSeries.Sequence durationInFrames={310}>
+          <ReleaseShot />
         </TransitionSeries.Sequence>
       </TransitionSeries>
     </AbsoluteFill>

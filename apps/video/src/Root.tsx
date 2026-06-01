@@ -37,7 +37,7 @@ export const RemotionRoot: React.FC = () => {
     <Composition
       id="LandingToOnboarding"
       component={LandingToOnboarding}
-      durationInFrames={1290}
+      durationInFrames={1924}
       fps={30}
       width={1920}
       height={1080}
