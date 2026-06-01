@@ -10,6 +10,7 @@ check surfaces a problem she offers to escalate to RCA. Resolution is RCA's job.
 """
 from __future__ import annotations
 
+import asyncio
 import json
 import re
 from typing import Awaitable, Callable
@@ -284,7 +285,34 @@ async def _run_agent(agent, customer_id: str, payload: dict, emit: Emit):
 
 # ---- ops handler -----------------------------------------------------------
 
-async def _handle_ops(intent: str, customer_id: str, message: str, emit: Emit) -> str:
+# Deliberate pacing so the steps reveal one-by-one (thinking → checking → result)
+# instead of flashing all at once and feeling scripted. Same cadence every time.
+STEP_PAUSE = 0.7
+
+OPS_SYNTH_PROMPT = """You are Mindy, a friendly, upbeat DevOps agent. Rephrase the
+status finding below in your own warm, natural voice (1-3 short sentences). Keep every
+fact (service, regions/pods, numbers, the failing region and reason) and keep the offer
+to run a root-cause investigation if it's present — never propose a fix yourself.
+Plain conversational prose, no JSON or code fences; a tasteful emoji is fine."""
+
+
+async def _ops_synth(summary: str, provider: str | None) -> str:
+    """Let the AI phrase the reply in Mindy's voice from the grounded factual summary
+    of the (deterministic) tool data — so the answer is genuinely reasoned and varied,
+    not a fixed template. Retries once; empty falls back to the summary itself."""
+    client = LLMClient(provider=provider)
+    for _ in range(2):
+        try:
+            resp = await client.generate(LLMRequest(system_prompt=OPS_SYNTH_PROMPT, user_prompt=summary, max_tokens=300))
+            text = _unwrap_reply(resp.content or "")
+            if text:
+                return text
+        except Exception:
+            break
+    return ""
+
+
+async def _handle_ops(intent: str, customer_id: str, message: str, emit: Emit, provider: str | None) -> str:
     services, target, store = _ops_context(customer_id, message)
     mode = _ops_mode(message, target)
     label = target or "your services"
@@ -294,12 +322,21 @@ async def _handle_ops(intent: str, customer_id: str, message: str, emit: Emit) -
         "logs": (TailServiceLogsTool, "tail logs", _say_logs),
     }
     tool_cls, verb, render = tools[intent]
+    name = f"{verb} · {label}"
+    # Steps revealed one at a time, even though the data is ready instantly.
     await emit("thinking", {"text": f"Checking {verb} for {label}…"})
-    await emit("tool", {"name": f"{verb} · {label}", "status": "running"})
+    await asyncio.sleep(STEP_PAUSE)
+    await emit("tool", {"name": name, "status": "running"})
     res = await tool_cls().execute({"target": target or "your services", "mode": mode, "data_store": store})
     bad = res.data.get("degraded") or res.data.get("has_errors")
-    await emit("tool", {"name": f"{verb} · {label}", "status": "done", "summary": "degraded" if bad else "healthy"})
-    return render(res.data)
+    await asyncio.sleep(STEP_PAUSE)
+    await emit("tool", {"name": name, "status": "done", "summary": "degraded" if bad else "healthy"})
+    await asyncio.sleep(STEP_PAUSE)
+    await emit("thinking", {"text": "Reading the result and writing it up…"})
+    # The template is the grounded factual summary; the AI rephrases it in Mindy's
+    # voice (genuinely reasoned, varied), falling back to the summary if the model fails.
+    summary = render(res.data)
+    return await _ops_synth(summary, provider) or summary
 
 
 # ---- the turn --------------------------------------------------------------
@@ -316,7 +353,7 @@ async def run_turn(customer_id: str, thread_id: str, message: str, emit: Emit, p
     reply = ""
     try:
         if intent in ("status", "pods", "logs"):
-            reply = await _handle_ops(intent, customer_id, message, emit)
+            reply = await _handle_ops(intent, customer_id, message, emit, provider)
             await emit("reply", {"text": reply})
 
         elif intent == "rca":

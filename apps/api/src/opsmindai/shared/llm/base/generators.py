@@ -198,9 +198,10 @@ async def ollama_generate(
         ],
         "options": {
             "temperature": request.temperature,
-            # JSON-mode grammar can spend tokens on whitespace before content, so
-            # give structured calls a floor to avoid truncating to empty output.
-            "num_predict": max(request.max_tokens, 768) if request.response_schema is not None else request.max_tokens,
+            # Small local models can spend tokens on leading whitespace/preamble
+            # before real content (worse in JSON mode), truncating to empty output.
+            # Floor the budget for every call so plain-text replies aren't blanked.
+            "num_predict": max(request.max_tokens, 768),
         },
         "stream": False,
     }
