@@ -245,10 +245,86 @@ function ArtifactHeader({ icon, title, frame, at }: { icon: string; title: strin
   );
 }
 
+const CTX_SCHED = [20, 78, 160, 214, 266, 320, 376]; // frame each file becomes active
+const CTX_TITLES = ['README', 'Service Map', 'Tech Stack', 'Data Flows', 'Key Decisions', 'Operational Risks', 'Open Questions'];
+
+function CtxContent({ idx, frame, start }: { idx: number; frame: number; start: number }) {
+  const o = interpolate(frame, [start, start + 12], [0, 1], OUT);
+  const ty = interpolate(frame, [start, start + 12], [14, 0], OUT);
+  const wrap = { opacity: o, transform: `translateY(${ty}px)` };
+  if (idx === 0)
+    return (
+      <div style={wrap}>
+        <div className="font-heading text-on-surface" style={{ fontSize: 30, marginBottom: 12 }}>Online Boutique</div>
+        <p className="text-on-surface-variant" style={{ fontSize: 17, maxWidth: 820, lineHeight: 1.6 }}>
+          A cloud-first microservices demo — a web storefront where users browse products, add them to a cart, and check
+          out. Eleven services communicate over gRPC; checkout is the most SLA-critical path.
+        </p>
+        <div className="grid grid-cols-2 gap-4 mt-6" style={{ maxWidth: 720 }}>
+          {[['account_tree', 'Services', '11 microservices'], ['cable', 'Protocol', 'gRPC'], ['code', 'Languages', 'Go · C# · Node · Python · Java'], ['priority_high', 'Critical path', 'checkout → cart → redis']].map(([ic, k, v]) => (
+            <div key={k} className="rounded-xl border border-outline-variant/30 bg-surface-container-low p-4 flex items-center gap-3">
+              <Icon name={ic} className="text-primary !text-2xl" />
+              <div><div className="font-mono uppercase text-on-surface-variant" style={{ fontSize: 11 }}>{k}</div><div className="text-on-surface" style={{ fontSize: 16 }}>{v}</div></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  if (idx === 1)
+    return (
+      <div style={wrap}>
+        <p className="text-on-surface-variant" style={{ fontSize: 15, maxWidth: 820, marginBottom: 8 }}>The system, mapped automatically. <span className="text-error font-medium">redis-cart</span> is flagged as the checkout single-point-of-failure.</p>
+        <div style={{ transform: 'scale(0.95)', transformOrigin: 'top left' }}><Diagram /></div>
+      </div>
+    );
+  if (idx === 2)
+    return (
+      <div style={wrap} className="space-y-5">
+        {[['Languages', ['Go', 'C#', 'Node.js', 'Python', 'Java']], ['Platform', ['Kubernetes', 'Docker', 'Skaffold', 'Kustomize']], ['Data & comms', ['Redis', 'gRPC', 'Protocol Buffers']]].map(([grp, items]) => (
+          <div key={grp as string}>
+            <div className="font-mono uppercase text-on-surface-variant" style={{ fontSize: 12, marginBottom: 8 }}>{grp as string}</div>
+            <div className="flex flex-wrap gap-2">{(items as string[]).map((t) => <Badge key={t} tone="primary" className="!text-sm !px-3 !py-1.5">{t}</Badge>)}</div>
+          </div>
+        ))}
+      </div>
+    );
+  if (idx === 3)
+    return (
+      <div style={wrap} className="space-y-2.5">
+        {FLOWS.map((f) => <div key={f} className="font-mono bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 text-on-surface" style={{ fontSize: 15 }}>{f}</div>)}
+      </div>
+    );
+  if (idx === 4)
+    return (
+      <div style={wrap} className="space-y-3">
+        {DECISIONS.map((d) => <div key={d} className="flex items-start gap-2.5 text-on-surface rounded-lg bg-surface-container-low border border-outline-variant/30 px-4 py-3" style={{ fontSize: 15 }}><Icon name="rule" className="text-primary !text-lg shrink-0" />{d}</div>)}
+      </div>
+    );
+  if (idx === 5)
+    return (
+      <div style={wrap} className="space-y-3">
+        {RISKS.map((r) => <div key={r} className="flex items-start gap-2.5 text-on-surface rounded-lg bg-error-container/10 border border-error/20 px-4 py-3" style={{ fontSize: 15 }}><Icon name="priority_high" className="text-error !text-lg shrink-0" />{r}</div>)}
+      </div>
+    );
+  return (
+    <div style={wrap} className="space-y-3">
+      {QUESTIONS.map((q) => <div key={q} className="flex items-start gap-2.5 text-on-surface-variant rounded-lg bg-surface-container-low border border-outline-variant/30 px-4 py-3" style={{ fontSize: 15 }}><Icon name="help" className="text-primary !text-lg shrink-0" />{q}</div>)}
+    </div>
+  );
+}
+
 const ContextRepoShot: React.FC = () => {
   const frame = useCurrentFrame();
-  // auto-scroll the artifact document so we glide through every real artifact
-  const scroll = interpolate(frame, [40, 300], [0, -1180], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.45, 0, 0.55, 1) });
+  // navigate the sidebar tabs one-by-one (no scroll); the cursor clicks each file
+  let activeIdx = 0;
+  for (let i = 0; i < CTX_SCHED.length; i++) if (frame >= CTX_SCHED[i]) activeIdx = i;
+  const start = CTX_SCHED[activeIdx];
+  const rowY = (i: number) => 78 + i * 46;
+  const cursorPath = [{ f: 0, x: 640, y: 380 }];
+  CTX_SCHED.forEach((sf, i) => {
+    cursorPath.push({ f: Math.max(0, sf - 10), x: 150, y: rowY(i) });
+    cursorPath.push({ f: sf, x: 150, y: rowY(i) });
+  });
   return (
     <AbsoluteFill className="items-center justify-center">
       <AppWindow>
@@ -259,9 +335,9 @@ const ContextRepoShot: React.FC = () => {
               <Icon name="menu_book" className="!text-sm text-primary" /> Context Repo
             </div>
             {REPO_FILES.map(([ic, name], i) => {
-              const active = name === 'service_map.md';
+              const active = i === activeIdx;
               return (
-                <div key={name} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5" style={{ ...fadeUp(frame, 8 + i * 4, 10, 8), background: active ? 'rgba(0,90,194,0.10)' : 'transparent', marginBottom: 2 }}>
+                <div key={name} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5" style={{ ...fadeUp(frame, 8 + i * 3, 10, 8), background: active ? 'rgba(0,90,194,0.12)' : 'transparent', marginBottom: 2 }}>
                   <Icon name={ic} style={{ fontSize: 18, color: active ? '#005ac2' : '#79747e' }} />
                   <span className="font-mono" style={{ fontSize: 14, color: active ? '#005ac2' : '#49454f', fontWeight: active ? 600 : 400 }}>{name}</span>
                 </div>
@@ -271,67 +347,15 @@ const ContextRepoShot: React.FC = () => {
               <Badge tone="success" className="!text-[10px]"><Icon name="commit" className="!text-xs" /> 9 files on GitHub</Badge>
             </div>
           </div>
-          {/* main: a tall artifact document that auto-scrolls */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
-            <div style={{ padding: '26px 40px', transform: `translateY(${scroll}px)` }}>
-              <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
-                <div className="font-heading text-on-surface" style={{ fontSize: 26, ...fadeUp(frame, 6, 12) }}>Service Map</div>
-                <div style={fadeUp(frame, 10, 12)}><Badge tone="primary" className="!text-xs">Online Boutique · 11 microservices · gRPC</Badge></div>
-              </div>
-              <p className="text-on-surface-variant" style={{ fontSize: 15, maxWidth: 780, ...fadeUp(frame, 14, 12) }}>
-                The system, mapped automatically. <span className="text-error font-medium">redis-cart</span> is flagged as the checkout single-point-of-failure.
-              </p>
-              <div style={{ marginTop: 14, transform: 'scale(0.94)', transformOrigin: 'top left' }}>
-                <Diagram />
-              </div>
-
-              <ArtifactHeader icon="memory" title="Tech Stack" frame={frame} at={70} />
-              <div className="flex flex-wrap gap-2" style={fadeUp(frame, 74, 10, 12)}>
-                {TECH.map((t) => <Badge key={t} tone="primary" className="!text-xs">{t}</Badge>)}
-              </div>
-
-              <ArtifactHeader icon="lan" title={`Components (${COMPONENTS.length} of 11)`} frame={frame} at={95} />
-              <div className="rounded-lg border border-outline-variant/40 overflow-hidden" style={fadeUp(frame, 99, 10, 12)}>
-                <table className="w-full" style={{ fontSize: 13 }}>
-                  <thead className="bg-surface-container text-on-surface-variant" style={{ fontSize: 11 }}>
-                    <tr><th className="text-left px-3 py-2 font-mono uppercase">Component</th><th className="text-left px-3 py-2 font-mono uppercase">Tech</th><th className="text-left px-3 py-2 font-mono uppercase">Depends on</th><th className="text-left px-3 py-2 font-mono uppercase">Store</th></tr>
-                  </thead>
-                  <tbody>
-                    {COMPONENTS.map((c) => (
-                      <tr key={c[0]} className="border-t border-outline-variant/20">
-                        <td className="px-3 py-2 font-mono text-on-surface">{c[0]}</td>
-                        <td className="px-3 py-2 text-on-surface-variant">{c[1]}</td>
-                        <td className="px-3 py-2 text-on-surface-variant" style={{ fontSize: 12 }}>{c[2]}</td>
-                        <td className="px-3 py-2">{c[3] !== '—' ? <Badge tone="primary" className="!text-[10px]">{c[3]}</Badge> : <span className="text-on-surface-variant">—</span>}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <ArtifactHeader icon="sync_alt" title="Data Flows" frame={frame} at={120} />
-              <div className="space-y-1.5" style={fadeUp(frame, 124, 10, 12)}>
-                {FLOWS.map((f) => <div key={f} className="font-mono bg-surface-container-low border border-outline-variant/30 rounded px-3 py-2 text-on-surface" style={{ fontSize: 13 }}>{f}</div>)}
-              </div>
-
-              <ArtifactHeader icon="rule" title="Key Decisions (ADRs)" frame={frame} at={145} />
-              <div className="space-y-1.5" style={fadeUp(frame, 149, 10, 12)}>
-                {DECISIONS.map((d) => <div key={d} className="flex items-start gap-2 text-on-surface" style={{ fontSize: 14 }}><Icon name="arrow_right" className="text-primary !text-base shrink-0" />{d}</div>)}
-              </div>
-
-              <ArtifactHeader icon="gpp_maybe" title="Operational Risks" frame={frame} at={170} />
-              <div className="space-y-1.5" style={fadeUp(frame, 174, 10, 12)}>
-                {RISKS.map((r) => <div key={r} className="flex items-start gap-2 text-on-surface-variant" style={{ fontSize: 14 }}><Icon name="priority_high" className="text-error !text-base shrink-0" />{r}</div>)}
-              </div>
-
-              <ArtifactHeader icon="help" title="Open Questions for Humans" frame={frame} at={195} />
-              <div className="space-y-1.5" style={{ paddingBottom: 60, ...fadeUp(frame, 199, 10, 12) }}>
-                {QUESTIONS.map((q) => <div key={q} className="flex items-start gap-2 text-on-surface-variant" style={{ fontSize: 14 }}><Icon name="help" className="text-primary !text-base shrink-0" />{q}</div>)}
-              </div>
+          {/* main: the active artifact */}
+          <div style={{ flex: 1, position: 'relative', overflow: 'hidden', padding: '28px 40px' }}>
+            <div className="flex items-center justify-between" style={{ marginBottom: 18 }}>
+              <div className="font-heading text-on-surface" style={{ fontSize: 24 }}>{CTX_TITLES[activeIdx]}</div>
+              <Badge tone="primary" className="!text-xs">Online Boutique · 11 microservices · gRPC</Badge>
             </div>
-            {/* top fade so scrolled content doesn't hard-cut at the chrome */}
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 24, background: 'linear-gradient(#f8f9fa, transparent)' }} />
+            <CtxContent idx={activeIdx} frame={frame} start={start} />
           </div>
+          <Cursor path={cursorPath} clicks={CTX_SCHED} />
         </div>
       </AppWindow>
     </AbsoluteFill>
@@ -356,9 +380,9 @@ const ChatShot: React.FC = () => {
   return (
     <AbsoluteFill>
       <div style={{ position: 'absolute', top: 64, left: 0, right: 0, textAlign: 'center' }}>
-        <div style={{ ...fadeUp(frame, 4, 14), fontSize: 56, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em' }}>Initialize once.</div>
+        <div style={{ ...fadeUp(frame, 4, 14), fontSize: 56, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em' }}>Ask anything about your servers.</div>
         <div style={{ ...fadeUp(frame, 16, 14), fontSize: 28, color: 'rgba(255,255,255,0.82)', fontFamily: "'Inter', sans-serif", marginTop: 8 }}>
-          Now <span style={{ color: '#7fb0ff', fontWeight: 600 }}>Mindy</span> is ready to manage your DevOps.
+          Now <span style={{ color: '#7fb0ff', fontWeight: 600 }}>Mindy</span> is ready — health, pods &amp; logs, in plain language.
         </div>
       </div>
       <div style={{ position: 'absolute', top: 252, left: '50%', transform: 'translateX(-50%)' }}>
@@ -736,7 +760,7 @@ const ReleaseShot: React.FC = () => {
 
 /* ---------------- assembled cinematic composition ---------------- */
 export const LandingToOnboarding: React.FC = () => {
-  const slideIn = springTiming({ config: { damping: 200 }, durationInFrames: 22 });
+  const slideIn = springTiming({ config: { damping: 200 }, durationInFrames: 30 });
   return (
     <AbsoluteFill>
       <Stage />
@@ -749,15 +773,15 @@ export const LandingToOnboarding: React.FC = () => {
           <LandingShot />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
-        <TransitionSeries.Sequence durationInFrames={250}>
+        <TransitionSeries.Sequence durationInFrames={290}>
           <OnboardingShot />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
-        <TransitionSeries.Sequence durationInFrames={330}>
+        <TransitionSeries.Sequence durationInFrames={420}>
           <ContextRepoShot />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
-        <TransitionSeries.Sequence durationInFrames={260}>
+        <TransitionSeries.Sequence durationInFrames={320}>
           <ChatShot />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
