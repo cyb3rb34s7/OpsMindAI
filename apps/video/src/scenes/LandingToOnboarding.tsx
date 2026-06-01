@@ -410,6 +410,108 @@ const ChatShot: React.FC = () => {
   );
 };
 
+/* ---------------- Shot 7: RCA agent investigation ---------------- */
+const RCA_Q = 'Investigate why checkout is failing — trace_123';
+const RCA_STEPS = ['Reading service logs', 'Correlating the trace timeline', 'Identifying the impacted service', 'Fetching project context', 'Reasoning about the root cause'];
+const RCA_ROOT = 'cartservice could not reach redis-cart (redis-cart:6379) — connection refused. The cart lookup failed, so checkoutservice aborted the order.';
+const RCA_RECS = ['Verify redis-cart health & network reachability', 'Restart redis-cart if connections are refused', 'Add a circuit breaker on the cart → checkout path'];
+const TRACE: [string, string, string, boolean][] = [
+  ['0.0s', 'frontend', 'placeOrder received', false],
+  ['+8.0s', 'cartservice', 'redis connection refused', true],
+  ['+10s', 'checkoutservice', 'cart retrieval failed — aborting', true],
+];
+
+const RcaShot: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const winY = interpolate(frame, [16, 44], [150, 0], OUT);
+  const winO = interpolate(frame, [16, 42], [0, 1], OUT);
+  const sendClick = 70;
+  const stepBase = 92;
+  const stepDur = 20;
+  const analysisAt = stepBase + RCA_STEPS.length * stepDur + 8;
+  const skillAt = analysisAt + 60;
+  const scroll = interpolate(frame, [analysisAt - 14, analysisAt + 16], [0, -210], OUT);
+  const zoom = interpolate(frame, [86, 116, analysisAt - 8, analysisAt + 22], [1, 1.16, 1.16, 1.02], OUT);
+  return (
+    <AbsoluteFill>
+      <div style={{ position: 'absolute', top: 50, left: 0, right: 0, textAlign: 'center' }}>
+        <div style={{ ...fadeUp(frame, 4, 14), fontSize: 46, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em' }}>
+          When something breaks, Mindy finds the root cause.
+        </div>
+      </div>
+      <div style={{ position: 'absolute', top: 168, left: '50%', transform: 'translateX(-50%)' }}>
+        <div style={{ transform: `translateY(${winY}px) scale(${zoom})`, transformOrigin: '34% 52%', opacity: winO }}>
+          <AppWindow width={1500} height={840}>
+            <div style={{ position: 'relative', width: 1500, height: 788, overflow: 'hidden' }}>
+              <div style={{ padding: '28px 44px', transform: `translateY(${scroll}px)` }}>
+                <div className="flex justify-end">
+                  <div className="bg-primary text-on-primary rounded-2xl rounded-br-sm px-4 py-2.5" style={{ fontSize: 18, maxWidth: '70%' }}>{typed(RCA_Q, frame, 40, fps, 42)}</div>
+                </div>
+                {frame >= 80 && (
+                  <div className="mt-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center"><Icon name="hub" className="!text-sm" /></div>
+                      <span className="font-mono uppercase text-on-surface-variant" style={{ fontSize: 12 }}>Mindy</span>
+                      <Badge tone="primary" className="!text-[10px]" style={fadeUp(frame, 82, 8)}><Icon name="psychology" className="!text-xs" /> delegating to RCA agent</Badge>
+                    </div>
+                    <div className="pl-9 space-y-2.5">
+                      {RCA_STEPS.map((s, i) => {
+                        const st = stepBase + i * stepDur;
+                        if (frame < st) return null;
+                        const done = frame >= st + stepDur - 2;
+                        const spin = interpolate(frame, [st, st + stepDur - 2], [0, 360]);
+                        return (
+                          <div key={s} className="flex items-center gap-2.5" style={{ fontSize: 15, ...fadeUp(frame, st, 8, 8) }}>
+                            {done ? <Icon name="check_circle" className="text-tertiary !text-lg" style={{ fontVariationSettings: "'FILL' 1" }} /> : <Icon name="progress_activity" className="text-primary !text-lg" style={{ transform: `rotate(${spin}deg)` }} />}
+                            <span className={done ? 'text-on-surface' : 'text-on-surface-variant'}>{s}{done ? '' : '…'}</span>
+                          </div>
+                        );
+                      })}
+                      {frame >= analysisAt && (
+                        <div className="mt-3 rounded-xl border border-outline-variant/40 overflow-hidden" style={popIn(frame, fps, analysisAt)}>
+                          <div className="px-4 py-2.5 bg-surface-variant/40 flex items-center gap-2 font-mono uppercase" style={{ fontSize: 12 }}><Icon name="psychology" className="text-primary !text-sm" /> Root Cause Analysis</div>
+                          <div className="p-4 space-y-3">
+                            <div className="font-heading text-on-surface" style={{ fontSize: 21, lineHeight: 1.25 }}>{RCA_ROOT}</div>
+                            <div className="flex items-center gap-3">
+                              <div className="h-2.5 rounded-full bg-surface-variant overflow-hidden" style={{ width: 240 }}>
+                                <div className="h-full bg-tertiary" style={{ width: `${interpolate(frame, [analysisAt + 6, analysisAt + 26], [0, 95], OUT)}%` }} />
+                              </div>
+                              <span className="font-mono text-tertiary" style={{ fontSize: 14 }}>95% confidence</span>
+                            </div>
+                            <div className="rounded-lg p-3 font-mono" style={{ background: '#0f1115', fontSize: 13 }}>
+                              {TRACE.map((t, i) => (
+                                <div key={i} className="flex gap-3" style={{ color: t[3] ? '#ff7b72' : '#9db8e8', ...fadeUp(frame, analysisAt + 14 + i * 4, 8, 6) }}>
+                                  <span style={{ width: 56, color: '#6b7280' }}>{t[0]}</span><span style={{ width: 150 }}>{t[1]}</span><span>{t[2]}</span>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="space-y-1.5">
+                              {RCA_RECS.map((r, i) => (
+                                <div key={r} className="flex items-start gap-2 text-on-surface" style={{ fontSize: 14, ...fadeUp(frame, analysisAt + 26 + i * 4, 8, 8) }}><Icon name="flare" className="text-primary !text-base shrink-0" />{r}</div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      {frame >= skillAt && (
+                        <div className="flex items-center gap-2 text-tertiary" style={{ fontSize: 15, ...fadeUp(frame, skillAt, 10) }}>
+                          <Icon name="lightbulb" className="!text-lg" style={{ fontVariationSettings: "'FILL' 1" }} /> 🧠 Saved this as a reusable skill — next time it's instant.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <Cursor path={[{ f: 0, x: 1240, y: 380 }, { f: 60, x: 1392, y: 700 }, { f: sendClick, x: 1392, y: 700 }, { f: 320, x: 1392, y: 700 }]} clicks={[sendClick]} />
+            </div>
+          </AppWindow>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 /* ---------------- assembled cinematic composition ---------------- */
 export const LandingToOnboarding: React.FC = () => {
   const slideIn = springTiming({ config: { damping: 200 }, durationInFrames: 22 });
@@ -435,6 +537,10 @@ export const LandingToOnboarding: React.FC = () => {
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
         <TransitionSeries.Sequence durationInFrames={260}>
           <ChatShot />
+        </TransitionSeries.Sequence>
+        <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
+        <TransitionSeries.Sequence durationInFrames={320}>
+          <RcaShot />
         </TransitionSeries.Sequence>
       </TransitionSeries>
     </AbsoluteFill>
