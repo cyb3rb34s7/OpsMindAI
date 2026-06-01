@@ -1,4 +1,4 @@
-import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, Easing } from 'remotion';
+import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, Easing, Audio, staticFile } from 'remotion';
 import { TransitionSeries, springTiming } from '@remotion/transitions';
 import { slide } from '@remotion/transitions/slide';
 import { Icon, Badge, Button, Card } from '../ui';
@@ -970,6 +970,10 @@ export const LandingToOnboarding: React.FC = () => {
   const slideIn = springTiming({ config: { damping: 200 }, durationInFrames: 30 });
   return (
     <AbsoluteFill>
+      <Audio
+        src={staticFile('music.mp3')}
+        volume={(f) => interpolate(f, [0, 24, 2760, 2810], [0, 0.4, 0.4, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })}
+      />
       <Stage />
       <TransitionSeries>
         <TransitionSeries.Sequence durationInFrames={90}>
