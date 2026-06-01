@@ -53,7 +53,9 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(
         env_file=".env",
-        extra="forbid",
+        # Ignore unrelated env vars (e.g. Railway/host-injected PORT, RAILWAY_*) so
+        # the app boots in any deploy environment instead of erroring on extras.
+        extra="ignore",
     )
 
 

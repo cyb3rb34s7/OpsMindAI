@@ -1,0 +1,16 @@
+# Keep the build context (and `railway up` upload) lean and secret-free.
+**/node_modules
+**/.venv
+**/dist
+**/__pycache__
+**/*.pyc
+.git
+storage/
+*.db
+*.sqlite3
+.env
+*.env
+!.env.example
+docs/
+*.md
+Resources/

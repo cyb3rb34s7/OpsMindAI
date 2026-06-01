@@ -1,4 +1,8 @@
+import os
+from pathlib import Path
+
 from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
 
 from opsmindai.modules.agents.router import router as agents_router
 from opsmindai.modules.orchestrator.router import router as orchestrator_router
@@ -72,3 +76,11 @@ app.include_router(telegram_router)
 @app.get("/health")
 async def health():
     return success_response({"status": "ok"})
+
+
+# Serve the built SPA in production (single-service deploy). Mounted last so it
+# only handles paths the /api and /health routes above didn't claim. In dev this
+# is unset and Vite serves the frontend instead.
+_web_dist = os.environ.get("WEB_DIST")
+if _web_dist and Path(_web_dist).is_dir():
+    app.mount("/", StaticFiles(directory=_web_dist, html=True), name="web")
