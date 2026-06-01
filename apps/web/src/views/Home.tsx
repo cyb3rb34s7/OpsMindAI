@@ -130,7 +130,7 @@ function Trace({ m }: { m: Msg }) {
       )}
       {m.thinking.map((t, i) => (
         <div key={i} className="flex items-center gap-2 text-xs text-on-surface-variant animate-row-in">
-          <Icon name="progress_activity" className="!text-sm text-primary animate-spin" /> {t}
+          <Icon name="bolt" className="!text-sm text-primary" style={{ fontVariationSettings: "'FILL' 1" }} /> {t}
         </div>
       ))}
       {m.tools.map((t, i) => (
@@ -266,8 +266,10 @@ export default function Home({ customerId }: { customerId: string }) {
                         ))}
                       </div>
                     )}
-                    {m.status === 'streaming' && !m.text && !m.tools.length && !m.thinking.length && (
-                      <div className="flex items-center gap-2 text-xs text-on-surface-variant"><Icon name="progress_activity" className="!text-sm animate-spin" /> Mindy is thinking…</div>
+                    {m.status === 'streaming' && (
+                      <div className="flex items-center gap-2 text-xs text-on-surface-variant mt-1">
+                        <Icon name="progress_activity" className="!text-sm animate-spin text-primary" /> {m.text ? 'finishing up…' : 'Mindy is working…'}
+                      </div>
                     )}
                   </div>
                 </div>
