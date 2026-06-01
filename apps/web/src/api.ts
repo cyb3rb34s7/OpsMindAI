@@ -206,7 +206,7 @@ export async function runOrchestrator(customerId: string, message: string, paylo
 
 // ---- Chat SSE (hand-rolled reader) ----
 export interface ChatEvent {
-  type: 'queued' | 'memory' | 'routing' | 'thinking' | 'tool' | 'reply' | 'result' | 'done' | 'cancelled' | 'error'
+  type: 'queued' | 'memory' | 'routing' | 'thinking' | 'tool' | 'reply' | 'result' | 'learned' | 'done' | 'cancelled' | 'error'
   [k: string]: unknown
 }
 
@@ -304,6 +304,11 @@ export interface ChatTurn {
 export async function getChatHistory(customerId: string, threadId = 'main'): Promise<ChatTurn[]> {
   const r = await get<ApiEnvelope<{ turns: ChatTurn[] }>>(`/chat/history/${customerId}?thread_id=${threadId}`)
   return r.data.turns
+}
+
+export async function getChatFacts(customerId: string): Promise<string[]> {
+  const r = await get<ApiEnvelope<{ facts: string[] }>>(`/chat/facts/${customerId}`)
+  return r.data.facts
 }
 
 // ---- Telegram gateway ----
