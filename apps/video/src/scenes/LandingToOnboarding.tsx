@@ -909,6 +909,62 @@ const TelegramChatShot: React.FC = () => {
   );
 };
 
+/* ---------------- Shot 13: outro ---------------- */
+const RECAP: [string, string][] = [
+  ['travel_explore', 'Understand'],
+  ['psychology', 'Investigate'],
+  ['school', 'Learn'],
+  ['rocket_launch', 'Ship'],
+];
+
+const OutroShot: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const recapOut = fade(frame, 0, 58, 8); // recap visible ~0..66
+  const lockupIn = interpolate(frame, [66, 88], [0, 1], OUT);
+  const ctaGlow = 0.5 + 0.5 * Math.sin(frame / 9);
+  return (
+    <AbsoluteFill className="items-center justify-center">
+      {/* capability recap */}
+      <div style={{ position: 'absolute', opacity: recapOut, display: 'flex', gap: 56 }}>
+        {RECAP.map(([ic, w], i) => (
+          <div key={w} className="flex flex-col items-center gap-3" style={popIn(frame, fps, 6 + i * 9)}>
+            <div className="flex items-center justify-center" style={{ width: 84, height: 84, borderRadius: 22, background: 'rgba(127,176,255,0.12)', border: '1px solid rgba(127,176,255,0.3)' }}>
+              <Icon name={ic} style={{ fontSize: 40, color: '#7fb0ff' }} />
+            </div>
+            <div style={{ color: '#fff', fontSize: 26, fontFamily: "'Geist', sans-serif", fontWeight: 600 }}>{w}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* logo lockup + closing note + URL + CTA */}
+      <div className="flex flex-col items-center" style={{ opacity: lockupIn }}>
+        <div style={popIn(frame, fps, 70)}>
+          <div style={{ width: 120, height: 120, borderRadius: 28, background: '#005ac2', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 24px 70px rgba(0,90,194,0.55)' }}>
+            <Icon name="hub" style={{ fontSize: 70, color: '#fff', fontVariationSettings: "'FILL' 1" }} />
+          </div>
+        </div>
+        <div style={{ ...fadeUp(frame, 84, 14), fontSize: 66, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em', marginTop: 28 }}>
+          OpsMind<span style={{ color: '#7fb0ff' }}>AI</span>
+        </div>
+        <div style={{ ...fadeUp(frame, 98, 14), fontSize: 28, color: 'rgba(255,255,255,0.85)', fontFamily: "'Inter', sans-serif", marginTop: 10 }}>
+          Your AI teammate for the entire DevOps lifecycle.
+        </div>
+        <div className="flex items-center gap-4" style={{ marginTop: 32, ...fadeUp(frame, 114, 14) }}>
+          <div className="flex items-center gap-2 rounded-full" style={{ padding: '12px 22px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.18)' }}>
+            <Icon name="lock" style={{ fontSize: 18, color: '#7fb0ff' }} />
+            <span style={{ color: '#fff', fontFamily: "'JetBrains Mono', monospace", fontSize: 18 }}>opsmind-ai.rajakumarsingh.com</span>
+          </div>
+          <div className="flex items-center gap-2 rounded-full" style={{ padding: '12px 24px', background: '#005ac2', boxShadow: `0 0 ${16 + 22 * ctaGlow}px rgba(0,90,194,${0.4 + 0.3 * ctaGlow})` }}>
+            <span style={{ color: '#fff', fontFamily: "'Geist', sans-serif", fontWeight: 600, fontSize: 18 }}>Initialize your system</span>
+            <Icon name="arrow_forward" style={{ fontSize: 20, color: '#fff' }} />
+          </div>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 /* ---------------- assembled cinematic composition ---------------- */
 export const LandingToOnboarding: React.FC = () => {
   const slideIn = springTiming({ config: { damping: 200 }, durationInFrames: 30 });
@@ -958,6 +1014,10 @@ export const LandingToOnboarding: React.FC = () => {
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
         <TransitionSeries.Sequence durationInFrames={320}>
           <TelegramChatShot />
+        </TransitionSeries.Sequence>
+        <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
+        <TransitionSeries.Sequence durationInFrames={210}>
+          <OutroShot />
         </TransitionSeries.Sequence>
       </TransitionSeries>
     </AbsoluteFill>
