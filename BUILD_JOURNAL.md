@@ -298,14 +298,50 @@ straight to RCA. So the common case is helpful and fast; the deep case is one st
 This is the same brain behind both the web console and the Telegram bot, so Mindy is
 consistent everywhere.
 
+## Iteration 10 — Mindy learns: org memory + a self-healing RCA fix
+
+Two self-learning gaps surfaced while testing the bot.
+
+**First, the RCA skill memory was quietly broken.** Running the same incident twice
+created *two* 1× skills instead of reinforcing one. The cause: the skill's dedup key
+was the LLM's prose root-cause, which is phrased differently every run. I replaced it
+with a **normalized failure signature** distilled from structured signals — service →
+dependency + failure type, e.g. `cartservice: redis connection refused`. Same incident
+→ same key → `success_count` actually grows. (Verified: two differently-worded root
+causes collapse to one signature.) That restored the "gets more confident over time"
+claim, and Mindy now says so in chat ("reused a learned skill" vs "saved a new one").
+
+**Second — and the bigger ask — Mindy herself didn't learn.** She had memory *recall*
+but never *wrote* anything; she couldn't get more familiar with a customer's org over
+time. So I gave her a **reflection loop**: after she replies, if the message taught her
+something durable (gated to statements, not questions/commands), a background-style
+extraction distils short org facts ("Deploys happen Fridays 6pm IST", "Sarah is
+on-call") and stores them in a new **`fact` memory tier** that's always injected into
+her working set. Next time, she answers from them — *"when's our deploy window?"* →
+*"Fridays at 6pm IST, and Sarah's on call."* She gets familiar as you talk to her.
+
+Routing got sharper to support this: a **declarative statement** ("we deploy on
+Fridays") goes to conversation-and-learn, never to a deploy action; a **question**
+("when do we deploy?") never triggers a release. And small-model robustness — retry on
+empty content, unwrap stray ```json fences — so a reply is never blank or ugly.
+
+**The UI had to show all of this, or it's invisible.** The chat now renders the full
+live trace so it's never a blank screen: a *"pulled memory · N core · N learned · N
+recalled"* line (she's visibly using memory), the routed-intent chip, animated thinking
+and tool chips (running spinner → ✓), green **"Learned: …"** chips the moment she
+stores a fact, and an **Org Memory** panel that grows in real time next to the
+RCA **Learned Skills** playbook. Two kinds of learning, both visible.
+
 ## What's real vs mocked (current, honest)
 
 **Real:** GitHub scan + context-repo commits, RCA reasoning, trace correlation,
-3-tier memory (FTS5 BM25 + recency/importance), skill persistence & recall, the
-**Mindy orchestrator** (identity, deterministic-first routing, read-only ops tools,
-delegation), run persistence, SSE streaming for chat and release, the **Telegram
-gateway** (long-polling a real bot, shared memory, live session mirror), multi-tenant
-`customer_id` threading, the onboarding golden cache, local + hosted LLM providers.
+3-tier memory (FTS5 BM25 + recency/importance), **two kinds of self-learning** — RCA
+skill memory (normalized dedup, reinforced on repeat) and **Mindy's org memory** (she
+distils + recalls durable facts from conversation), the **Mindy orchestrator**
+(identity, deterministic-first routing, read-only ops tools, delegation), run
+persistence, SSE streaming for chat and release, the **Telegram gateway** (long-polling
+a real bot, shared memory, live session mirror), multi-tenant `customer_id` threading,
+the onboarding golden cache, local + hosted LLM providers.
 
 **Mocked but scenario-driven:** Mindy's ops tools (`service_status`, `pod_status`,
 `tail_service_logs`) return deterministic telemetry tied to the active scenario.
