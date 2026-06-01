@@ -455,8 +455,10 @@ const RcaShot: React.FC = () => {
   const stepDur = 20;
   const analysisAt = stepBase + RCA_STEPS.length * stepDur + 8;
   const skillAt = analysisAt + 60;
-  const scroll = interpolate(frame, [analysisAt - 14, analysisAt + 16], [0, -210], OUT);
-  const zoom = interpolate(frame, [86, 116, analysisAt - 8, analysisAt + 22], [1, 1.16, 1.16, 1.02], OUT);
+  const scroll = interpolate(frame, [analysisAt - 14, analysisAt + 16, skillAt - 6, skillAt + 18], [0, -210, -210, -360], OUT);
+  const originY = interpolate(frame, [analysisAt + 22, skillAt], [52, 74], OUT);
+  const zoom = interpolate(frame, [86, 116, analysisAt - 8, analysisAt + 22, skillAt, skillAt + 30], [1, 1.16, 1.16, 1.0, 1.0, 1.3], OUT);
+  const skillGlow = 0.4 + 0.4 * (0.5 + 0.5 * Math.sin(frame / 7));
   return (
     <AbsoluteFill>
       <div style={{ position: 'absolute', top: 50, left: 0, right: 0, textAlign: 'center' }}>
@@ -465,7 +467,7 @@ const RcaShot: React.FC = () => {
         </div>
       </div>
       <div style={{ position: 'absolute', top: 168, left: '50%', transform: 'translateX(-50%)' }}>
-        <div style={{ transform: `translateY(${winY}px) scale(${zoom})`, transformOrigin: '34% 52%', opacity: winO }}>
+        <div style={{ transform: `translateY(${winY}px) scale(${zoom})`, transformOrigin: `34% ${originY}%`, opacity: winO }}>
           <AppWindow width={1500} height={840}>
             <div style={{ position: 'relative', width: 1500, height: 788, overflow: 'hidden' }}>
               <div style={{ padding: '28px 44px', transform: `translateY(${scroll}px)` }}>
@@ -519,8 +521,14 @@ const RcaShot: React.FC = () => {
                         </div>
                       )}
                       {frame >= skillAt && (
-                        <div className="flex items-center gap-2 text-tertiary" style={{ fontSize: 15, ...fadeUp(frame, skillAt, 10) }}>
-                          <Icon name="lightbulb" className="!text-lg" style={{ fontVariationSettings: "'FILL' 1" }} /> 🧠 Saved this as a reusable skill — next time it's instant.
+                        <div
+                          className="rounded-xl p-4 bg-tertiary-container/15"
+                          style={{ border: '2px solid #006b4d', boxShadow: `0 0 ${16 + 22 * skillGlow}px rgba(0,107,77,${0.25 + 0.3 * skillGlow})`, ...popIn(frame, fps, skillAt) }}
+                        >
+                          <div className="flex items-center gap-2 text-tertiary" style={{ fontSize: 16 }}>
+                            <Icon name="lightbulb" className="!text-xl" style={{ fontVariationSettings: "'FILL' 1" }} /> <span className="font-semibold">Skill created</span> — saved as a reusable playbook, applied automatically next time.
+                          </div>
+                          <div className="font-mono text-on-surface mt-1.5 pl-8" style={{ fontSize: 14 }}>cartservice: redis connection refused</div>
                         </div>
                       )}
                     </div>
@@ -691,6 +699,7 @@ const ReleaseShot: React.FC = () => {
   const runClick = 48;
   const preDeploy = relState(frame, 56, 82, false);
   const reportAt = 214;
+  const ctaClick = reportAt + 66;
   return (
     <AbsoluteFill>
       <div style={{ position: 'absolute', top: 56, left: 0, right: 0, textAlign: 'center' }}>
@@ -740,18 +749,160 @@ const ReleaseShot: React.FC = () => {
               )}
 
               {frame >= reportAt && (
-                <div className="rounded-xl p-5 mt-6 flex items-center gap-4 bg-[#fbbc04]/5 border border-[#fbbc04]/30" style={popIn(frame, fps, reportAt)}>
-                  <Icon name="warning" className="!text-3xl" style={{ color: '#9a7400', fontVariationSettings: "'FILL' 1" }} />
-                  <div className="flex-1">
-                    <div className="font-heading text-on-surface" style={{ fontSize: 22 }}>Partial — 2/3 regions healthy</div>
-                    <div className="text-on-surface-variant" style={{ fontSize: 15 }}>eu-west-1 failed its startup health gate (redis-cart connection refused) and was automatically rolled back.</div>
+                <div className="mt-5" style={popIn(frame, fps, reportAt)}>
+                  <div className="rounded-xl p-4 flex items-center gap-4 bg-[#fbbc04]/5 border border-[#fbbc04]/30">
+                    <Icon name="warning" className="!text-3xl" style={{ color: '#9a7400', fontVariationSettings: "'FILL' 1" }} />
+                    <div className="flex-1">
+                      <div className="font-heading text-on-surface" style={{ fontSize: 21 }}>Release report — Partial (2/3 regions healthy)</div>
+                      <div className="text-on-surface-variant" style={{ fontSize: 14 }}>us-east-1 ✓ deployed · eu-west-1 ✗ rolled back · ap-south-1 ✓ deployed</div>
+                    </div>
+                    <Badge tone="warning" className="!text-xs">payment-service v1.4.0</Badge>
                   </div>
-                  <Badge tone="warning" className="!text-xs">payment-service v1.4.0</Badge>
+                  <div className="mt-3 rounded-xl border border-error/25 bg-error-container/10 p-4 flex items-center justify-between" style={fadeUp(frame, reportAt + 18, 12, 14)}>
+                    <div className="flex items-center gap-3">
+                      <Icon name="cancel" className="text-error !text-2xl" style={{ fontVariationSettings: "'FILL' 1" }} />
+                      <div>
+                        <div className="text-on-surface" style={{ fontSize: 16, fontWeight: 600 }}>eu-west-1 — startup health gate failed</div>
+                        <div className="text-on-surface-variant" style={{ fontSize: 14 }}>readiness probe: redis-cart connection refused — rolled back automatically.</div>
+                      </div>
+                    </div>
+                    <div style={{ transform: `scale(${frame >= ctaClick && frame < ctaClick + 9 ? 0.95 : 1})` }}>
+                      <Button variant="danger" className="!text-sm !px-5 !py-2.5"><Icon name="psychology" className="!text-sm" /> Investigate with RCA</Button>
+                    </div>
+                  </div>
                 </div>
               )}
-              <Cursor path={[{ f: 0, x: 1200, y: 200 }, { f: 42, x: 1420, y: 56 }, { f: runClick, x: 1420, y: 56 }, { f: 300, x: 1420, y: 56 }]} clicks={[runClick]} />
+              <Cursor path={[{ f: 0, x: 1200, y: 200 }, { f: 42, x: 1420, y: 56 }, { f: runClick, x: 1420, y: 56 }, { f: reportAt + 34, x: 1420, y: 56 }, { f: ctaClick - 14, x: 1336, y: 672 }, { f: ctaClick, x: 1336, y: 672 }, { f: 360, x: 1336, y: 672 }]} clicks={[runClick, ctaClick]} />
             </div>
           </AppWindow>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/* ---------------- Shot 11: connect a Telegram bot ---------------- */
+const TG_TOKEN = '8123456789:AAEjmindy-bot-tokenX9';
+const TelegramConnectShot: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const winY = interpolate(frame, [16, 46], [150, 0], OUT);
+  const winO = interpolate(frame, [16, 44], [0, 1], OUT);
+  const connectClick = 120;
+  return (
+    <AbsoluteFill>
+      <div style={{ position: 'absolute', top: 60, left: 0, right: 0, textAlign: 'center' }}>
+        <div style={{ ...fadeUp(frame, 4, 14), fontSize: 54, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em' }}>Take Mindy anywhere.</div>
+        <div style={{ ...fadeUp(frame, 16, 14), fontSize: 27, color: 'rgba(255,255,255,0.82)', fontFamily: "'Inter', sans-serif", marginTop: 8 }}>Connect your own Telegram bot in one step.</div>
+      </div>
+      <div style={{ position: 'absolute', top: 240, left: '50%', transform: 'translateX(-50%)' }}>
+        <div style={{ transform: `translateY(${winY}px)`, opacity: winO }}>
+          <AppWindow width={1440} height={760}>
+            <div style={{ position: 'relative', width: 1440, height: 708 }}>
+              <div className="absolute inset-0" style={{ filter: 'blur(2px)', opacity: 0.5 }}>
+                <div className="p-6 text-on-surface-variant">Chat · OpsMindAI…</div>
+              </div>
+              <div className="absolute inset-0" style={{ background: 'rgba(20,25,40,0.45)' }} />
+              {/* modal */}
+              <div className="absolute" style={{ top: 120, left: '50%', transform: 'translateX(-50%)', width: 560, ...popIn(frame, fps, 8) }}>
+                <div className="rounded-2xl bg-surface" style={{ boxShadow: '0 30px 80px rgba(0,0,0,0.4)' }}>
+                  <div className="p-6 flex items-start gap-3">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'rgba(34,158,217,0.15)' }}><Icon name="send" style={{ fontSize: 24, color: '#229ED9', fontVariationSettings: "'FILL' 1" }} /></div>
+                    <div className="flex-1">
+                      <div className="font-heading text-on-surface" style={{ fontSize: 22 }}>Connect a Telegram bot</div>
+                      <div className="text-on-surface-variant" style={{ fontSize: 14, marginTop: 2 }}>The agent replies from your bot — same brain, same memory as the console.</div>
+                    </div>
+                  </div>
+                  <div className="px-6 pb-2 space-y-4">
+                    <div>
+                      <div className="font-mono uppercase text-on-surface-variant" style={{ fontSize: 11 }}>Bot token</div>
+                      <div className="mt-2 bg-surface-container-low border border-outline-variant/40 rounded-md px-3 py-2.5 font-mono text-on-surface" style={{ fontSize: 14 }}>{typed(TG_TOKEN, frame, 36, fps, 34)}<span style={{ opacity: frame % 16 < 8 && frame < 78 ? 1 : 0 }}>|</span></div>
+                    </div>
+                    <div>
+                      <div className="font-mono uppercase text-on-surface-variant" style={{ fontSize: 11 }}>Bot name</div>
+                      <div className="mt-2 bg-surface-container-low border border-outline-variant/40 rounded-md px-3 py-2.5 text-on-surface" style={{ fontSize: 14, ...fadeUp(frame, 88, 10) }}>OpsMind Bot</div>
+                    </div>
+                    <div className="flex items-start gap-2 text-on-surface-variant rounded-lg bg-surface-container-low/60 p-3" style={{ fontSize: 12 }}><Icon name="info" className="text-primary !text-base shrink-0" />Create a bot in Telegram via <span className="font-mono">@BotFather → /newbot</span>, then paste the token.</div>
+                  </div>
+                  <div className="px-6 py-4 flex justify-end gap-2 border-t border-outline-variant/30">
+                    <Button variant="ghost" className="!text-sm">Cancel</Button>
+                    <div style={{ transform: `scale(${frame >= connectClick && frame < connectClick + 9 ? 0.95 : 1})` }}>
+                      <Button className="!text-sm" style={{ background: '#229ED9' }}><Icon name="link" className="!text-sm" /> Connect</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Cursor path={[{ f: 0, x: 700, y: 600 }, { f: connectClick - 16, x: 880, y: 520 }, { f: connectClick, x: 880, y: 520 }, { f: 220, x: 880, y: 520 }]} clicks={[connectClick]} />
+            </div>
+          </AppWindow>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/* ---------------- Shot 12: Telegram bot chat ---------------- */
+type TgMsg = { role: 'user' | 'bot'; text: string; at: number; typingAt?: number };
+const TG_MSGS: TgMsg[] = [
+  { role: 'user', text: 'is cartservice healthy?', at: 46 },
+  { role: 'bot', text: '⚠️ cartservice is degraded — eu-west-1 is failing its readiness probe (Redis connection refused). Your other services are healthy. Want me to investigate? 🔍', at: 96, typingAt: 70 },
+  { role: 'user', text: 'yes, investigate', at: 188 },
+  { role: 'bot', text: "🔍 Root cause: cartservice can't reach redis-cart — connection refused. 95% confidence. I've saved this as a reusable skill. 🧠", at: 250, typingAt: 224 },
+];
+
+const TelegramChatShot: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const winY = interpolate(frame, [14, 44], [150, 0], OUT);
+  const winO = interpolate(frame, [14, 42], [0, 1], OUT);
+  return (
+    <AbsoluteFill>
+      <div style={{ position: 'absolute', top: 56, left: 0, right: 0, textAlign: 'center' }}>
+        <div style={{ ...fadeUp(frame, 4, 14), fontSize: 52, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em' }}>Your DevOps agent, in your pocket.</div>
+      </div>
+      <div style={{ position: 'absolute', top: 176, left: '50%', transform: 'translateX(-50%)' }}>
+        <div style={{ transform: `translateY(${winY}px)`, opacity: winO, width: 1120, height: 760, borderRadius: 18, overflow: 'hidden', boxShadow: '0 40px 110px rgba(0,0,0,0.5)' }}>
+          {/* telegram header */}
+          <div style={{ height: 76, background: 'linear-gradient(90deg,#2AABEE,#229ED9)', display: 'flex', alignItems: 'center', gap: 14, padding: '0 22px' }}>
+            <Icon name="arrow_back" style={{ fontSize: 24, color: '#fff' }} />
+            <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.2)' }}><Icon name="hub" style={{ fontSize: 24, color: '#fff', fontVariationSettings: "'FILL' 1" }} /></div>
+            <div>
+              <div style={{ color: '#fff', fontSize: 18, fontWeight: 600 }}>OpsMind Bot</div>
+              <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>bot · online</div>
+            </div>
+          </div>
+          {/* chat area */}
+          <div style={{ position: 'relative', height: 684 - 64, background: '#cfe3f3', padding: '24px 28px' }}>
+            <div className="flex flex-col gap-3">
+              {TG_MSGS.map((m, i) => {
+                if (frame < (m.typingAt ?? m.at) - 4) return null;
+                const showTyping = m.role === 'bot' && m.typingAt !== undefined && frame >= m.typingAt && frame < m.at;
+                return (
+                  <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    {showTyping ? (
+                      <div className="rounded-2xl px-4 py-3" style={{ background: '#fff' }}>
+                        <div className="flex gap-1.5">
+                          {[0, 1, 2].map((d) => <div key={d} style={{ width: 8, height: 8, borderRadius: '50%', background: '#9db8c9', opacity: 0.4 + 0.6 * (0.5 + 0.5 * Math.sin((frame - (m.typingAt ?? 0)) / 4 + d)) }} />)}
+                        </div>
+                      </div>
+                    ) : frame >= m.at ? (
+                      <div className="rounded-2xl px-4 py-2.5" style={{ maxWidth: '74%', fontSize: 17, lineHeight: 1.45, background: m.role === 'user' ? '#effdde' : '#fff', color: '#1d1b20', boxShadow: '0 1px 2px rgba(0,0,0,0.08)', ...fadeUp(frame, m.at, 8, 8) }}>
+                        {m.text}
+                      </div>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
+            {/* input bar */}
+            <div className="absolute" style={{ left: 20, right: 20, bottom: 18 }}>
+              <div className="bg-white rounded-full flex items-center gap-3 px-5 py-3" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+                <Icon name="mood" style={{ fontSize: 22, color: '#90a4ae' }} />
+                <span style={{ flex: 1, color: '#90a4ae', fontSize: 16 }}>Message</span>
+                <Icon name="send" style={{ fontSize: 22, color: '#229ED9' }} />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </AbsoluteFill>
@@ -785,7 +936,7 @@ export const LandingToOnboarding: React.FC = () => {
           <ChatShot />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
-        <TransitionSeries.Sequence durationInFrames={320}>
+        <TransitionSeries.Sequence durationInFrames={370}>
           <RcaShot />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
@@ -797,8 +948,16 @@ export const LandingToOnboarding: React.FC = () => {
           <SkillsTabShot />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
-        <TransitionSeries.Sequence durationInFrames={310}>
+        <TransitionSeries.Sequence durationInFrames={360}>
           <ReleaseShot />
+        </TransitionSeries.Sequence>
+        <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
+        <TransitionSeries.Sequence durationInFrames={220}>
+          <TelegramConnectShot />
+        </TransitionSeries.Sequence>
+        <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
+        <TransitionSeries.Sequence durationInFrames={320}>
+          <TelegramChatShot />
         </TransitionSeries.Sequence>
       </TransitionSeries>
     </AbsoluteFill>
