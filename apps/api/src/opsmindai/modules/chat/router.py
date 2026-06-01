@@ -89,3 +89,9 @@ async def chat_history(customer_id: str, thread_id: str = "main"):
         "thread_id": thread_id,
         "turns": memory.conversation_history(customer_id, thread_id),
     })
+
+
+@router.get("/chat/facts/{customer_id}")
+async def chat_facts(customer_id: str):
+    """Org-memory facts Mindy has learned for this tenant (her self-learning)."""
+    return success_response({"customer_id": customer_id, "facts": memory.recent_facts(customer_id, 20)})

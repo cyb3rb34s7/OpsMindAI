@@ -100,16 +100,19 @@ class BotRuntime:
 
         thread_id = f"tg-{chat_id}"
         reply_holder: dict[str, str] = {}
+        # A real placeholder message is the only loader that's guaranteed visible on
+        # every Telegram client (the 'typing…' action is subtle/flaky). We post it
+        # instantly, then edit it into the answer the moment Mindy produces it — so
+        # any post-reply work (e.g. her self-learning step) never delays the user.
+        state: dict = {"placeholder": None, "sent": False}
 
         async def emit(event_type: str, data: dict) -> None:
             if event_type == "reply" and data.get("text"):
                 reply_holder["text"] = data["text"]
+                if state["placeholder"] and not state["sent"] and await self._edit(chat_id, state["placeholder"], data["text"]):
+                    state["sent"] = True
 
-        # A real placeholder message is the only loader that's guaranteed visible on
-        # every Telegram client (the 'typing…' action is subtle/flaky). We post it
-        # instantly, then edit it in place into the final answer. The typing action
-        # is kept too as a nice-to-have when the client does show it.
-        placeholder_id = await self._send(chat_id, "💭 Working on it…")
+        state["placeholder"] = await self._send(chat_id, "💭 Working on it…")
         typing = asyncio.create_task(self._typing_keepalive(chat_id))
         try:
             async with lock_for(self.customer_id, thread_id):
@@ -128,11 +131,11 @@ class BotRuntime:
         finally:
             typing.cancel()
 
-        out = reply_holder.get("text") or "(no reply)"
-        logger.info("telegram.reply.out", extra={"event": "telegram.reply.out", "chat_id": chat_id, "text": out[:60]})
-        # Edit the placeholder into the answer; fall back to a fresh message.
-        if not (placeholder_id and await self._edit(chat_id, placeholder_id, out)):
-            await self._send(chat_id, out)
+        if not state["sent"]:
+            out = reply_holder.get("text") or "(no reply)"
+            logger.info("telegram.reply.out", extra={"event": "telegram.reply.out", "chat_id": chat_id, "text": out[:60]})
+            if not (state["placeholder"] and await self._edit(chat_id, state["placeholder"], out)):
+                await self._send(chat_id, out)
 
     async def _send(self, chat_id: int, text: str) -> int | None:
         try:

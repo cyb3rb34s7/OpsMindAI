@@ -10,8 +10,11 @@ check surfaces a problem she offers to escalate to RCA. Resolution is RCA's job.
 """
 from __future__ import annotations
 
+import json
 import re
 from typing import Awaitable, Callable
+
+from pydantic import BaseModel
 
 from opsmindai.agents.base.schemas import ExecutionContext
 from opsmindai.agents.cognition.schemas import RouteDecision
@@ -58,13 +61,25 @@ GREETING_REPLY = (
 # ---- routing ---------------------------------------------------------------
 
 _GREETING_RE = re.compile(r"^\s*(hi|hey|hello|yo|sup|gm|good (morning|evening)|thanks|thank you|ok|okay|cool|nice|got it|howdy|who are you|what can you do)\b[\s!.?]*$", re.IGNORECASE)
+# A declarative statement teaching Mindy something (not a command/question). These
+# go to conversation so she acknowledges + learns — never to a deploy/status action,
+# even when they happen to contain words like "deploy". No trailing '?' (questions
+# are handled by the intent routes below).
+_DECLARATIVE_RE = re.compile(
+    r"^\s*(just so you know|fyi|for the record|remember|note that|keep in mind|for future|don'?t forget|heads up[,: ]+(we|our))\b"
+    r"|^\s*(we|our|i|my)\b[^?]*\b(deploy|use|using|run|running|prefer|preferred|store|stored|host|hosted|on-?call|sla|window|policy|standard|convention|team|owns?)\b[^?]*$",
+    re.IGNORECASE,
+)
 _INVESTIGATE_RE = re.compile(r"\b(investigat\w*|diagnos\w*|root[\s-]?cause|\brca\b|debug|troubleshoot|why (is|are|did|does|was)|what('?s| is| was) wrong|what went wrong|fix|resolve|mitigat\w*)\b", re.IGNORECASE)
 _RELEASE_RE = re.compile(r"\b(deploy|release|roll ?back|rollout|ship it|ship to|promote)\b", re.IGNORECASE)
 _PODS_RE = re.compile(r"\b(pods?|replicas?|crash ?loop\w*|restart\w*|kubectl|deployment status)\b", re.IGNORECASE)
 _LOGS_RE = re.compile(r"\b(logs?|tail|stderr|stdout|stack ?trace|log lines?)\b", re.IGNORECASE)
 _STATUS_RE = re.compile(r"\b(health\w*|status|uptime|latency|reachable|alive|is .* (up|down|ok|running)|are .* (up|down|ok|running|healthy)|everything (ok|fine|good|alright)|check (the )?(service|server|health|status|system))\b", re.IGNORECASE)
 _FAILURE_RE = re.compile(r"\b(down|failing|failed|fail|error\w*|500s?|crash\w*|broken|throwing|outage|degraded|unhealthy|not working|timing out|timeouts?)\b", re.IGNORECASE)
-_GENERAL_RE = re.compile(r"\b(architecture|stack|components|dependenc\w*|risks?|overview|what('?s| is| are)|how many|which|list|explain|tell me about|who owns|history)\b", re.IGNORECASE)
+_GENERAL_RE = re.compile(r"\b(architecture|stack|components|dependenc\w*|risks?|overview|what('?s| is| are)|how many|when|which|list|explain|tell me about|who owns|history)\b", re.IGNORECASE)
+# A question (not an imperative). Deploy/release words inside a question are
+# informational ("when do we deploy?") — answer from memory, don't run a release.
+_QUESTION_RE = re.compile(r"\?\s*$|^\s*(when|what|whats|how|who|where|why|do|does|did|can|could|should|will)\b", re.IGNORECASE)
 
 
 def _fast_route(message: str) -> dict | None:
@@ -78,17 +93,19 @@ def _fast_route(message: str) -> dict | None:
         return {"intent": "onboarding", "confidence": 0.95, "reasoning": "Detected a GitHub URL."}
     if _GREETING_RE.match(message):
         return {"intent": "general", "confidence": 0.95, "reasoning": "Greeting / small talk."}
+    if _DECLARATIVE_RE.search(message):
+        return {"intent": "general", "confidence": 0.85, "reasoning": "Declarative statement — converse and learn."}
     if _INVESTIGATE_RE.search(message):
         return {"intent": "rca", "confidence": 0.9, "reasoning": "Explicit investigate/fix request."}
-    if _RELEASE_RE.search(message):
-        return {"intent": "release", "confidence": 0.85, "reasoning": "Deploy/release keyword."}
+    if _RELEASE_RE.search(message) and not _QUESTION_RE.search(message):
+        return {"intent": "release", "confidence": 0.85, "reasoning": "Deploy/release command."}
     if _PODS_RE.search(message):
         return {"intent": "pods", "confidence": 0.85, "reasoning": "Pod/replica check."}
     if _LOGS_RE.search(message):
         return {"intent": "logs", "confidence": 0.85, "reasoning": "Log tail request."}
     if _STATUS_RE.search(message) or _FAILURE_RE.search(message):
         return {"intent": "status", "confidence": 0.8, "reasoning": "Service health/status check."}
-    if _GENERAL_RE.search(message):
+    if _GENERAL_RE.search(message) or _QUESTION_RE.search(message):
         return {"intent": "general", "confidence": 0.75, "reasoning": "Informational — answer from memory."}
     return None
 
@@ -172,15 +189,87 @@ def _say_logs(d: dict) -> str:
             f"want me to run a proper RCA on this? 🔍")
 
 
+def _unwrap_reply(text: str) -> str:
+    """Small local models sometimes wrap prose in a ```json fence or a
+    {"response": "..."} object despite instructions — unwrap to clean prose."""
+    t = (text or "").strip()
+    fence = re.match(r"^```(?:json|markdown)?\s*(.*?)\s*```$", t, re.DOTALL)
+    if fence:
+        t = fence.group(1).strip()
+    if t.startswith("{") and t.endswith("}"):
+        try:
+            obj = json.loads(t)
+            if isinstance(obj, dict):
+                for k in ("response", "reply", "text", "message", "answer", "content"):
+                    if isinstance(obj.get(k), str):
+                        return obj[k].strip()
+                for v in obj.values():
+                    if isinstance(v, str):
+                        return v.strip()
+        except (ValueError, TypeError):
+            pass
+    return t
+
+
 async def _converse(customer_id: str, message: str, ws: dict, provider: str | None) -> str:
     client = LLMClient(provider=provider)
+    system = f"{MINDY_SYSTEM_PROMPT}\n\n# MEMORY\n{ws['prompt_block'] or '(no memory yet)'}"
+    # Small local models occasionally return empty content; retry once before
+    # giving up so the user never sees a blank reply.
+    for _ in range(2):
+        resp = await client.generate(LLMRequest(system_prompt=system, user_prompt=message, max_tokens=500))
+        text = _unwrap_reply(resp.content or "")
+        if text:
+            return text
+    return ""
+
+
+# ---- self-learning: Mindy distils durable org facts from conversations ------
+
+class _LearnedFacts(BaseModel):
+    facts: list[str] = []
+
+
+REFLECT_PROMPT = """You maintain the long-term org memory for a DevOps agent. From this
+exchange, extract durable, reusable facts worth remembering to serve this user better
+later: their services/architecture, ownership, environments & regions, schedules
+(deploy windows, on-call), SLAs, conventions, tooling, and explicit preferences.
+
+Rules: only durable, specific facts a teammate would write down — never questions,
+greetings, transient status, or generic knowledge. Phrase each as a short standalone
+statement (e.g. "Deploys happen Fridays at 6pm IST"). Return an empty list if there is
+nothing worth remembering."""
+
+# Gate so we only spend a reflection call when the user is actually telling Mindy
+# something (a statement about their org/prefs), not asking a question or greeting.
+_TEACH_RE = re.compile(
+    r"\b(we|our|us|my|i)\b[^.?!]*\b(use|using|run|running|deploy|prefer|preferred|own|owns|owned|have|has|on-?call|sla|window|policy|standard|convention|always|never|store|stored|host|hosted|region|team|prod|production|staging)\b"
+    r"|\b(remember|note that|keep in mind|for future|fyi|just so you know|don'?t forget)\b",
+    re.IGNORECASE,
+)
+
+
+async def _reflect(customer_id: str, message: str, reply: str, emit: Emit, provider: str | None) -> None:
+    """After replying, learn durable facts from the exchange (gated + best-effort)."""
+    # Only reflect on statements that teach something — not questions or commands.
+    if _QUESTION_RE.search(message or "") or not _TEACH_RE.search(message or ""):
+        return
+    client = LLMClient(provider=provider)
     req = LLMRequest(
-        system_prompt=f"{MINDY_SYSTEM_PROMPT}\n\n# MEMORY\n{ws['prompt_block'] or '(no memory yet)'}",
-        user_prompt=message,
-        max_tokens=350,
+        system_prompt=REFLECT_PROMPT,
+        user_prompt=f"User: {message}\nMindy: {reply}",
+        response_schema=_LearnedFacts,
+        max_tokens=300,
     )
-    resp = await client.generate(req)
-    return resp.content.strip()
+    try:
+        resp = await client.generate(req)
+        facts = _LearnedFacts.model_validate(resp.structured_output).facts
+    except Exception:
+        return
+    stored = [f.strip() for f in facts if f and f.strip()
+              and memory.store(customer_id, "fact", f.strip(), importance=7)]
+    if stored:
+        await emit("learned", {"facts": stored})
 
 
 async def _run_agent(agent, customer_id: str, payload: dict, emit: Emit):
@@ -245,8 +334,17 @@ async def run_turn(customer_id: str, thread_id: str, message: str, emit: Emit, p
                 if result.success:
                     rep = result.data["report"]
                     pct = round(rep["confidence"] * 100)
+                    # Surface the self-healing skill memory so it's visible in chat:
+                    # reused a prior skill, or saved a new one for next time.
+                    applied = result.data.get("applied_skills") or []
+                    learned = result.data.get("learned_skill") or {}
+                    seen = learned.get("success_count", 1)
+                    if applied:
+                        skill_note = f" 🧠 I'd seen this pattern before — reused a learned skill (now confirmed {seen}× for you)."
+                    else:
+                        skill_note = " 🧠 I've saved this as a reusable skill, so next time I'll recognize it instantly."
                     reply = (f"On it 🔍 Investigated {m.group(0)} — root cause: {rep['root_cause']} "
-                             f"({pct}% confidence). I've got {len(rep['recommendations'])} recommended fixes; want the details?")
+                             f"({pct}% confidence).{skill_note} I've got {len(rep['recommendations'])} recommended fixes; want the details?")
                     await emit("reply", {"text": reply})
                     await emit("result", {"agent": "rca", "data": result.data})
                 else:
@@ -294,8 +392,15 @@ async def run_turn(customer_id: str, thread_id: str, message: str, emit: Emit, p
             else:
                 await emit("thinking", {"text": "Recalling what I know about your system"})
                 reply = await _converse(customer_id, message, ws, provider)
+                if not reply:
+                    reply = "I'm here — ask me to check a service's health, tail logs, run a release, or investigate an incident."
                 await emit("reply", {"text": reply})
 
     finally:
         if reply:
             memory.store(customer_id, "conversation", f"assistant: {reply}", thread_id=thread_id, importance=3)
+
+    # Self-learning happens after the reply is already on screen, so it never adds
+    # latency the user feels (the web stream shows a 'learned' chip; Telegram has
+    # already sent the reply on the reply event).
+    await _reflect(customer_id, message, reply, emit, provider)

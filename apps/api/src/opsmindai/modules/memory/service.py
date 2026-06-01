@@ -211,6 +211,22 @@ class MemoryService:
         except Exception:
             return []
 
+    def recent_facts(self, customer_id: str, limit: int = 8) -> list[str]:
+        """Org-memory facts Mindy has learned from conversations — always available
+        to her (like core), most important / most recent first."""
+        cid = _key(customer_id)
+        try:
+            init_db()
+            with get_connection() as conn:
+                rows = conn.execute(
+                    "SELECT content FROM memory_fts WHERE customer_id = ? AND category = 'fact' "
+                    "ORDER BY importance DESC, created_at DESC LIMIT ?",
+                    (cid, limit),
+                ).fetchall()
+            return [r["content"] for r in rows]
+        except Exception:
+            return []
+
     # ---- the ONE working-set path ------------------------------------------
     def build_working_set(self, customer_id: str, thread_id: str, query: str) -> dict:
         """Single, deterministic, token-budgeted assembly used by every turn.
@@ -221,7 +237,7 @@ class MemoryService:
         observability (so 'is memory loading?' is never a guess).
         """
         budget = WORKING_SET_TOKEN_CAP * CHARS_PER_TOKEN
-        used: dict[str, list[str]] = {"core": [], "recent": [], "recalled": [], "skills": []}
+        used: dict[str, list[str]] = {"core": [], "facts": [], "recent": [], "recalled": [], "skills": []}
         sections: list[str] = []
 
         def take(items: list[str], cap_chars: int) -> list[str]:
@@ -241,6 +257,12 @@ class MemoryService:
         used["core"] = core
         if core:
             sections.append("## What I know about this system (core memory)\n" + "\n".join(f"- {c}" for c in core))
+
+        # Org memory: facts Mindy has learned from conversations (always available).
+        facts = take(self.recent_facts(customer_id, 8), 500)
+        used["facts"] = facts
+        if facts:
+            sections.append("## What I've learned about your org (learned memory)\n" + "\n".join(f"- {f}" for f in facts))
 
         recent = take([t["content"] for t in self.recent_turns(customer_id, thread_id, 6)], 600)
         used["recent"] = recent
