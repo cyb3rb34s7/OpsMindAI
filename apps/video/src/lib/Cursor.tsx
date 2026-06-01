@@ -45,18 +45,19 @@ export const Cursor: React.FC<{ path: Key[]; clicks?: number[] }> = ({ path, cli
         />
       ))}
       <svg
-        width="40"
-        height="40"
-        viewBox="0 0 28 28"
-        style={{ transform: `translate(-11px, -2px) scale(${press})`, transformOrigin: '11px 2px', filter: 'drop-shadow(0 4px 7px rgba(0,0,0,0.4))' }}
+        width="30"
+        height="30"
+        viewBox="0 0 24 24"
+        style={{ transform: `translate(-7px, -2px) scale(${press})`, transformOrigin: '7px 2px', filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.35))' }}
       >
-        {/* pointing-hand (link pointer) cursor */}
+        {/* sleek pointing-hand (link) cursor */}
         <path
-          d="M11 3.2c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8v7.3h.8V6.2c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8v4.8h.8V8.4c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8v2.6h.8V9.6c0-1 .8-1.8 1.8-1.8s1.7.8 1.7 1.8v7.2c0 3.6-2.9 6.5-6.5 6.5h-2.2c-1.7 0-3.4-.7-4.6-1.9l-4.7-4.7c-.7-.7-.7-1.9 0-2.6.7-.7 1.9-.7 2.6 0l2.1 2.1V3.2z"
+          d="M7 2.6a1.5 1.5 0 0 1 3 0v7.6l1.9-.7a2 2 0 0 1 2.5 1l1.3 2.7a4 4 0 0 1 .3 2.7l-.6 2.4a2.2 2.2 0 0 1-2.1 1.7H9.2a3.5 3.5 0 0 1-2.7-1.3l-3.3-4a1.5 1.5 0 0 1 2.2-2l1.6 1.5V2.6z"
           fill="#ffffff"
           stroke="#1d1b20"
           strokeWidth="1.3"
           strokeLinejoin="round"
+          strokeLinecap="round"
         />
       </svg>
     </div>

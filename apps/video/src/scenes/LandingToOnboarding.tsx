@@ -210,70 +210,200 @@ const REPO_FILES: [string, string][] = [
   ['help', 'open_questions.md'],
 ];
 
+const TECH = ['Go', 'C#', 'Node.js', 'Python', 'Java', 'gRPC', 'Redis', 'Kubernetes', 'Docker', 'Skaffold'];
+const COMPONENTS: [string, string, string, string][] = [
+  ['frontend', 'Go', 'checkout, cart, catalog', '—'],
+  ['cartservice', 'C#', 'redis-cart', 'Redis'],
+  ['checkoutservice', 'Go', 'cart, payment, shipping', '—'],
+  ['paymentservice', 'Node.js', '—', '—'],
+  ['productcatalogservice', 'Go', '—', 'flat file'],
+  ['currencyservice', 'Node.js', '—', '—'],
+];
+const FLOWS = [
+  'frontend → checkoutservice → cartservice → redis-cart',
+  'checkoutservice → paymentservice (charge)',
+  'frontend → productcatalogservice (browse)',
+  'checkoutservice → shippingservice → currencyservice',
+];
+const DECISIONS = [
+  'ADR-003 — gRPC between services for typed contracts and low latency',
+  'ADR-009 — cart state externalized to Redis so cartservice stays stateless',
+  'ADR-014 — each service owns its Dockerfile; deploys gated via Skaffold + Kustomize',
+];
+const RISKS = [
+  'redis-cart is the checkout single-point-of-failure — a drop fails carts and aborts checkout',
+  'No circuit breaker on the payment path',
+  'Cart only survives a pod restart via Redis',
+];
+const QUESTIONS = ['What is the redis-cart failover plan?', 'Who owns shippingservice?', 'Is there a checkout retry budget?'];
+
+function ArtifactHeader({ icon, title, frame, at }: { icon: string; title: string; frame: number; at: number }) {
+  return (
+    <div className="flex items-center gap-2 font-mono uppercase tracking-wide text-on-surface-variant" style={{ fontSize: 13, margin: '30px 0 12px', ...fadeUp(frame, at, 10, 12) }}>
+      <Icon name={icon} className="!text-base text-primary" /> {title}
+    </div>
+  );
+}
+
 const ContextRepoShot: React.FC = () => {
   const frame = useCurrentFrame();
-  const zoom = interpolate(frame, [24, 165], [1, 1.06], OUT);
+  // auto-scroll the artifact document so we glide through every real artifact
+  const scroll = interpolate(frame, [40, 300], [0, -1180], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.45, 0, 0.55, 1) });
   return (
     <AbsoluteFill className="items-center justify-center">
-      <div style={{ transform: `scale(${zoom})`, transformOrigin: '52% 58%' }}>
-        <AppWindow>
-          <div style={{ position: 'relative', width: CW, height: CH, display: 'flex' }}>
-            {/* sidebar */}
-            <div style={{ width: 300, borderRight: '1px solid rgba(0,0,0,0.07)', background: '#fbfbfd', padding: '22px 16px' }}>
-              <div className="font-mono uppercase tracking-wide text-on-surface-variant flex items-center gap-2" style={{ fontSize: 12, marginBottom: 16 }}>
-                <Icon name="menu_book" className="!text-sm text-primary" /> Context Repo
-              </div>
-              {REPO_FILES.map(([ic, name], i) => {
-                const active = name === 'service_map.md';
-                return (
-                  <div key={name} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5" style={{ ...fadeUp(frame, 8 + i * 4, 10, 8), background: active ? 'rgba(0,90,194,0.10)' : 'transparent', marginBottom: 2 }}>
-                    <Icon name={ic} style={{ fontSize: 18, color: active ? '#005ac2' : '#79747e' }} />
-                    <span className="font-mono" style={{ fontSize: 14, color: active ? '#005ac2' : '#49454f', fontWeight: active ? 600 : 400 }}>{name}</span>
-                  </div>
-                );
-              })}
-              <div className="mt-4" style={fadeUp(frame, 40, 12)}>
-                <Badge tone="success" className="!text-[10px]"><Icon name="commit" className="!text-xs" /> 9 files on GitHub</Badge>
-              </div>
+      <AppWindow>
+        <div style={{ position: 'relative', width: CW, height: CH, display: 'flex' }}>
+          {/* sidebar */}
+          <div style={{ width: 300, borderRight: '1px solid rgba(0,0,0,0.07)', background: '#fbfbfd', padding: '22px 16px' }}>
+            <div className="font-mono uppercase tracking-wide text-on-surface-variant flex items-center gap-2" style={{ fontSize: 12, marginBottom: 16 }}>
+              <Icon name="menu_book" className="!text-sm text-primary" /> Context Repo
             </div>
-            {/* main */}
-            <div style={{ flex: 1, padding: '26px 40px' }}>
+            {REPO_FILES.map(([ic, name], i) => {
+              const active = name === 'service_map.md';
+              return (
+                <div key={name} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5" style={{ ...fadeUp(frame, 8 + i * 4, 10, 8), background: active ? 'rgba(0,90,194,0.10)' : 'transparent', marginBottom: 2 }}>
+                  <Icon name={ic} style={{ fontSize: 18, color: active ? '#005ac2' : '#79747e' }} />
+                  <span className="font-mono" style={{ fontSize: 14, color: active ? '#005ac2' : '#49454f', fontWeight: active ? 600 : 400 }}>{name}</span>
+                </div>
+              );
+            })}
+            <div className="mt-4" style={fadeUp(frame, 40, 12)}>
+              <Badge tone="success" className="!text-[10px]"><Icon name="commit" className="!text-xs" /> 9 files on GitHub</Badge>
+            </div>
+          </div>
+          {/* main: a tall artifact document that auto-scrolls */}
+          <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+            <div style={{ padding: '26px 40px', transform: `translateY(${scroll}px)` }}>
               <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
                 <div className="font-heading text-on-surface" style={{ fontSize: 26, ...fadeUp(frame, 6, 12) }}>Service Map</div>
                 <div style={fadeUp(frame, 10, 12)}><Badge tone="primary" className="!text-xs">Online Boutique · 11 microservices · gRPC</Badge></div>
               </div>
               <p className="text-on-surface-variant" style={{ fontSize: 15, maxWidth: 780, ...fadeUp(frame, 14, 12) }}>
-                The system, mapped automatically — services, dependencies, and the stores that matter.{' '}
-                <span className="text-error font-medium">redis-cart</span> is flagged as the checkout single-point-of-failure.
+                The system, mapped automatically. <span className="text-error font-medium">redis-cart</span> is flagged as the checkout single-point-of-failure.
               </p>
-              <div style={{ marginTop: 16, transform: 'scale(0.96)', transformOrigin: 'top left' }}>
+              <div style={{ marginTop: 14, transform: 'scale(0.94)', transformOrigin: 'top left' }}>
                 <Diagram />
               </div>
+
+              <ArtifactHeader icon="memory" title="Tech Stack" frame={frame} at={70} />
+              <div className="flex flex-wrap gap-2" style={fadeUp(frame, 74, 10, 12)}>
+                {TECH.map((t) => <Badge key={t} tone="primary" className="!text-xs">{t}</Badge>)}
+              </div>
+
+              <ArtifactHeader icon="lan" title={`Components (${COMPONENTS.length} of 11)`} frame={frame} at={95} />
+              <div className="rounded-lg border border-outline-variant/40 overflow-hidden" style={fadeUp(frame, 99, 10, 12)}>
+                <table className="w-full" style={{ fontSize: 13 }}>
+                  <thead className="bg-surface-container text-on-surface-variant" style={{ fontSize: 11 }}>
+                    <tr><th className="text-left px-3 py-2 font-mono uppercase">Component</th><th className="text-left px-3 py-2 font-mono uppercase">Tech</th><th className="text-left px-3 py-2 font-mono uppercase">Depends on</th><th className="text-left px-3 py-2 font-mono uppercase">Store</th></tr>
+                  </thead>
+                  <tbody>
+                    {COMPONENTS.map((c) => (
+                      <tr key={c[0]} className="border-t border-outline-variant/20">
+                        <td className="px-3 py-2 font-mono text-on-surface">{c[0]}</td>
+                        <td className="px-3 py-2 text-on-surface-variant">{c[1]}</td>
+                        <td className="px-3 py-2 text-on-surface-variant" style={{ fontSize: 12 }}>{c[2]}</td>
+                        <td className="px-3 py-2">{c[3] !== '—' ? <Badge tone="primary" className="!text-[10px]">{c[3]}</Badge> : <span className="text-on-surface-variant">—</span>}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <ArtifactHeader icon="sync_alt" title="Data Flows" frame={frame} at={120} />
+              <div className="space-y-1.5" style={fadeUp(frame, 124, 10, 12)}>
+                {FLOWS.map((f) => <div key={f} className="font-mono bg-surface-container-low border border-outline-variant/30 rounded px-3 py-2 text-on-surface" style={{ fontSize: 13 }}>{f}</div>)}
+              </div>
+
+              <ArtifactHeader icon="rule" title="Key Decisions (ADRs)" frame={frame} at={145} />
+              <div className="space-y-1.5" style={fadeUp(frame, 149, 10, 12)}>
+                {DECISIONS.map((d) => <div key={d} className="flex items-start gap-2 text-on-surface" style={{ fontSize: 14 }}><Icon name="arrow_right" className="text-primary !text-base shrink-0" />{d}</div>)}
+              </div>
+
+              <ArtifactHeader icon="gpp_maybe" title="Operational Risks" frame={frame} at={170} />
+              <div className="space-y-1.5" style={fadeUp(frame, 174, 10, 12)}>
+                {RISKS.map((r) => <div key={r} className="flex items-start gap-2 text-on-surface-variant" style={{ fontSize: 14 }}><Icon name="priority_high" className="text-error !text-base shrink-0" />{r}</div>)}
+              </div>
+
+              <ArtifactHeader icon="help" title="Open Questions for Humans" frame={frame} at={195} />
+              <div className="space-y-1.5" style={{ paddingBottom: 60, ...fadeUp(frame, 199, 10, 12) }}>
+                {QUESTIONS.map((q) => <div key={q} className="flex items-start gap-2 text-on-surface-variant" style={{ fontSize: 14 }}><Icon name="help" className="text-primary !text-base shrink-0" />{q}</div>)}
+              </div>
             </div>
+            {/* top fade so scrolled content doesn't hard-cut at the chrome */}
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 24, background: 'linear-gradient(#f8f9fa, transparent)' }} />
           </div>
-        </AppWindow>
-      </div>
+        </div>
+      </AppWindow>
     </AbsoluteFill>
   );
 };
 
-/* ---------------- Shot 5: marketing interstitial ---------------- */
-const InterstitialShot: React.FC = () => {
+/* ---------------- Shot 6: chat — a normal query (headline + window) ---------------- */
+const CHAT_Q = "What's my server health — is any service down?";
+const CHAT_A = '⚠️ Heads up — cartservice is degraded: eu-west-1 is failing its readiness probe (Redis connection refused). Your other services are healthy. Want me to run a full root-cause investigation? 🔍';
+
+const ChatShot: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const winY = interpolate(frame, [16, 44], [150, 0], OUT);
+  const winO = interpolate(frame, [16, 42], [0, 1], OUT);
+  const zoom = interpolate(frame, [94, 132, 168, 198], [1, 1.22, 1.22, 1], OUT); // zoom into the loader, back out for the answer
+  const sendClick = 78;
+  const toolStart = 98;
+  const toolDone = frame >= toolStart + 30;
+  const replyStart = 150;
+  const spin = interpolate(frame, [toolStart, toolStart + 30], [0, 720]);
   return (
-    <AbsoluteFill className="items-center justify-center">
-      <div className="flex flex-col items-center text-center">
-        <div style={popIn(frame, fps, 6)}>
-          <div style={{ width: 96, height: 96, borderRadius: 24, background: '#005ac2', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 20px 60px rgba(0,90,194,0.5)' }}>
-            <Icon name="hub" style={{ fontSize: 56, color: '#fff', fontVariationSettings: "'FILL' 1" }} />
-          </div>
-        </div>
-        <div style={{ ...fadeUp(frame, 18, 14), fontSize: 60, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em', marginTop: 30 }}>
-          Initialize once.
-        </div>
-        <div style={{ ...fadeUp(frame, 42, 16), fontSize: 34, color: 'rgba(255,255,255,0.85)', fontFamily: "'Inter', sans-serif", marginTop: 10, maxWidth: 1040 }}>
+    <AbsoluteFill>
+      <div style={{ position: 'absolute', top: 64, left: 0, right: 0, textAlign: 'center' }}>
+        <div style={{ ...fadeUp(frame, 4, 14), fontSize: 56, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em' }}>Initialize once.</div>
+        <div style={{ ...fadeUp(frame, 16, 14), fontSize: 28, color: 'rgba(255,255,255,0.82)', fontFamily: "'Inter', sans-serif", marginTop: 8 }}>
           Now <span style={{ color: '#7fb0ff', fontWeight: 600 }}>Mindy</span> is ready to manage your DevOps.
+        </div>
+      </div>
+      <div style={{ position: 'absolute', top: 252, left: '50%', transform: 'translateX(-50%)' }}>
+        <div style={{ transform: `translateY(${winY}px) scale(${zoom})`, transformOrigin: '32% 60%', opacity: winO }}>
+          <AppWindow width={1500} height={764}>
+            <div style={{ position: 'relative', width: 1500, height: 712, padding: '30px 44px' }}>
+              {/* user message */}
+              <div className="flex justify-end">
+                <div className="bg-primary text-on-primary rounded-2xl rounded-br-sm px-4 py-2.5" style={{ fontSize: 18, maxWidth: '66%' }}>
+                  {typed(CHAT_Q, frame, 42, fps, 42)}
+                </div>
+              </div>
+              {/* Mindy response */}
+              {frame >= 82 && (
+                <div className="mt-6">
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <div className="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center"><Icon name="hub" className="!text-sm" /></div>
+                    <span className="font-mono uppercase text-on-surface-variant" style={{ fontSize: 12 }}>Mindy</span>
+                  </div>
+                  <div className="pl-9 space-y-2.5">
+                    <div className="flex items-center gap-2 text-on-surface-variant" style={{ fontSize: 13, ...fadeUp(frame, 84, 8) }}><Icon name="neurology" className="!text-sm text-primary" /> pulled memory · 5 core · 4 learned · 6 recalled</div>
+                    <div className="flex items-center gap-2 text-on-surface-variant" style={{ fontSize: 13, ...fadeUp(frame, 90, 8) }}><Icon name="monitor_heart" className="!text-sm text-primary" /> routed to <Badge tone="primary" className="!text-[10px]">status</Badge></div>
+                    {frame >= toolStart && (
+                      <div className="flex items-center gap-2" style={{ fontSize: 15, ...fadeUp(frame, toolStart, 8) }}>
+                        {toolDone
+                          ? <Icon name="check_circle" className="text-tertiary !text-lg" style={{ fontVariationSettings: "'FILL' 1" }} />
+                          : <Icon name="progress_activity" className="text-primary !text-lg" style={{ transform: `rotate(${spin}deg)` }} />}
+                        <span className="font-mono text-on-surface">service status · all services</span>
+                        {toolDone && <span className="text-error" style={{ fontSize: 13 }}>— cartservice degraded</span>}
+                      </div>
+                    )}
+                    {frame >= replyStart && (
+                      <div className="text-on-surface whitespace-pre-wrap" style={{ fontSize: 18, maxWidth: '90%', lineHeight: 1.5 }}>{typed(CHAT_A, frame, replyStart, fps, 50)}</div>
+                    )}
+                  </div>
+                </div>
+              )}
+              {/* composer */}
+              <div style={{ position: 'absolute', left: 44, right: 44, bottom: 26 }} className="flex gap-2 items-center">
+                <div className="flex-1 bg-surface border border-outline-variant/40 rounded-xl px-4 py-3 text-on-surface-variant" style={{ fontSize: 15 }}>Ask Mindy anything…</div>
+                <Button className="!px-5 !py-3"><Icon name="send" className="!text-sm" /> Send</Button>
+              </div>
+              <Cursor path={[{ f: 0, x: 1250, y: 360 }, { f: 64, x: 1392, y: 664 }, { f: sendClick, x: 1392, y: 664 }, { f: 260, x: 1392, y: 664 }]} clicks={[sendClick]} />
+            </div>
+          </AppWindow>
         </div>
       </div>
     </AbsoluteFill>
@@ -299,12 +429,12 @@ export const LandingToOnboarding: React.FC = () => {
           <OnboardingShot />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
-        <TransitionSeries.Sequence durationInFrames={170}>
+        <TransitionSeries.Sequence durationInFrames={330}>
           <ContextRepoShot />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
-        <TransitionSeries.Sequence durationInFrames={90}>
-          <InterstitialShot />
+        <TransitionSeries.Sequence durationInFrames={260}>
+          <ChatShot />
         </TransitionSeries.Sequence>
       </TransitionSeries>
     </AbsoluteFill>
