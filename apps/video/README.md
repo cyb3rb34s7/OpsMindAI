@@ -15,6 +15,5 @@ The single composition is `src/scenes/LandingToOnboarding.tsx`, assembled with
 (`public/material-symbols.woff2`) so icon rendering is deterministic.
 
 ## Music credit
-Background track: **"Inspired"** by **Kevin MacLeod** (incompetech.com)
-Licensed under **Creative Commons: By Attribution 4.0** — https://creativecommons.org/licenses/by/4.0/
-Source: https://incompetech.com/music/royalty-free/
+Background track: **"Music Promotion (No Copyright)"** by **miromaxmusic**, via Pixabay.
+Pixabay Content License (royalty-free, no attribution required) — https://pixabay.com/service/license-summary/
