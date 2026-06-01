@@ -5,6 +5,7 @@ import { Icon, Badge, Button, Card } from '../ui';
 import { Stage } from '../lib/Stage';
 import { AppWindow } from '../lib/AppWindow';
 import { Cursor } from '../lib/Cursor';
+import { Diagram } from '../lib/Diagram';
 import { fadeUp, popIn, typed, fade } from '../anim';
 
 const OUT = { extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const, easing: Easing.bezier(0.16, 1, 0.3, 1) };
@@ -198,6 +199,87 @@ const OnboardingShot: React.FC = () => {
   );
 };
 
+/* ---------------- Shot 4: context repo + system map ---------------- */
+const REPO_FILES: [string, string][] = [
+  ['menu_book', 'README.md'],
+  ['lan', 'service_map.md'],
+  ['memory', 'tech_stack.md'],
+  ['sync_alt', 'data_flows.md'],
+  ['rule', 'decision_records.md'],
+  ['gpp_maybe', 'risks.md'],
+  ['help', 'open_questions.md'],
+];
+
+const ContextRepoShot: React.FC = () => {
+  const frame = useCurrentFrame();
+  const zoom = interpolate(frame, [24, 165], [1, 1.06], OUT);
+  return (
+    <AbsoluteFill className="items-center justify-center">
+      <div style={{ transform: `scale(${zoom})`, transformOrigin: '52% 58%' }}>
+        <AppWindow>
+          <div style={{ position: 'relative', width: CW, height: CH, display: 'flex' }}>
+            {/* sidebar */}
+            <div style={{ width: 300, borderRight: '1px solid rgba(0,0,0,0.07)', background: '#fbfbfd', padding: '22px 16px' }}>
+              <div className="font-mono uppercase tracking-wide text-on-surface-variant flex items-center gap-2" style={{ fontSize: 12, marginBottom: 16 }}>
+                <Icon name="menu_book" className="!text-sm text-primary" /> Context Repo
+              </div>
+              {REPO_FILES.map(([ic, name], i) => {
+                const active = name === 'service_map.md';
+                return (
+                  <div key={name} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5" style={{ ...fadeUp(frame, 8 + i * 4, 10, 8), background: active ? 'rgba(0,90,194,0.10)' : 'transparent', marginBottom: 2 }}>
+                    <Icon name={ic} style={{ fontSize: 18, color: active ? '#005ac2' : '#79747e' }} />
+                    <span className="font-mono" style={{ fontSize: 14, color: active ? '#005ac2' : '#49454f', fontWeight: active ? 600 : 400 }}>{name}</span>
+                  </div>
+                );
+              })}
+              <div className="mt-4" style={fadeUp(frame, 40, 12)}>
+                <Badge tone="success" className="!text-[10px]"><Icon name="commit" className="!text-xs" /> 9 files on GitHub</Badge>
+              </div>
+            </div>
+            {/* main */}
+            <div style={{ flex: 1, padding: '26px 40px' }}>
+              <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
+                <div className="font-heading text-on-surface" style={{ fontSize: 26, ...fadeUp(frame, 6, 12) }}>Service Map</div>
+                <div style={fadeUp(frame, 10, 12)}><Badge tone="primary" className="!text-xs">Online Boutique · 11 microservices · gRPC</Badge></div>
+              </div>
+              <p className="text-on-surface-variant" style={{ fontSize: 15, maxWidth: 780, ...fadeUp(frame, 14, 12) }}>
+                The system, mapped automatically — services, dependencies, and the stores that matter.{' '}
+                <span className="text-error font-medium">redis-cart</span> is flagged as the checkout single-point-of-failure.
+              </p>
+              <div style={{ marginTop: 16, transform: 'scale(0.96)', transformOrigin: 'top left' }}>
+                <Diagram />
+              </div>
+            </div>
+          </div>
+        </AppWindow>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+/* ---------------- Shot 5: marketing interstitial ---------------- */
+const InterstitialShot: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  return (
+    <AbsoluteFill className="items-center justify-center">
+      <div className="flex flex-col items-center text-center">
+        <div style={popIn(frame, fps, 6)}>
+          <div style={{ width: 96, height: 96, borderRadius: 24, background: '#005ac2', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 20px 60px rgba(0,90,194,0.5)' }}>
+            <Icon name="hub" style={{ fontSize: 56, color: '#fff', fontVariationSettings: "'FILL' 1" }} />
+          </div>
+        </div>
+        <div style={{ ...fadeUp(frame, 18, 14), fontSize: 60, fontWeight: 700, color: '#fff', fontFamily: "'Geist', sans-serif", letterSpacing: '-0.03em', marginTop: 30 }}>
+          Initialize once.
+        </div>
+        <div style={{ ...fadeUp(frame, 42, 16), fontSize: 34, color: 'rgba(255,255,255,0.85)', fontFamily: "'Inter', sans-serif", marginTop: 10, maxWidth: 1040 }}>
+          Now <span style={{ color: '#7fb0ff', fontWeight: 600 }}>Mindy</span> is ready to manage your DevOps.
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 /* ---------------- assembled cinematic composition ---------------- */
 export const LandingToOnboarding: React.FC = () => {
   const slideIn = springTiming({ config: { damping: 200 }, durationInFrames: 22 });
@@ -215,6 +297,14 @@ export const LandingToOnboarding: React.FC = () => {
         <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
         <TransitionSeries.Sequence durationInFrames={250}>
           <OnboardingShot />
+        </TransitionSeries.Sequence>
+        <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
+        <TransitionSeries.Sequence durationInFrames={170}>
+          <ContextRepoShot />
+        </TransitionSeries.Sequence>
+        <TransitionSeries.Transition presentation={slide({ direction: 'from-right' })} timing={slideIn} />
+        <TransitionSeries.Sequence durationInFrames={90}>
+          <InterstitialShot />
         </TransitionSeries.Sequence>
       </TransitionSeries>
     </AbsoluteFill>

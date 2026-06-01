@@ -13,7 +13,7 @@ export const AppWindow: React.FC<{
   height?: number;
   style?: CSSProperties;
   children?: ReactNode;
-}> = ({ url = 'opsmindai-demo-production.up.railway.app', width = 1560, height = 920, style, children }) => {
+}> = ({ url = 'opsmind-ai.rajakumarsingh.com', width = 1560, height = 920, style, children }) => {
   return (
     <div
       style={{
