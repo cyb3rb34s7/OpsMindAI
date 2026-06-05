@@ -1,0 +1,13 @@
+{
+  "rest": {
+    "total": 19,
+    "by_method": {
+      "GET": 11,
+      "POST": 8
+    }
+  },
+  "grpc": 0,
+  "websocket": 0,
+  "producers": 0,
+  "consumers": 0
+}

@@ -1,0 +1,637 @@
+{
+  "count": 158,
+  "rows": [
+    {
+      "callee": "_content_with_schema",
+      "caller": "bedrock_generate"
+    },
+    {
+      "callee": "parse_structured_output",
+      "caller": "bedrock_generate"
+    },
+    {
+      "callee": "schema_to_prompt",
+      "caller": "_content_with_schema"
+    },
+    {
+      "callee": "_content_with_schema",
+      "caller": "anthropic_generate"
+    },
+    {
+      "callee": "parse_structured_output",
+      "caller": "anthropic_generate"
+    },
+    {
+      "callee": "error_response",
+      "caller": "opsmind_exception_handler"
+    },
+    {
+      "callee": "_content_with_schema",
+      "caller": "ollama_generate"
+    },
+    {
+      "callee": "parse_structured_output",
+      "caller": "ollama_generate"
+    },
+    {
+      "callee": "_content_with_schema",
+      "caller": "openai_compatible_generate"
+    },
+    {
+      "callee": "_post_with_retry",
+      "caller": "openai_compatible_generate"
+    },
+    {
+      "callee": "parse_structured_output",
+      "caller": "openai_compatible_generate"
+    },
+    {
+      "callee": "_usage_tokens",
+      "caller": "openai_compatible_generate"
+    },
+    {
+      "callee": "strip_code_fences",
+      "caller": "parse_structured_output"
+    },
+    {
+      "callee": "get_trace_id",
+      "caller": "error_response"
+    },
+    {
+      "callee": "get_trace_id",
+      "caller": "success_response"
+    },
+    {
+      "callee": "_signal_score",
+      "caller": "_select_high_signal"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
+    },
+    {
+      "callee": "_signature",
+      "caller": "extract_skill"
+    },
+    {
+      "callee": "get_customer_report",
+      "caller": "_system_context"
+    },
+    {
+      "callee": "success_response",
+      "caller": "health"
+    },
+    {
+      "callee": "init_db",
+      "caller": "startup_event"
+    },
+    {
+      "callee": "register_default_tools",
+      "caller": "startup_event"
+    },
+    {
+      "callee": "generate_trace_id",
+      "caller": "trace_middleware"
+    },
+    {
+      "callee": "set_trace_id",
+      "caller": "trace_middleware"
+    },
+    {
+      "callee": "generate_trace_id",
+      "caller": "agent_execute"
+    },
+    {
+      "callee": "execute_agent",
+      "caller": "agent_execute"
+    },
+    {
+      "callee": "success_response",
+      "caller": "agent_execute"
+    },
+    {
+      "callee": "stream_agent_sse",
+      "caller": "release_stream"
+    },
+    {
+      "callee": "create_run",
+      "caller": "execute_agent"
+    },
+    {
+      "callee": "update_run",
+      "caller": "execute_agent"
+    },
+    {
+      "callee": "update_run",
+      "caller": "execute_agent"
+    },
+    {
+      "callee": "update_run",
+      "caller": "execute_agent"
+    },
+    {
+      "callee": "update_run",
+      "caller": "execute_agent"
+    },
+    {
+      "callee": "generate_trace_id",
+      "caller": "stream_agent_sse"
+    },
+    {
+      "callee": "generate_trace_id",
+      "caller": "stream_agent_sse"
+    },
+    {
+      "callee": "_sse",
+      "caller": "stream_agent_sse"
+    },
+    {
+      "callee": "is_busy",
+      "caller": "chat"
+    },
+    {
+      "callee": "_sse",
+      "caller": "chat"
+    },
+    {
+      "callee": "lock_for",
+      "caller": "chat"
+    },
+    {
+      "callee": "register_task",
+      "caller": "chat"
+    },
+    {
+      "callee": "run_turn",
+      "caller": "chat"
+    },
+    {
+      "callee": "clear_task",
+      "caller": "chat"
+    },
+    {
+      "callee": "_sse",
+      "caller": "chat"
+    },
+    {
+      "callee": "success_response",
+      "caller": "chat_facts"
+    },
+    {
+      "callee": "success_response",
+      "caller": "chat_history"
+    },
+    {
+      "callee": "stop",
+      "caller": "chat_stop"
+    },
+    {
+      "callee": "success_response",
+      "caller": "chat_stop"
+    },
+    {
+      "callee": "_key",
+      "caller": "clear_task"
+    },
+    {
+      "callee": "_key",
+      "caller": "is_busy"
+    },
+    {
+      "callee": "_key",
+      "caller": "lock_for"
+    },
+    {
+      "callee": "_key",
+      "caller": "register_task"
+    },
+    {
+      "callee": "_key",
+      "caller": "stop"
+    },
+    {
+      "callee": "_unwrap_reply",
+      "caller": "_converse"
+    },
+    {
+      "callee": "_ops_context",
+      "caller": "_handle_ops"
+    },
+    {
+      "callee": "_ops_mode",
+      "caller": "_handle_ops"
+    },
+    {
+      "callee": "_ops_synth",
+      "caller": "_handle_ops"
+    },
+    {
+      "callee": "get_customer_report",
+      "caller": "_ops_context"
+    },
+    {
+      "callee": "_unwrap_reply",
+      "caller": "_ops_synth"
+    },
+    {
+      "callee": "_fast_route",
+      "caller": "_route"
+    },
+    {
+      "callee": "generate_trace_id",
+      "caller": "_run_agent"
+    },
+    {
+      "callee": "generate_trace_id",
+      "caller": "_run_agent"
+    },
+    {
+      "callee": "_route",
+      "caller": "run_turn"
+    },
+    {
+      "callee": "_handle_ops",
+      "caller": "run_turn"
+    },
+    {
+      "callee": "_ops_context",
+      "caller": "run_turn"
+    },
+    {
+      "callee": "_run_agent",
+      "caller": "run_turn"
+    },
+    {
+      "callee": "_run_agent",
+      "caller": "run_turn"
+    },
+    {
+      "callee": "_run_agent",
+      "caller": "run_turn"
+    },
+    {
+      "callee": "_converse",
+      "caller": "run_turn"
+    },
+    {
+      "callee": "_reflect",
+      "caller": "run_turn"
+    },
+    {
+      "callee": "success_response",
+      "caller": "get_context"
+    },
+    {
+      "callee": "success_response",
+      "caller": "get_context"
+    },
+    {
+      "callee": "init_db",
+      "caller": "get_cached"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "get_cached"
+    },
+    {
+      "callee": "init_db",
+      "caller": "get_customer_report"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "get_customer_report"
+    },
+    {
+      "callee": "init_db",
+      "caller": "get_repo_report"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "get_repo_report"
+    },
+    {
+      "callee": "init_db",
+      "caller": "put_cached"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "put_cached"
+    },
+    {
+      "callee": "generate_trace_id",
+      "caller": "orchestrator_run"
+    },
+    {
+      "callee": "run_orchestrator",
+      "caller": "orchestrator_run"
+    },
+    {
+      "callee": "success_response",
+      "caller": "orchestrator_run"
+    },
+    {
+      "callee": "execute_agent",
+      "caller": "run_orchestrator"
+    },
+    {
+      "callee": "ensure_ready",
+      "caller": "create_run"
+    },
+    {
+      "callee": "_now",
+      "caller": "create_run"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "create_run"
+    },
+    {
+      "callee": "get_run",
+      "caller": "create_run"
+    },
+    {
+      "callee": "init_db",
+      "caller": "ensure_ready"
+    },
+    {
+      "callee": "ensure_ready",
+      "caller": "find_runs_by_trace_id"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "find_runs_by_trace_id"
+    },
+    {
+      "callee": "_row_to_record",
+      "caller": "find_runs_by_trace_id"
+    },
+    {
+      "callee": "ensure_ready",
+      "caller": "get_run"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "get_run"
+    },
+    {
+      "callee": "_row_to_record",
+      "caller": "get_run"
+    },
+    {
+      "callee": "ensure_ready",
+      "caller": "list_runs"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "list_runs"
+    },
+    {
+      "callee": "_row_to_record",
+      "caller": "list_runs"
+    },
+    {
+      "callee": "ensure_ready",
+      "caller": "update_run"
+    },
+    {
+      "callee": "_now",
+      "caller": "update_run"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "update_run"
+    },
+    {
+      "callee": "get_run",
+      "caller": "update_run"
+    },
+    {
+      "callee": "success_response",
+      "caller": "run_detail"
+    },
+    {
+      "callee": "get_run",
+      "caller": "run_detail"
+    },
+    {
+      "callee": "success_response",
+      "caller": "runs"
+    },
+    {
+      "callee": "list_runs",
+      "caller": "runs"
+    },
+    {
+      "callee": "success_response",
+      "caller": "trace_detail"
+    },
+    {
+      "callee": "find_runs_by_trace_id",
+      "caller": "trace_detail"
+    },
+    {
+      "callee": "_tokens",
+      "caller": "find_relevant_skills"
+    },
+    {
+      "callee": "list_skills",
+      "caller": "find_relevant_skills"
+    },
+    {
+      "callee": "_tokens",
+      "caller": "find_relevant_skills"
+    },
+    {
+      "callee": "init_db",
+      "caller": "list_skills"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "list_skills"
+    },
+    {
+      "callee": "_row_to_skill",
+      "caller": "list_skills"
+    },
+    {
+      "callee": "_row_to_skill",
+      "caller": "save_skill"
+    },
+    {
+      "callee": "init_db",
+      "caller": "save_skill"
+    },
+    {
+      "callee": "_now",
+      "caller": "save_skill"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "save_skill"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "save_skill"
+    },
+    {
+      "callee": "success_response",
+      "caller": "get_skills"
+    },
+    {
+      "callee": "list_skills",
+      "caller": "get_skills"
+    },
+    {
+      "callee": "init_db",
+      "caller": "_forget"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "_forget"
+    },
+    {
+      "callee": "init_db",
+      "caller": "_persist"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "_persist"
+    },
+    {
+      "callee": "_now",
+      "caller": "_persist"
+    },
+    {
+      "callee": "_call",
+      "caller": "connect"
+    },
+    {
+      "callee": "_stop",
+      "caller": "connect"
+    },
+    {
+      "callee": "_persist",
+      "caller": "connect"
+    },
+    {
+      "callee": "_start_task",
+      "caller": "connect"
+    },
+    {
+      "callee": "_stop",
+      "caller": "disconnect"
+    },
+    {
+      "callee": "_forget",
+      "caller": "disconnect"
+    },
+    {
+      "callee": "init_db",
+      "caller": "resume_all"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "resume_all"
+    },
+    {
+      "callee": "_start_task",
+      "caller": "resume_all"
+    },
+    {
+      "callee": "init_db",
+      "caller": "status"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "status"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_connect"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_disconnect"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_session_history"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_sessions"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_status"
+    },
+    {
+      "callee": "generate_trace_id",
+      "caller": "telegram_webhook"
+    },
+    {
+      "callee": "process_telegram_message",
+      "caller": "telegram_webhook"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_webhook"
+    },
+    {
+      "callee": "run_orchestrator",
+      "caller": "process_telegram_message"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "init_db"
+    }
+  ]
+}

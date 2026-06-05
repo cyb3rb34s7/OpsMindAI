@@ -1,0 +1,5 @@
+{
+  "sqlalchemy": 50,
+  "pydantic": 26,
+  "fastapi": 19
+}

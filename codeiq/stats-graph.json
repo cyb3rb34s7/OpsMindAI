@@ -1,0 +1,11 @@
+{
+  "nodes": 769,
+  "edges": 1755,
+  "files": 94,
+  "edges_by_kind": {
+    "contains": 769,
+    "imports": 711,
+    "calls": 203,
+    "defines": 72
+  }
+}
