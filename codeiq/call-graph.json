@@ -1,166 +1,6 @@
 {
-  "count": 158,
+  "count": 173,
   "rows": [
-    {
-      "callee": "_content_with_schema",
-      "caller": "bedrock_generate"
-    },
-    {
-      "callee": "parse_structured_output",
-      "caller": "bedrock_generate"
-    },
-    {
-      "callee": "schema_to_prompt",
-      "caller": "_content_with_schema"
-    },
-    {
-      "callee": "_content_with_schema",
-      "caller": "anthropic_generate"
-    },
-    {
-      "callee": "parse_structured_output",
-      "caller": "anthropic_generate"
-    },
-    {
-      "callee": "error_response",
-      "caller": "opsmind_exception_handler"
-    },
-    {
-      "callee": "_content_with_schema",
-      "caller": "ollama_generate"
-    },
-    {
-      "callee": "parse_structured_output",
-      "caller": "ollama_generate"
-    },
-    {
-      "callee": "_content_with_schema",
-      "caller": "openai_compatible_generate"
-    },
-    {
-      "callee": "_post_with_retry",
-      "caller": "openai_compatible_generate"
-    },
-    {
-      "callee": "parse_structured_output",
-      "caller": "openai_compatible_generate"
-    },
-    {
-      "callee": "_usage_tokens",
-      "caller": "openai_compatible_generate"
-    },
-    {
-      "callee": "strip_code_fences",
-      "caller": "parse_structured_output"
-    },
-    {
-      "callee": "get_trace_id",
-      "caller": "error_response"
-    },
-    {
-      "callee": "get_trace_id",
-      "caller": "success_response"
-    },
-    {
-      "callee": "_signal_score",
-      "caller": "_select_high_signal"
-    },
-    {
-      "callee": "register_tool",
-      "caller": "register_default_tools"
-    },
-    {
-      "callee": "register_tool",
-      "caller": "register_default_tools"
-    },
-    {
-      "callee": "register_tool",
-      "caller": "register_default_tools"
-    },
-    {
-      "callee": "register_tool",
-      "caller": "register_default_tools"
-    },
-    {
-      "callee": "register_tool",
-      "caller": "register_default_tools"
-    },
-    {
-      "callee": "register_tool",
-      "caller": "register_default_tools"
-    },
-    {
-      "callee": "register_tool",
-      "caller": "register_default_tools"
-    },
-    {
-      "callee": "_bullets",
-      "caller": "_render_markdown"
-    },
-    {
-      "callee": "_bullets",
-      "caller": "_render_markdown"
-    },
-    {
-      "callee": "_bullets",
-      "caller": "_render_markdown"
-    },
-    {
-      "callee": "_bullets",
-      "caller": "_render_markdown"
-    },
-    {
-      "callee": "_bullets",
-      "caller": "_render_markdown"
-    },
-    {
-      "callee": "_bullets",
-      "caller": "_render_markdown"
-    },
-    {
-      "callee": "_signature",
-      "caller": "extract_skill"
-    },
-    {
-      "callee": "get_customer_report",
-      "caller": "_system_context"
-    },
-    {
-      "callee": "success_response",
-      "caller": "health"
-    },
-    {
-      "callee": "init_db",
-      "caller": "startup_event"
-    },
-    {
-      "callee": "register_default_tools",
-      "caller": "startup_event"
-    },
-    {
-      "callee": "generate_trace_id",
-      "caller": "trace_middleware"
-    },
-    {
-      "callee": "set_trace_id",
-      "caller": "trace_middleware"
-    },
-    {
-      "callee": "generate_trace_id",
-      "caller": "agent_execute"
-    },
-    {
-      "callee": "execute_agent",
-      "caller": "agent_execute"
-    },
-    {
-      "callee": "success_response",
-      "caller": "agent_execute"
-    },
-    {
-      "callee": "stream_agent_sse",
-      "caller": "release_stream"
-    },
     {
       "callee": "create_run",
       "caller": "execute_agent"
@@ -192,6 +32,22 @@
     {
       "callee": "_sse",
       "caller": "stream_agent_sse"
+    },
+    {
+      "callee": "stream_agent_sse",
+      "caller": "release_stream"
+    },
+    {
+      "callee": "generate_trace_id",
+      "caller": "agent_execute"
+    },
+    {
+      "callee": "execute_agent",
+      "caller": "agent_execute"
+    },
+    {
+      "callee": "success_response",
+      "caller": "agent_execute"
     },
     {
       "callee": "is_busy",
@@ -278,6 +134,206 @@
       "caller": "_ops_context"
     },
     {
+      "callee": "error_response",
+      "caller": "opsmind_exception_handler"
+    },
+    {
+      "callee": "schema_to_prompt",
+      "caller": "_content_with_schema"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "register_tool",
+      "caller": "register_default_tools"
+    },
+    {
+      "callee": "connectTelegram",
+      "caller": "connect"
+    },
+    {
+      "callee": "unwrap",
+      "caller": "runOnboarding"
+    },
+    {
+      "callee": "post",
+      "caller": "runOrchestrator"
+    },
+    {
+      "callee": "_signature",
+      "caller": "extract_skill"
+    },
+    {
+      "callee": "get_customer_report",
+      "caller": "_system_context"
+    },
+    {
+      "callee": "success_response",
+      "caller": "health"
+    },
+    {
+      "callee": "init_db",
+      "caller": "startup_event"
+    },
+    {
+      "callee": "register_default_tools",
+      "caller": "startup_event"
+    },
+    {
+      "callee": "generate_trace_id",
+      "caller": "trace_middleware"
+    },
+    {
+      "callee": "set_trace_id",
+      "caller": "trace_middleware"
+    },
+    {
+      "callee": "_call",
+      "caller": "connect"
+    },
+    {
+      "callee": "_stop",
+      "caller": "connect"
+    },
+    {
+      "callee": "_persist",
+      "caller": "connect"
+    },
+    {
+      "callee": "_start_task",
+      "caller": "connect"
+    },
+    {
+      "callee": "_stop",
+      "caller": "disconnect"
+    },
+    {
+      "callee": "_forget",
+      "caller": "disconnect"
+    },
+    {
+      "callee": "init_db",
+      "caller": "resume_all"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "resume_all"
+    },
+    {
+      "callee": "_start_task",
+      "caller": "resume_all"
+    },
+    {
+      "callee": "init_db",
+      "caller": "status"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "status"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_connect"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_disconnect"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_session_history"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_sessions"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_status"
+    },
+    {
+      "callee": "generate_trace_id",
+      "caller": "telegram_webhook"
+    },
+    {
+      "callee": "process_telegram_message",
+      "caller": "telegram_webhook"
+    },
+    {
+      "callee": "success_response",
+      "caller": "telegram_webhook"
+    },
+    {
+      "callee": "run_orchestrator",
+      "caller": "process_telegram_message"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "init_db"
+    },
+    {
+      "callee": "_signal_score",
+      "caller": "_select_high_signal"
+    },
+    {
+      "callee": "runRCA",
+      "caller": "run"
+    },
+    {
+      "callee": "runOrchestrator",
+      "caller": "ask"
+    },
+    {
+      "callee": "getSkills",
+      "caller": "loadSkills"
+    },
+    {
+      "callee": "runOnboarding",
+      "caller": "run"
+    },
+    {
+      "callee": "streamRelease",
+      "caller": "run"
+    },
+    {
+      "callee": "patch",
+      "caller": "run"
+    },
+    {
+      "callee": "patch",
+      "caller": "run"
+    },
+    {
+      "callee": "patch",
+      "caller": "run"
+    },
+    {
+      "callee": "disconnectTelegram",
+      "caller": "disconnect"
+    },
+    {
       "callee": "_unwrap_reply",
       "caller": "_ops_synth"
     },
@@ -292,6 +348,18 @@
     {
       "callee": "generate_trace_id",
       "caller": "_run_agent"
+    },
+    {
+      "callee": "_run_agent",
+      "caller": "run_turn"
+    },
+    {
+      "callee": "_converse",
+      "caller": "run_turn"
+    },
+    {
+      "callee": "_reflect",
+      "caller": "run_turn"
     },
     {
       "callee": "_route",
@@ -314,24 +382,120 @@
       "caller": "run_turn"
     },
     {
-      "callee": "_run_agent",
-      "caller": "run_turn"
-    },
-    {
-      "callee": "_converse",
-      "caller": "run_turn"
-    },
-    {
-      "callee": "_reflect",
-      "caller": "run_turn"
-    },
-    {
       "callee": "success_response",
       "caller": "get_context"
     },
     {
       "callee": "success_response",
       "caller": "get_context"
+    },
+    {
+      "callee": "_tokens",
+      "caller": "find_relevant_skills"
+    },
+    {
+      "callee": "list_skills",
+      "caller": "find_relevant_skills"
+    },
+    {
+      "callee": "_tokens",
+      "caller": "find_relevant_skills"
+    },
+    {
+      "callee": "init_db",
+      "caller": "list_skills"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "list_skills"
+    },
+    {
+      "callee": "_row_to_skill",
+      "caller": "list_skills"
+    },
+    {
+      "callee": "init_db",
+      "caller": "save_skill"
+    },
+    {
+      "callee": "_now",
+      "caller": "save_skill"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "save_skill"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "save_skill"
+    },
+    {
+      "callee": "_row_to_skill",
+      "caller": "save_skill"
+    },
+    {
+      "callee": "success_response",
+      "caller": "get_skills"
+    },
+    {
+      "callee": "list_skills",
+      "caller": "get_skills"
+    },
+    {
+      "callee": "init_db",
+      "caller": "_forget"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "_forget"
+    },
+    {
+      "callee": "init_db",
+      "caller": "_persist"
+    },
+    {
+      "callee": "get_connection",
+      "caller": "_persist"
+    },
+    {
+      "callee": "_now",
+      "caller": "_persist"
+    },
+    {
+      "callee": "unwrap",
+      "caller": "runRCA"
+    },
+    {
+      "callee": "unwrap",
+      "caller": "runRelease"
+    },
+    {
+      "callee": "consumeSSE",
+      "caller": "streamRelease"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
+    },
+    {
+      "callee": "_bullets",
+      "caller": "_render_markdown"
     },
     {
       "callee": "init_db",
@@ -478,160 +642,56 @@
       "caller": "trace_detail"
     },
     {
-      "callee": "_tokens",
-      "caller": "find_relevant_skills"
+      "callee": "_content_with_schema",
+      "caller": "anthropic_generate"
     },
     {
-      "callee": "list_skills",
-      "caller": "find_relevant_skills"
+      "callee": "parse_structured_output",
+      "caller": "anthropic_generate"
     },
     {
-      "callee": "_tokens",
-      "caller": "find_relevant_skills"
+      "callee": "_content_with_schema",
+      "caller": "bedrock_generate"
     },
     {
-      "callee": "init_db",
-      "caller": "list_skills"
+      "callee": "parse_structured_output",
+      "caller": "bedrock_generate"
     },
     {
-      "callee": "get_connection",
-      "caller": "list_skills"
+      "callee": "_content_with_schema",
+      "caller": "ollama_generate"
     },
     {
-      "callee": "_row_to_skill",
-      "caller": "list_skills"
+      "callee": "parse_structured_output",
+      "caller": "ollama_generate"
     },
     {
-      "callee": "_row_to_skill",
-      "caller": "save_skill"
+      "callee": "_content_with_schema",
+      "caller": "openai_compatible_generate"
     },
     {
-      "callee": "init_db",
-      "caller": "save_skill"
+      "callee": "_post_with_retry",
+      "caller": "openai_compatible_generate"
     },
     {
-      "callee": "_now",
-      "caller": "save_skill"
+      "callee": "parse_structured_output",
+      "caller": "openai_compatible_generate"
     },
     {
-      "callee": "get_connection",
-      "caller": "save_skill"
+      "callee": "_usage_tokens",
+      "caller": "openai_compatible_generate"
     },
     {
-      "callee": "get_connection",
-      "caller": "save_skill"
+      "callee": "strip_code_fences",
+      "caller": "parse_structured_output"
     },
     {
-      "callee": "success_response",
-      "caller": "get_skills"
+      "callee": "get_trace_id",
+      "caller": "error_response"
     },
     {
-      "callee": "list_skills",
-      "caller": "get_skills"
-    },
-    {
-      "callee": "init_db",
-      "caller": "_forget"
-    },
-    {
-      "callee": "get_connection",
-      "caller": "_forget"
-    },
-    {
-      "callee": "init_db",
-      "caller": "_persist"
-    },
-    {
-      "callee": "get_connection",
-      "caller": "_persist"
-    },
-    {
-      "callee": "_now",
-      "caller": "_persist"
-    },
-    {
-      "callee": "_call",
-      "caller": "connect"
-    },
-    {
-      "callee": "_stop",
-      "caller": "connect"
-    },
-    {
-      "callee": "_persist",
-      "caller": "connect"
-    },
-    {
-      "callee": "_start_task",
-      "caller": "connect"
-    },
-    {
-      "callee": "_stop",
-      "caller": "disconnect"
-    },
-    {
-      "callee": "_forget",
-      "caller": "disconnect"
-    },
-    {
-      "callee": "init_db",
-      "caller": "resume_all"
-    },
-    {
-      "callee": "get_connection",
-      "caller": "resume_all"
-    },
-    {
-      "callee": "_start_task",
-      "caller": "resume_all"
-    },
-    {
-      "callee": "init_db",
-      "caller": "status"
-    },
-    {
-      "callee": "get_connection",
-      "caller": "status"
-    },
-    {
-      "callee": "success_response",
-      "caller": "telegram_connect"
-    },
-    {
-      "callee": "success_response",
-      "caller": "telegram_disconnect"
-    },
-    {
-      "callee": "success_response",
-      "caller": "telegram_session_history"
-    },
-    {
-      "callee": "success_response",
-      "caller": "telegram_sessions"
-    },
-    {
-      "callee": "success_response",
-      "caller": "telegram_status"
-    },
-    {
-      "callee": "generate_trace_id",
-      "caller": "telegram_webhook"
-    },
-    {
-      "callee": "process_telegram_message",
-      "caller": "telegram_webhook"
-    },
-    {
-      "callee": "success_response",
-      "caller": "telegram_webhook"
-    },
-    {
-      "callee": "run_orchestrator",
-      "caller": "process_telegram_message"
-    },
-    {
-      "callee": "get_connection",
-      "caller": "init_db"
+      "callee": "get_trace_id",
+      "caller": "success_response"
     }
   ]
 }

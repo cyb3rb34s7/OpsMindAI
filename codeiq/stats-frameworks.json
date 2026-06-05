@@ -1,5 +1,7 @@
 {
   "sqlalchemy": 50,
   "pydantic": 26,
-  "fastapi": 19
+  "fastapi": 19,
+  "react": 18,
+  "remix": 12
 }

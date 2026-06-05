@@ -1,0 +1,2507 @@
+{
+  "count": 500,
+  "max_results": 500,
+  "rows": [
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/base/agent.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/base/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/cognition/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/onboarding/agent.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/onboarding/analyzer.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/onboarding/context_repo.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/onboarding/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/orchestrator/agent.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/orchestrator/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/rca/agent.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/rca/analyzer.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/rca/report_generator.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/rca/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/rca/skill_extractor.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/release/agent.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/release/analyzer.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/release/report_generator.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/agents/release/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/main.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/models/agent_run.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/models/customer.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/models/skill.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/models/tool_run.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/modules/agents/router.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/modules/agents/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/modules/agents/service.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/modules/agents/stream.py",
+      "service": "api"
+    },
+    {
+      "kind": "guard",
+      "name": "api_key auth: if not api_key:",
+      "service": "api"
+    },
+    {
+      "kind": "guard",
+      "name": "api_key auth: api_key: str | None,",
+      "service": "api"
+    },
+    {
+      "kind": "guard",
+      "name": "api_key auth: if not api_key:",
+      "service": "api"
+    },
+    {
+      "kind": "guard",
+      "name": "header auth: \"x-api-key\": api_key,",
+      "service": "api"
+    },
+    {
+      "kind": "infra_resource",
+      "name": "api",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "api port 8000:8000",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "infra_resource",
+      "name": "redis",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "redis port 6379:6379",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "infra_resource",
+      "name": "web",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "web port 5173:5173",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "endpoint",
+      "name": "GET /api/v1/chat/facts/{customer_id}",
+      "service": "api"
+    },
+    {
+      "kind": "endpoint",
+      "name": "GET /api/v1/chat/history/{customer_id}",
+      "service": "api"
+    },
+    {
+      "kind": "endpoint",
+      "name": "GET /api/v1/context/{customer_id}",
+      "service": "api"
+    },
+    {
+      "kind": "endpoint",
+      "name": "GET /api/v1/runs",
+      "service": "api"
+    },
+    {
+      "kind": "endpoint",
+      "name": "GET /api/v1/runs/{run_id}",
+      "service": "api"
+    },
+    {
+      "kind": "endpoint",
+      "name": "GET /api/v1/skills/{customer_id}",
+      "service": "api"
+    },
+    {
+      "kind": "endpoint",
+      "name": "GET /api/v1/telegram/sessions/{customer_id}",
+      "service": "api"
+    },
+    {
+      "kind": "endpoint",
+      "name": "GET /api/v1/telegram/sessions/{customer_id}/{thread_id}",
+      "service": "api"
+    },
+    {
+      "kind": "endpoint",
+      "name": "GET /api/v1/telegram/status/{customer_id}",
+      "service": "api"
+    },
+    {
+      "kind": "endpoint",
+      "name": "GET /api/v1/traces/{trace_id}",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "Component",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "CorrelateTraceTool",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "Customer",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "DeepseekAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "ExecutionContext",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "FetchLogsTool",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "GitHubScannerTool",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "GroqAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "Incident",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "LLMRequest",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "LLMResponse",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "MonitorStartupTool",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "OllamaAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "OnboardingAgent",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "OnboardingReport",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "OpenAIAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "OpenrouterAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "OrchestratorAgent",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "OrchestratorRunRequest",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.agents.rca.skill_extractor",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.agents.release.agent",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.agents.release.report_generator",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.agents.release.schemas",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.agents.router",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.agents.schemas",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.agents.service",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.agents.stream",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.chat.router",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.chat.runtime",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.chat.schemas",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.chat.service",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.context.router",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.memory.service",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.onboarding.cache",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.orchestrator.router",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.orchestrator.schemas",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.orchestrator.service",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.runs.repository",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.runs.router",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.runs.schemas",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.skills.repository",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.skills.router",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.telegram",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.telegram.router",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.telegram.schemas",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.modules.telegram.service",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "devDependencies",
+      "service": "web"
+    },
+    {
+      "kind": "config_key",
+      "name": "name",
+      "service": "web"
+    },
+    {
+      "kind": "config_key",
+      "name": "private",
+      "service": "web"
+    },
+    {
+      "kind": "config_key",
+      "name": "scripts",
+      "service": "web"
+    },
+    {
+      "kind": "config_key",
+      "name": "type",
+      "service": "web"
+    },
+    {
+      "kind": "config_key",
+      "name": "version",
+      "service": "web"
+    },
+    {
+      "kind": "config_file",
+      "name": "apps/web/tsconfig.app.json",
+      "service": "web"
+    },
+    {
+      "kind": "config_file",
+      "name": "apps/web/tsconfig.json",
+      "service": "web"
+    },
+    {
+      "kind": "config_key",
+      "name": "files",
+      "service": "web"
+    },
+    {
+      "kind": "config_key",
+      "name": "references",
+      "service": "web"
+    },
+    {
+      "kind": "config_file",
+      "name": "apps/web/tsconfig.node.json",
+      "service": "web"
+    },
+    {
+      "kind": "config_file",
+      "name": "codeiq/call-graph.json",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "count",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "rows",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_file",
+      "name": "codeiq/endpoints.json",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_file",
+      "name": "codeiq/entities.json",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_file",
+      "name": "codeiq/full-graph.json",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "edges",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "nodes",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "stats",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_file",
+      "name": "codeiq/method-entity-edges.json",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "count",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "rows",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_file",
+      "name": "codeiq/stats-architecture.json",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "classes",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "methods",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "modules",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Iteration 1 — \"Most of this is mocked. Is the context repo actually any good?\"",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Iteration 2 — \"Wouldn't my tokens be exhausted?\" → the throttling wall",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "CHANGELOG.md",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "2026-05-28 — Convergence Fixes",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "Demo Walkthrough",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Demo Walkthrough",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Script",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "0. Landing page (15s)",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "1. Onboarding — real GitHub context repo (60s)",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "2. RCA — trace correlation + self-improving memory (60s)",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "3. Knowledge — the learned playbook (30s)",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "4. Release — the deploy gate (45s)",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Setup (once)",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "5. Chat — Mindy, the conversational DevOps agent (60s)",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "6. Telegram gateway — same agent, in your pocket (45s)",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Edge cases to show (optional, 30s)",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "One-line pitch",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Cognitive Runtime",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Runtime Safety",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Execution Flow",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "Onboarding Agent",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Onboarding Agent",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Output Artifacts",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Large Repository Strategy",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Runtime Guarantees",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Purpose",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Why This Matters",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Intelligence Model",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "Phase 1 — Core Runtime Foundation",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Phase 1 — Core Runtime Foundation",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "FastAPI Bootstrap",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Design Decisions",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Deliverables",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Objective",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Config System",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Design Decisions",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Deterministic Analysis",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Trace-Centric Correlation",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Explicit Uncertainty",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Structured Operational Reports",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Objective",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Deliverables",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Review Checklist",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Workflow",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "Phase 3.3 — Release Agent",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Phase 3.3 — Release Agent",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Design Decisions",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Operational Caution",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Mocked Infrastructure",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Explicit Deployment Blocking",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Deterministic Operational Analysis",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Deliverables",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Decisions (locked in brainstorming)",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Backend changes",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Frontend changes",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Goal",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Out of scope",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Success criteria",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "Design: Agentic Experience + 3-Tier Memory + Chat",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Design: Agentic Experience + 3-Tier Memory + Chat",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Success criteria",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Decisions (locked in brainstorming + research)",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Memory architecture",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Goal",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "method",
+      "name": "agent_execute",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "release_stream",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "AgentRunRequest",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "execute_agent",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_sse",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "stream_agent_sse",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_sse",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "chat",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "chat_facts",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "chat_history",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "chat_stop",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_key",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "clear_task",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "is_busy",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "lock_for",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "register_task",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "stop",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "ChatRequest",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "ChatStopRequest",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "_LearnedFacts",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_converse",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_fast_route",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_handle_ops",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_ops_context",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_ops_mode",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "OpsMindError.__init__",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "ProviderUnavailableError",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "ValidationError",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "opsmind_exception_handler",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "BedrockAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "BedrockAdapter.generate",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "ClaudeAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "ClaudeAdapter.generate",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "DeepseekAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "DeepseekAdapter.generate",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "GroqAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "GroqAdapter.generate",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "OllamaAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "OllamaAdapter.generate",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "OpenAIAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "OpenAIAdapter.generate",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "OpenrouterAdapter",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "OpenrouterAdapter.generate",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "LLMProviderError",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "StructuredOutputError",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_content_with_schema",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_post_with_retry",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_usage_tokens",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "GitHubScannerService",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "GitHubScannerService.scan_repository",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "GitHubScannerTool",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "GitHubScannerTool.__init__",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "GitHubScannerTool.execute",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_extract_repo_url",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "trigger_deployment",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "TriggerDeploymentTool",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "TriggerDeploymentTool.execute",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "fetch_logs",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "FetchLogsTool",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "FetchLogsTool.execute",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/ops/__init__.py",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "PodStatusTool",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "PodStatusTool.execute",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "ServiceStatusTool",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "ServiceStatusTool.execute",
+      "service": "api"
+    },
+    {
+      "kind": "class",
+      "name": "TailServiceLogsTool",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "TailServiceLogsTool.execute",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "_stable_int",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "get_tool",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "list_tools",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "register_default_tools",
+      "service": "api"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.runtime.runner",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.config",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.db",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.errors",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.adapters.bedrock_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.adapters.claude_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.adapters.deepseek_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.adapters.groq_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.adapters.ollama_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.adapters.openai_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.adapters.openrouter_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.base.exceptions",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.base.generators",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.base.helpers",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.base.models",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.base.provider",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.client",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.factory",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.llm.registry",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.logging",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.responses",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.shared.trace",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.tools.aws.tool",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.tools.base.schemas",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.tools.base.tool",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.tools.github.client",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.tools.github.schemas",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.tools.github.tool",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.tools.jenkins.tool",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.tools.logs.tool",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.tools.ops.tool",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "external",
+      "name": "opsmindai.tools.registry",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/base/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/base/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/github/client.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/github/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/github/service.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/github/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/jenkins/service.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/jenkins/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/logs/service.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/logs/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/ops/__init__.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/ops/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/registry.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/sanity/service.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/sanity/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/startup/service.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/startup/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/traces/service.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/traces/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "AgentResult",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "ExecutionContext",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "AgentMemory",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "CognitiveStep",
+      "service": "api"
+    },
+    {
+      "kind": "method",
+      "name": "relState",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "method",
+      "name": "rowY",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "class",
+      "name": "TgMsg",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "method",
+      "name": "Badge",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "method",
+      "name": "Button",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "method",
+      "name": "Card",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "method",
+      "name": "Icon",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "method",
+      "name": "App",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "goLogin",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "onAuthed",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "onExit",
+      "service": "web"
+    },
+    {
+      "kind": "class",
+      "name": "View",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "AppShell",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "go",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "isLocked",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "onboarded",
+      "service": "web"
+    },
+    {
+      "kind": "class",
+      "name": "Section",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "HeroSequencer",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "Landing",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "SectionShell",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "TopNav",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "Login",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "TelegramConnectModal",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "connect",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "connectTelegram",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "consumeSSE",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "detail",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "disconnectTelegram",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "get",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "getChatFacts",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "getChatHistory",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "getContext",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "getSkills",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "getTelegramSessionHistory",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "getTelegramSessions",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "getTelegramStatus",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "post",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "runOnboarding",
+      "service": "web"
+    },
+    {
+      "kind": "method",
+      "name": "runOrchestrator",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/video/src/lib/AppWindow.tsx",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "module",
+      "name": "apps/video/src/lib/Cursor.tsx",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "module",
+      "name": "apps/video/src/lib/Diagram.tsx",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "module",
+      "name": "apps/video/src/lib/Stage.tsx",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "module",
+      "name": "apps/video/src/scenes/LandingToOnboarding.tsx",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "module",
+      "name": "apps/video/src/ui.tsx",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/eslint.config.js",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/App.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/AppShell.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/Landing.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/Login.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/TelegramConnectModal.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/main.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/ui.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/views/ContextRepo.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/views/Home.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/views/Incident.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/views/Knowledge.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/web/src/views/Onboarding.tsx",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/adapters/deepseek_adapter.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/adapters/groq_adapter.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/adapters/ollama_adapter.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/adapters/openai_adapter.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/adapters/openrouter_adapter.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/base/generators.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/base/helpers.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/base/models.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/base/provider.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/client.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/factory.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/registry.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/llm/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/logging.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/responses.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/shared/trace.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/aws/service.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/aws/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/base/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/base/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/github/client.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/github/schemas.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/github/service.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/github/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/jenkins/service.py",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "apps/api/src/opsmindai/tools/jenkins/tool.py",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "PodStatusTool",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "RCAAgent",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "RCAReport",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "RegionResult",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "ReleaseAgent",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "ReleaseReport",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "RepositoryScanResult",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "RouteDecision",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "RunRecord",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "RunSanityChecksTool",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "ServiceStatusTool",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "Settings",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "Skill",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "TailServiceLogsTool",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "TelegramConnectRequest",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "TelegramDisconnectRequest",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "TelegramWebhookRequest",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "ToolResult",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "ToolRun",
+      "service": "api"
+    },
+    {
+      "kind": "entity",
+      "name": "TriggerDeploymentTool",
+      "service": "api"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.runtime.runner",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.config",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.db",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.errors",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.adapters.bedrock_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.adapters.claude_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.adapters.deepseek_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.adapters.groq_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.adapters.ollama_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.adapters.openai_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.adapters.openrouter_adapter",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.base.exceptions",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.base.generators",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.base.helpers",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.base.models",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.base.provider",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.client",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.factory",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.llm.registry",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.logging",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.responses",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.shared.trace",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.tools.aws.tool",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.tools.base.schemas",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.tools.base.tool",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "opsmindai.tools.github.client",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_file",
+      "name": "codeiq/stats-connections.json",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "consumers",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "grpc",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "producers",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "rest",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "websocket",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_file",
+      "name": "codeiq/stats-frameworks.json",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "fastapi",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "pydantic",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "sqlalchemy",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_file",
+      "name": "codeiq/stats-graph.json",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "edges",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "edges_by_kind",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "files",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "nodes",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_file",
+      "name": "codeiq/stats-languages.json",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "python",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "toml",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_file",
+      "name": "railway.json",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "$schema",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "build",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "deploy",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "Build Journal — OpsMindAI",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Build Journal — OpsMindAI",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Iteration 3 — Running it fully local on Ollama/Gemma",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "llm_provider=groq",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "groq_api_key=YOUR_GROQ_KEY",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "github_token=YOUR_FINEGRAINED_PAT",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "github_context_repo=owner/your-context-repo",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "2. Frontend",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "API",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "What is real vs mocked",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "OpsMindAI — launch video (Remotion)",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "config_key",
+      "name": "OpsMindAI — launch video (Remotion)",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "config_key",
+      "name": "Music credit",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "config_key",
+      "name": "Develop / render",
+      "service": "opsmindai-video"
+    },
+    {
+      "kind": "module",
+      "name": "React + TypeScript + Vite",
+      "service": "web"
+    },
+    {
+      "kind": "config_key",
+      "name": "React + TypeScript + Vite",
+      "service": "web"
+    },
+    {
+      "kind": "config_key",
+      "name": "React Compiler",
+      "service": "web"
+    },
+    {
+      "kind": "config_key",
+      "name": "Expanding the ESLint configuration",
+      "service": "web"
+    },
+    {
+      "kind": "module",
+      "name": "OpsMind — Code Intelligence Analysis",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "OpsMind — Code Intelligence Analysis",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Artifacts",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Architecture",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Runtime Guarantees",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Review Checklist",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Research-Informed Decisions",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Hermes-Inspired",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "Phase 3.1 — Onboarding Agent",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Phase 3.1 — Onboarding Agent",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Deliverables",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "GitHub Scanner",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Repository Analyzer",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Objective",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Context Artifact Generator",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Onboarding Agent",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Edge Cases",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Review Checklist",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "config_key",
+      "name": "Runtime Philosophy",
+      "service": "OpsMindAI_export"
+    },
+    {
+      "kind": "module",
+      "name": "Phase 3.2 — RCA Agent",
+      "service": "OpsMindAI_export"
+    }
+  ],
+  "truncated": true
+}

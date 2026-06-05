@@ -1,4 +1,9 @@
 {
   "python": 664,
-  "toml": 3
+  "markdown": 243,
+  "typescript": 180,
+  "json": 96,
+  "yaml": 9,
+  "toml": 3,
+  "javascript": 1
 }

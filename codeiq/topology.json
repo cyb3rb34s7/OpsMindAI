@@ -1,0 +1,45 @@
+{
+  "services": [
+    {
+      "build_tool": "docker",
+      "connections_in": 0,
+      "connections_out": 0,
+      "endpoint_count": 0,
+      "entity_count": 0,
+      "name": "OpsMindAI_export"
+    },
+    {
+      "build_tool": "docker",
+      "connections_in": 0,
+      "connections_out": 1,
+      "endpoint_count": 19,
+      "entity_count": 75,
+      "name": "api"
+    },
+    {
+      "build_tool": "npm",
+      "connections_in": 0,
+      "connections_out": 0,
+      "endpoint_count": 0,
+      "entity_count": 0,
+      "name": "opsmindai-video"
+    },
+    {
+      "build_tool": "npm",
+      "connections_in": 1,
+      "connections_out": 0,
+      "endpoint_count": 0,
+      "entity_count": 0,
+      "name": "web"
+    }
+  ],
+  "connections": [
+    {
+      "source": "api",
+      "target": "web",
+      "type": "calls"
+    }
+  ],
+  "service_count": 4,
+  "connection_count": 1
+}

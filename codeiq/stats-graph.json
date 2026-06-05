@@ -1,11 +1,12 @@
 {
-  "nodes": 769,
-  "edges": 1755,
-  "files": 94,
+  "nodes": 1342,
+  "edges": 2711,
+  "files": 174,
   "edges_by_kind": {
-    "contains": 769,
-    "imports": 711,
-    "calls": 203,
-    "defines": 72
+    "contains": 1627,
+    "imports": 793,
+    "calls": 218,
+    "defines": 72,
+    "depends_on": 1
   }
 }

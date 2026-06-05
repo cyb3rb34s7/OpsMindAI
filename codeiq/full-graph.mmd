@@ -3,21 +3,118 @@ graph LR
     classDef warning fill:#fff3cd,stroke:#ffc107,color:#856404
     classDef danger fill:#f8d7da,stroke:#dc3545,color:#721c24
 
-    auth_src_opsmindai_shared_llm_adapters_claude_adapter_py_apikey_12>"api_key auth: api_key = request.metadata.get&#40;&#34;api_key&#34;&#41; or settings.anthropic_api_ke"]
-    auth_src_opsmindai_shared_llm_adapters_claude_adapter_py_apikey_14>"api_key auth: api_key=api_key,"]
-    auth_src_opsmindai_shared_llm_adapters_deepseek_adapter_py_apikey_12>"api_key auth: api_key = request.metadata.get&#40;&#34;api_key&#34;&#41; or settings.deepseek_api_key"]
-    auth_src_opsmindai_shared_llm_adapters_deepseek_adapter_py_apikey_17>"api_key auth: api_key=api_key,"]
-    auth_src_opsmindai_shared_llm_adapters_groq_adapter_py_apikey_12>"api_key auth: api_key = request.metadata.get&#40;&#34;api_key&#34;&#41; or settings.groq_api_key"]
-    auth_src_opsmindai_shared_llm_adapters_groq_adapter_py_apikey_22>"api_key auth: api_key=api_key,"]
-    auth_src_opsmindai_shared_llm_adapters_openai_adapter_py_apikey_12>"api_key auth: api_key = request.metadata.get&#40;&#34;api_key&#34;&#41; or settings.openai_api_key"]
-    auth_src_opsmindai_shared_llm_adapters_openai_adapter_py_apikey_17>"api_key auth: api_key=api_key,"]
-    auth_src_opsmindai_shared_llm_adapters_openrouter_adapter_py_apikey_12>"api_key auth: api_key = request.metadata.get&#40;&#34;api_key&#34;&#41; or settings.openrouter_api_k"]
-    auth_src_opsmindai_shared_llm_adapters_openrouter_adapter_py_apikey_22>"api_key auth: api_key=api_key,"]
-    auth_src_opsmindai_shared_llm_base_generators_py_apikey_139>"api_key auth: api_key: str &#124; None,"]
-    auth_src_opsmindai_shared_llm_base_generators_py_apikey_143>"api_key auth: if not api_key:"]
-    auth_src_opsmindai_shared_llm_base_generators_py_apikey_74>"api_key auth: api_key: str &#124; None,"]
-    auth_src_opsmindai_shared_llm_base_generators_py_apikey_80>"api_key auth: if not api_key:"]
-    auth_src_opsmindai_shared_llm_base_generators_py_header_159>"header auth: &#34;x-api-key&#34;: api_key,"]
+    apps_api_src_opsmindai_agents_base_agent_py_file["apps/api/src/opsmindai/agents/base/agent.py"]
+    apps_api_src_opsmindai_agents_base_schemas_py_file["apps/api/src/opsmindai/agents/base/schemas.py"]
+    apps_api_src_opsmindai_agents_cognition_schemas_py_file["apps/api/src/opsmindai/agents/cognition/schemas.py"]
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file["apps/api/src/opsmindai/agents/onboarding/agent.py"]
+    apps_api_src_opsmindai_agents_onboarding_analyzer_py_file["apps/api/src/opsmindai/agents/onboarding/analyzer.py"]
+    apps_api_src_opsmindai_agents_onboarding_context_repo_py_file["apps/api/src/opsmindai/agents/onboarding/context_repo.py"]
+    apps_api_src_opsmindai_agents_onboarding_schemas_py_file["apps/api/src/opsmindai/agents/onboarding/schemas.py"]
+    apps_api_src_opsmindai_agents_orchestrator_agent_py_file["apps/api/src/opsmindai/agents/orchestrator/agent.py"]
+    apps_api_src_opsmindai_agents_orchestrator_schemas_py_file["apps/api/src/opsmindai/agents/orchestrator/schemas.py"]
+    apps_api_src_opsmindai_agents_rca_agent_py_file["apps/api/src/opsmindai/agents/rca/agent.py"]
+    apps_api_src_opsmindai_agents_rca_analyzer_py_file["apps/api/src/opsmindai/agents/rca/analyzer.py"]
+    apps_api_src_opsmindai_agents_rca_report_generator_py_file["apps/api/src/opsmindai/agents/rca/report_generator.py"]
+    apps_api_src_opsmindai_agents_rca_schemas_py_file["apps/api/src/opsmindai/agents/rca/schemas.py"]
+    apps_api_src_opsmindai_agents_rca_skill_extractor_py_file["apps/api/src/opsmindai/agents/rca/skill_extractor.py"]
+    apps_api_src_opsmindai_agents_release_agent_py_file["apps/api/src/opsmindai/agents/release/agent.py"]
+    apps_api_src_opsmindai_agents_release_analyzer_py_file["apps/api/src/opsmindai/agents/release/analyzer.py"]
+    apps_api_src_opsmindai_agents_release_report_generator_py_file["apps/api/src/opsmindai/agents/release/report_generator.py"]
+    apps_api_src_opsmindai_agents_release_schemas_py_file["apps/api/src/opsmindai/agents/release/schemas.py"]
+    apps_api_src_opsmindai_main_py_file["apps/api/src/opsmindai/main.py"]
+    apps_api_src_opsmindai_models_agent_run_py_file["apps/api/src/opsmindai/models/agent_run.py"]
+    apps_api_src_opsmindai_models_customer_py_file["apps/api/src/opsmindai/models/customer.py"]
+    apps_api_src_opsmindai_models_skill_py_file["apps/api/src/opsmindai/models/skill.py"]
+    apps_api_src_opsmindai_models_tool_run_py_file["apps/api/src/opsmindai/models/tool_run.py"]
+    apps_api_src_opsmindai_modules_agents_router_py_file["apps/api/src/opsmindai/modules/agents/router.py"]
+    apps_api_src_opsmindai_modules_agents_schemas_py_file["apps/api/src/opsmindai/modules/agents/schemas.py"]
+    apps_api_src_opsmindai_modules_agents_service_py_file["apps/api/src/opsmindai/modules/agents/service.py"]
+    apps_api_src_opsmindai_modules_agents_stream_py_file["apps/api/src/opsmindai/modules/agents/stream.py"]
+    apps_api_src_opsmindai_modules_chat_router_py_file["apps/api/src/opsmindai/modules/chat/router.py"]
+    apps_api_src_opsmindai_modules_chat_runtime_py_file["apps/api/src/opsmindai/modules/chat/runtime.py"]
+    apps_api_src_opsmindai_modules_chat_schemas_py_file["apps/api/src/opsmindai/modules/chat/schemas.py"]
+    apps_api_src_opsmindai_modules_chat_service_py_file["apps/api/src/opsmindai/modules/chat/service.py"]
+    apps_api_src_opsmindai_modules_context_router_py_file["apps/api/src/opsmindai/modules/context/router.py"]
+    apps_api_src_opsmindai_modules_incidents_schemas_py_file["apps/api/src/opsmindai/modules/incidents/schemas.py"]
+    apps_api_src_opsmindai_modules_memory_service_py_file["apps/api/src/opsmindai/modules/memory/service.py"]
+    apps_api_src_opsmindai_modules_onboarding_cache_py_file["apps/api/src/opsmindai/modules/onboarding/cache.py"]
+    apps_api_src_opsmindai_modules_orchestrator_router_py_file["apps/api/src/opsmindai/modules/orchestrator/router.py"]
+    apps_api_src_opsmindai_modules_orchestrator_schemas_py_file["apps/api/src/opsmindai/modules/orchestrator/schemas.py"]
+    apps_api_src_opsmindai_modules_orchestrator_service_py_file["apps/api/src/opsmindai/modules/orchestrator/service.py"]
+    apps_api_src_opsmindai_modules_runs_repository_py_file["apps/api/src/opsmindai/modules/runs/repository.py"]
+    apps_api_src_opsmindai_modules_runs_router_py_file["apps/api/src/opsmindai/modules/runs/router.py"]
+    apps_api_src_opsmindai_modules_runs_schemas_py_file["apps/api/src/opsmindai/modules/runs/schemas.py"]
+    apps_api_src_opsmindai_modules_runs_service_py_file["apps/api/src/opsmindai/modules/runs/service.py"]
+    apps_api_src_opsmindai_modules_skills_repository_py_file["apps/api/src/opsmindai/modules/skills/repository.py"]
+    apps_api_src_opsmindai_modules_skills_router_py_file["apps/api/src/opsmindai/modules/skills/router.py"]
+    apps_api_src_opsmindai_modules_telegram_gateway_py_file["apps/api/src/opsmindai/modules/telegram/gateway.py"]
+    apps_api_src_opsmindai_modules_telegram_router_py_file["apps/api/src/opsmindai/modules/telegram/router.py"]
+    apps_api_src_opsmindai_modules_telegram_schemas_py_file["apps/api/src/opsmindai/modules/telegram/schemas.py"]
+    apps_api_src_opsmindai_modules_telegram_service_py_file["apps/api/src/opsmindai/modules/telegram/service.py"]
+    apps_api_src_opsmindai_runtime_runner_py_file["apps/api/src/opsmindai/runtime/runner.py"]
+    apps_api_src_opsmindai_shared_config_py_file["apps/api/src/opsmindai/shared/config.py"]
+    apps_api_src_opsmindai_shared_db_py_file["apps/api/src/opsmindai/shared/db.py"]
+    apps_api_src_opsmindai_shared_errors_py_file["apps/api/src/opsmindai/shared/errors.py"]
+    apps_api_src_opsmindai_shared_llm_adapters_bedrock_adapter_py_file["apps/api/src/opsmindai/shared/llm/adapters/bedrock_adapter.py"]
+    apps_api_src_opsmindai_shared_llm_adapters_claude_adapter_py_file["apps/api/src/opsmindai/shared/llm/adapters/claude_adapter.py"]
+    apps_api_src_opsmindai_shared_llm_adapters_deepseek_adapter_py_file["apps/api/src/opsmindai/shared/llm/adapters/deepseek_adapter.py"]
+    apps_api_src_opsmindai_shared_llm_adapters_groq_adapter_py_file["apps/api/src/opsmindai/shared/llm/adapters/groq_adapter.py"]
+    apps_api_src_opsmindai_shared_llm_adapters_ollama_adapter_py_file["apps/api/src/opsmindai/shared/llm/adapters/ollama_adapter.py"]
+    apps_api_src_opsmindai_shared_llm_adapters_openai_adapter_py_file["apps/api/src/opsmindai/shared/llm/adapters/openai_adapter.py"]
+    apps_api_src_opsmindai_shared_llm_adapters_openrouter_adapter_py_file["apps/api/src/opsmindai/shared/llm/adapters/openrouter_adapter.py"]
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file["apps/api/src/opsmindai/shared/llm/base/generators.py"]
+    apps_api_src_opsmindai_shared_llm_base_helpers_py_file["apps/api/src/opsmindai/shared/llm/base/helpers.py"]
+    apps_api_src_opsmindai_shared_llm_base_models_py_file["apps/api/src/opsmindai/shared/llm/base/models.py"]
+    apps_api_src_opsmindai_shared_llm_base_provider_py_file["apps/api/src/opsmindai/shared/llm/base/provider.py"]
+    apps_api_src_opsmindai_shared_llm_client_py_file["apps/api/src/opsmindai/shared/llm/client.py"]
+    apps_api_src_opsmindai_shared_llm_factory_py_file["apps/api/src/opsmindai/shared/llm/factory.py"]
+    apps_api_src_opsmindai_shared_llm_registry_py_file["apps/api/src/opsmindai/shared/llm/registry.py"]
+    apps_api_src_opsmindai_shared_llm_schemas_py_file["apps/api/src/opsmindai/shared/llm/schemas.py"]
+    apps_api_src_opsmindai_shared_logging_py_file["apps/api/src/opsmindai/shared/logging.py"]
+    apps_api_src_opsmindai_shared_responses_py_file["apps/api/src/opsmindai/shared/responses.py"]
+    apps_api_src_opsmindai_shared_trace_py_file["apps/api/src/opsmindai/shared/trace.py"]
+    apps_api_src_opsmindai_tools_aws_service_py_file["apps/api/src/opsmindai/tools/aws/service.py"]
+    apps_api_src_opsmindai_tools_aws_tool_py_file["apps/api/src/opsmindai/tools/aws/tool.py"]
+    apps_api_src_opsmindai_tools_base_schemas_py_file["apps/api/src/opsmindai/tools/base/schemas.py"]
+    apps_api_src_opsmindai_tools_base_tool_py_file["apps/api/src/opsmindai/tools/base/tool.py"]
+    apps_api_src_opsmindai_tools_github_client_py_file["apps/api/src/opsmindai/tools/github/client.py"]
+    apps_api_src_opsmindai_tools_github_schemas_py_file["apps/api/src/opsmindai/tools/github/schemas.py"]
+    apps_api_src_opsmindai_tools_github_service_py_file["apps/api/src/opsmindai/tools/github/service.py"]
+    apps_api_src_opsmindai_tools_github_tool_py_file["apps/api/src/opsmindai/tools/github/tool.py"]
+    apps_api_src_opsmindai_tools_jenkins_service_py_file["apps/api/src/opsmindai/tools/jenkins/service.py"]
+    apps_api_src_opsmindai_tools_jenkins_tool_py_file["apps/api/src/opsmindai/tools/jenkins/tool.py"]
+    apps_api_src_opsmindai_tools_logs_service_py_file["apps/api/src/opsmindai/tools/logs/service.py"]
+    apps_api_src_opsmindai_tools_logs_tool_py_file["apps/api/src/opsmindai/tools/logs/tool.py"]
+    apps_api_src_opsmindai_tools_ops___init___py_file["apps/api/src/opsmindai/tools/ops/__init__.py"]
+    apps_api_src_opsmindai_tools_ops_tool_py_file["apps/api/src/opsmindai/tools/ops/tool.py"]
+    apps_api_src_opsmindai_tools_registry_py_file["apps/api/src/opsmindai/tools/registry.py"]
+    apps_api_src_opsmindai_tools_sanity_service_py_file["apps/api/src/opsmindai/tools/sanity/service.py"]
+    apps_api_src_opsmindai_tools_sanity_tool_py_file["apps/api/src/opsmindai/tools/sanity/tool.py"]
+    apps_api_src_opsmindai_tools_startup_service_py_file["apps/api/src/opsmindai/tools/startup/service.py"]
+    apps_api_src_opsmindai_tools_startup_tool_py_file["apps/api/src/opsmindai/tools/startup/tool.py"]
+    apps_api_src_opsmindai_tools_traces_service_py_file["apps/api/src/opsmindai/tools/traces/service.py"]
+    apps_api_src_opsmindai_tools_traces_tool_py_file["apps/api/src/opsmindai/tools/traces/tool.py"]
+    auth_apps_api_src_opsmindai_shared_llm_adapters_claude_adapter_py_apikey_12>"api_key auth: api_key = request.metadata.get&#40;&#34;api_key&#34;&#41; or settings.anthropic_api_ke"]
+    auth_apps_api_src_opsmindai_shared_llm_adapters_claude_adapter_py_apikey_14>"api_key auth: api_key=api_key,"]
+    auth_apps_api_src_opsmindai_shared_llm_adapters_deepseek_adapter_py_apikey_12>"api_key auth: api_key = request.metadata.get&#40;&#34;api_key&#34;&#41; or settings.deepseek_api_key"]
+    auth_apps_api_src_opsmindai_shared_llm_adapters_deepseek_adapter_py_apikey_17>"api_key auth: api_key=api_key,"]
+    auth_apps_api_src_opsmindai_shared_llm_adapters_groq_adapter_py_apikey_12>"api_key auth: api_key = request.metadata.get&#40;&#34;api_key&#34;&#41; or settings.groq_api_key"]
+    auth_apps_api_src_opsmindai_shared_llm_adapters_groq_adapter_py_apikey_22>"api_key auth: api_key=api_key,"]
+    auth_apps_api_src_opsmindai_shared_llm_adapters_openai_adapter_py_apikey_12>"api_key auth: api_key = request.metadata.get&#40;&#34;api_key&#34;&#41; or settings.openai_api_key"]
+    auth_apps_api_src_opsmindai_shared_llm_adapters_openai_adapter_py_apikey_17>"api_key auth: api_key=api_key,"]
+    auth_apps_api_src_opsmindai_shared_llm_adapters_openrouter_adapter_py_apikey_12>"api_key auth: api_key = request.metadata.get&#40;&#34;api_key&#34;&#41; or settings.openrouter_api_k"]
+    auth_apps_api_src_opsmindai_shared_llm_adapters_openrouter_adapter_py_apikey_22>"api_key auth: api_key=api_key,"]
+    auth_apps_api_src_opsmindai_shared_llm_base_generators_py_apikey_139>"api_key auth: api_key: str &#124; None,"]
+    auth_apps_api_src_opsmindai_shared_llm_base_generators_py_apikey_143>"api_key auth: if not api_key:"]
+    auth_apps_api_src_opsmindai_shared_llm_base_generators_py_apikey_74>"api_key auth: api_key: str &#124; None,"]
+    auth_apps_api_src_opsmindai_shared_llm_base_generators_py_apikey_80>"api_key auth: if not api_key:"]
+    auth_apps_api_src_opsmindai_shared_llm_base_generators_py_header_159>"header auth: &#34;x-api-key&#34;: api_key,"]
+    compose_docker_compose_yml_service_api["api"]
+    compose_docker_compose_yml_service_api_port_8000_8000["api port 8000:8000"]
+    compose_docker_compose_yml_service_redis["redis"]
+    compose_docker_compose_yml_service_redis_port_6379_6379["redis port 6379:6379"]
+    compose_docker_compose_yml_service_web["web"]
+    compose_docker_compose_yml_service_web_port_5173_5173["web port 5173:5173"]
     endpoint__GET__api_v1_chat_facts__customer_id_{{"GET /api/v1/chat/facts/&#123;customer_id&#125;"}}
     endpoint__GET__api_v1_chat_history__customer_id_{{"GET /api/v1/chat/history/&#123;customer_id&#125;"}}
     endpoint__GET__api_v1_context__customer_id_{{"GET /api/v1/context/&#123;customer_id&#125;"}}
@@ -189,769 +286,761 @@ graph LR
     ext_time["time"]
     ext_typing["typing"]
     ext_uuid["uuid"]
-    py_external___future__["__future__"]
-    py_external_abc["abc"]
-    py_external_asyncio["asyncio"]
-    py_external_base64["base64"]
-    py_external_boto3["boto3"]
-    py_external_contextlib["contextlib"]
-    py_external_contextvars["contextvars"]
-    py_external_datetime["datetime"]
-    py_external_fastapi["fastapi"]
-    py_external_fastapi_responses["fastapi.responses"]
-    py_external_fastapi_staticfiles["fastapi.staticfiles"]
-    py_external_hashlib["hashlib"]
-    py_external_httpx["httpx"]
-    py_external_json["json"]
-    py_external_logging["logging"]
-    py_external_math["math"]
-    py_external_opsmindai_agents_base_agent["opsmindai.agents.base.agent"]
-    py_external_opsmindai_agents_base_schemas["opsmindai.agents.base.schemas"]
-    py_external_opsmindai_agents_cognition_schemas["opsmindai.agents.cognition.schemas"]
-    py_external_opsmindai_agents_onboarding_agent["opsmindai.agents.onboarding.agent"]
-    py_external_opsmindai_agents_onboarding_analyzer["opsmindai.agents.onboarding.analyzer"]
-    py_external_opsmindai_agents_onboarding_context_repo["opsmindai.agents.onboarding.context_repo"]
-    py_external_opsmindai_agents_onboarding_schemas["opsmindai.agents.onboarding.schemas"]
-    py_external_opsmindai_agents_orchestrator_agent["opsmindai.agents.orchestrator.agent"]
-    py_external_opsmindai_agents_prompts["opsmindai.agents.prompts"]
-    py_external_opsmindai_agents_rca_agent["opsmindai.agents.rca.agent"]
-    py_external_opsmindai_agents_rca_analyzer["opsmindai.agents.rca.analyzer"]
-    py_external_opsmindai_agents_rca_report_generator["opsmindai.agents.rca.report_generator"]
-    py_external_opsmindai_agents_rca_schemas["opsmindai.agents.rca.schemas"]
-    py_external_opsmindai_agents_rca_skill_extractor["opsmindai.agents.rca.skill_extractor"]
-    py_external_opsmindai_agents_release_agent["opsmindai.agents.release.agent"]
-    py_external_opsmindai_agents_release_report_generator["opsmindai.agents.release.report_generator"]
-    py_external_opsmindai_agents_release_schemas["opsmindai.agents.release.schemas"]
-    py_external_opsmindai_modules_agents_router["opsmindai.modules.agents.router"]
-    py_external_opsmindai_modules_agents_schemas["opsmindai.modules.agents.schemas"]
-    py_external_opsmindai_modules_agents_service["opsmindai.modules.agents.service"]
-    py_external_opsmindai_modules_agents_stream["opsmindai.modules.agents.stream"]
-    py_external_opsmindai_modules_chat_router["opsmindai.modules.chat.router"]
-    py_external_opsmindai_modules_chat_runtime["opsmindai.modules.chat.runtime"]
-    py_external_opsmindai_modules_chat_schemas["opsmindai.modules.chat.schemas"]
-    py_external_opsmindai_modules_chat_service["opsmindai.modules.chat.service"]
-    py_external_opsmindai_modules_context_router["opsmindai.modules.context.router"]
-    py_external_opsmindai_modules_memory_service["opsmindai.modules.memory.service"]
-    py_external_opsmindai_modules_onboarding_cache["opsmindai.modules.onboarding.cache"]
-    py_external_opsmindai_modules_orchestrator_router["opsmindai.modules.orchestrator.router"]
-    py_external_opsmindai_modules_orchestrator_schemas["opsmindai.modules.orchestrator.schemas"]
-    py_external_opsmindai_modules_orchestrator_service["opsmindai.modules.orchestrator.service"]
-    py_external_opsmindai_modules_runs_repository["opsmindai.modules.runs.repository"]
-    py_external_opsmindai_modules_runs_router["opsmindai.modules.runs.router"]
-    py_external_opsmindai_modules_runs_schemas["opsmindai.modules.runs.schemas"]
-    py_external_opsmindai_modules_skills_repository["opsmindai.modules.skills.repository"]
-    py_external_opsmindai_modules_skills_router["opsmindai.modules.skills.router"]
-    py_external_opsmindai_modules_telegram["opsmindai.modules.telegram"]
-    py_external_opsmindai_modules_telegram_router["opsmindai.modules.telegram.router"]
-    py_external_opsmindai_modules_telegram_service["opsmindai.modules.telegram.service"]
-    py_external_opsmindai_runtime_runner["opsmindai.runtime.runner"]
-    py_external_opsmindai_shared_config["opsmindai.shared.config"]
-    py_external_opsmindai_shared_db["opsmindai.shared.db"]
-    py_external_opsmindai_shared_errors["opsmindai.shared.errors"]
-    py_external_opsmindai_shared_llm_adapters_bedrock_adapter["opsmindai.shared.llm.adapters.bedrock_adapter"]
-    py_external_opsmindai_shared_llm_adapters_claude_adapter["opsmindai.shared.llm.adapters.claude_adapter"]
-    py_external_opsmindai_shared_llm_adapters_deepseek_adapter["opsmindai.shared.llm.adapters.deepseek_adapter"]
-    py_external_opsmindai_shared_llm_adapters_groq_adapter["opsmindai.shared.llm.adapters.groq_adapter"]
-    py_external_opsmindai_shared_llm_adapters_ollama_adapter["opsmindai.shared.llm.adapters.ollama_adapter"]
-    py_external_opsmindai_shared_llm_adapters_openai_adapter["opsmindai.shared.llm.adapters.openai_adapter"]
-    py_external_opsmindai_shared_llm_adapters_openrouter_adapter["opsmindai.shared.llm.adapters.openrouter_adapter"]
-    py_external_opsmindai_shared_llm_base_exceptions["opsmindai.shared.llm.base.exceptions"]
-    py_external_opsmindai_shared_llm_base_generators["opsmindai.shared.llm.base.generators"]
-    py_external_opsmindai_shared_llm_base_helpers["opsmindai.shared.llm.base.helpers"]
-    py_external_opsmindai_shared_llm_base_models["opsmindai.shared.llm.base.models"]
-    py_external_opsmindai_shared_llm_base_provider["opsmindai.shared.llm.base.provider"]
-    py_external_opsmindai_shared_llm_client["opsmindai.shared.llm.client"]
-    py_external_opsmindai_shared_llm_factory["opsmindai.shared.llm.factory"]
-    py_external_opsmindai_shared_llm_registry["opsmindai.shared.llm.registry"]
-    py_external_opsmindai_shared_logging["opsmindai.shared.logging"]
-    py_external_opsmindai_shared_responses["opsmindai.shared.responses"]
-    py_external_opsmindai_shared_trace["opsmindai.shared.trace"]
-    py_external_opsmindai_tools_aws_tool["opsmindai.tools.aws.tool"]
-    py_external_opsmindai_tools_base_schemas["opsmindai.tools.base.schemas"]
-    py_external_opsmindai_tools_base_tool["opsmindai.tools.base.tool"]
-    py_external_opsmindai_tools_github_client["opsmindai.tools.github.client"]
-    py_external_opsmindai_tools_github_schemas["opsmindai.tools.github.schemas"]
-    py_external_opsmindai_tools_github_tool["opsmindai.tools.github.tool"]
-    py_external_opsmindai_tools_jenkins_tool["opsmindai.tools.jenkins.tool"]
-    py_external_opsmindai_tools_logs_tool["opsmindai.tools.logs.tool"]
-    py_external_opsmindai_tools_ops_tool["opsmindai.tools.ops.tool"]
-    py_external_opsmindai_tools_registry["opsmindai.tools.registry"]
-    py_external_opsmindai_tools_sanity_tool["opsmindai.tools.sanity.tool"]
-    py_external_opsmindai_tools_startup_tool["opsmindai.tools.startup.tool"]
-    py_external_opsmindai_tools_traces_tool["opsmindai.tools.traces.tool"]
-    py_external_os["os"]
-    py_external_pathlib["pathlib"]
-    py_external_pydantic["pydantic"]
-    py_external_pydantic_settings["pydantic_settings"]
-    py_external_random["random"]
-    py_external_re["re"]
-    py_external_sqlite3["sqlite3"]
-    py_external_sqlmodel["sqlmodel"]
-    py_external_time["time"]
-    py_external_typing["typing"]
-    py_external_uuid["uuid"]
-    py_file_src_opsmindai_agents_base_agent_py["src/opsmindai/agents/base/agent.py"]
-    py_file_src_opsmindai_agents_base_schemas_py["src/opsmindai/agents/base/schemas.py"]
-    py_file_src_opsmindai_agents_cognition_schemas_py["src/opsmindai/agents/cognition/schemas.py"]
-    py_file_src_opsmindai_agents_onboarding_agent_py["src/opsmindai/agents/onboarding/agent.py"]
-    py_file_src_opsmindai_agents_onboarding_analyzer_py["src/opsmindai/agents/onboarding/analyzer.py"]
-    py_file_src_opsmindai_agents_onboarding_context_repo_py["src/opsmindai/agents/onboarding/context_repo.py"]
-    py_file_src_opsmindai_agents_onboarding_schemas_py["src/opsmindai/agents/onboarding/schemas.py"]
-    py_file_src_opsmindai_agents_orchestrator_agent_py["src/opsmindai/agents/orchestrator/agent.py"]
-    py_file_src_opsmindai_agents_orchestrator_schemas_py["src/opsmindai/agents/orchestrator/schemas.py"]
-    py_file_src_opsmindai_agents_rca_agent_py["src/opsmindai/agents/rca/agent.py"]
-    py_file_src_opsmindai_agents_rca_analyzer_py["src/opsmindai/agents/rca/analyzer.py"]
-    py_file_src_opsmindai_agents_rca_report_generator_py["src/opsmindai/agents/rca/report_generator.py"]
-    py_file_src_opsmindai_agents_rca_schemas_py["src/opsmindai/agents/rca/schemas.py"]
-    py_file_src_opsmindai_agents_rca_skill_extractor_py["src/opsmindai/agents/rca/skill_extractor.py"]
-    py_file_src_opsmindai_agents_release_agent_py["src/opsmindai/agents/release/agent.py"]
-    py_file_src_opsmindai_agents_release_analyzer_py["src/opsmindai/agents/release/analyzer.py"]
-    py_file_src_opsmindai_agents_release_report_generator_py["src/opsmindai/agents/release/report_generator.py"]
-    py_file_src_opsmindai_agents_release_schemas_py["src/opsmindai/agents/release/schemas.py"]
-    py_file_src_opsmindai_main_py["src/opsmindai/main.py"]
-    py_file_src_opsmindai_models_agent_run_py["src/opsmindai/models/agent_run.py"]
-    py_file_src_opsmindai_models_customer_py["src/opsmindai/models/customer.py"]
-    py_file_src_opsmindai_models_skill_py["src/opsmindai/models/skill.py"]
-    py_file_src_opsmindai_models_tool_run_py["src/opsmindai/models/tool_run.py"]
-    py_file_src_opsmindai_modules_agents_router_py["src/opsmindai/modules/agents/router.py"]
-    py_file_src_opsmindai_modules_agents_schemas_py["src/opsmindai/modules/agents/schemas.py"]
-    py_file_src_opsmindai_modules_agents_service_py["src/opsmindai/modules/agents/service.py"]
-    py_file_src_opsmindai_modules_agents_stream_py["src/opsmindai/modules/agents/stream.py"]
-    py_file_src_opsmindai_modules_chat_router_py["src/opsmindai/modules/chat/router.py"]
-    py_file_src_opsmindai_modules_chat_runtime_py["src/opsmindai/modules/chat/runtime.py"]
-    py_file_src_opsmindai_modules_chat_schemas_py["src/opsmindai/modules/chat/schemas.py"]
-    py_file_src_opsmindai_modules_chat_service_py["src/opsmindai/modules/chat/service.py"]
-    py_file_src_opsmindai_modules_context_router_py["src/opsmindai/modules/context/router.py"]
-    py_file_src_opsmindai_modules_incidents_schemas_py["src/opsmindai/modules/incidents/schemas.py"]
-    py_file_src_opsmindai_modules_memory_service_py["src/opsmindai/modules/memory/service.py"]
-    py_file_src_opsmindai_modules_onboarding_cache_py["src/opsmindai/modules/onboarding/cache.py"]
-    py_file_src_opsmindai_modules_orchestrator_router_py["src/opsmindai/modules/orchestrator/router.py"]
-    py_file_src_opsmindai_modules_orchestrator_schemas_py["src/opsmindai/modules/orchestrator/schemas.py"]
-    py_file_src_opsmindai_modules_orchestrator_service_py["src/opsmindai/modules/orchestrator/service.py"]
-    py_file_src_opsmindai_modules_runs_repository_py["src/opsmindai/modules/runs/repository.py"]
-    py_file_src_opsmindai_modules_runs_router_py["src/opsmindai/modules/runs/router.py"]
-    py_file_src_opsmindai_modules_runs_schemas_py["src/opsmindai/modules/runs/schemas.py"]
-    py_file_src_opsmindai_modules_skills_repository_py["src/opsmindai/modules/skills/repository.py"]
-    py_file_src_opsmindai_modules_skills_router_py["src/opsmindai/modules/skills/router.py"]
-    py_file_src_opsmindai_modules_telegram_gateway_py["src/opsmindai/modules/telegram/gateway.py"]
-    py_file_src_opsmindai_modules_telegram_router_py["src/opsmindai/modules/telegram/router.py"]
-    py_file_src_opsmindai_modules_telegram_schemas_py["src/opsmindai/modules/telegram/schemas.py"]
-    py_file_src_opsmindai_modules_telegram_service_py["src/opsmindai/modules/telegram/service.py"]
-    py_file_src_opsmindai_runtime_runner_py["src/opsmindai/runtime/runner.py"]
-    py_file_src_opsmindai_shared_config_py["src/opsmindai/shared/config.py"]
-    py_file_src_opsmindai_shared_db_py["src/opsmindai/shared/db.py"]
-    py_file_src_opsmindai_shared_errors_py["src/opsmindai/shared/errors.py"]
-    py_file_src_opsmindai_shared_llm_adapters_bedrock_adapter_py["src/opsmindai/shared/llm/adapters/bedrock_adapter.py"]
-    py_file_src_opsmindai_shared_llm_adapters_claude_adapter_py["src/opsmindai/shared/llm/adapters/claude_adapter.py"]
-    py_file_src_opsmindai_shared_llm_adapters_deepseek_adapter_py["src/opsmindai/shared/llm/adapters/deepseek_adapter.py"]
-    py_file_src_opsmindai_shared_llm_adapters_groq_adapter_py["src/opsmindai/shared/llm/adapters/groq_adapter.py"]
-    py_file_src_opsmindai_shared_llm_adapters_ollama_adapter_py["src/opsmindai/shared/llm/adapters/ollama_adapter.py"]
-    py_file_src_opsmindai_shared_llm_adapters_openai_adapter_py["src/opsmindai/shared/llm/adapters/openai_adapter.py"]
-    py_file_src_opsmindai_shared_llm_adapters_openrouter_adapter_py["src/opsmindai/shared/llm/adapters/openrouter_adapter.py"]
-    py_file_src_opsmindai_shared_llm_base_generators_py["src/opsmindai/shared/llm/base/generators.py"]
-    py_file_src_opsmindai_shared_llm_base_helpers_py["src/opsmindai/shared/llm/base/helpers.py"]
-    py_file_src_opsmindai_shared_llm_base_models_py["src/opsmindai/shared/llm/base/models.py"]
-    py_file_src_opsmindai_shared_llm_base_provider_py["src/opsmindai/shared/llm/base/provider.py"]
-    py_file_src_opsmindai_shared_llm_client_py["src/opsmindai/shared/llm/client.py"]
-    py_file_src_opsmindai_shared_llm_factory_py["src/opsmindai/shared/llm/factory.py"]
-    py_file_src_opsmindai_shared_llm_registry_py["src/opsmindai/shared/llm/registry.py"]
-    py_file_src_opsmindai_shared_llm_schemas_py["src/opsmindai/shared/llm/schemas.py"]
-    py_file_src_opsmindai_shared_logging_py["src/opsmindai/shared/logging.py"]
-    py_file_src_opsmindai_shared_responses_py["src/opsmindai/shared/responses.py"]
-    py_file_src_opsmindai_shared_trace_py["src/opsmindai/shared/trace.py"]
-    py_file_src_opsmindai_tools_aws_service_py["src/opsmindai/tools/aws/service.py"]
-    py_file_src_opsmindai_tools_aws_tool_py["src/opsmindai/tools/aws/tool.py"]
-    py_file_src_opsmindai_tools_base_schemas_py["src/opsmindai/tools/base/schemas.py"]
-    py_file_src_opsmindai_tools_base_tool_py["src/opsmindai/tools/base/tool.py"]
-    py_file_src_opsmindai_tools_github_client_py["src/opsmindai/tools/github/client.py"]
-    py_file_src_opsmindai_tools_github_schemas_py["src/opsmindai/tools/github/schemas.py"]
-    py_file_src_opsmindai_tools_github_service_py["src/opsmindai/tools/github/service.py"]
-    py_file_src_opsmindai_tools_github_tool_py["src/opsmindai/tools/github/tool.py"]
-    py_file_src_opsmindai_tools_jenkins_service_py["src/opsmindai/tools/jenkins/service.py"]
-    py_file_src_opsmindai_tools_jenkins_tool_py["src/opsmindai/tools/jenkins/tool.py"]
-    py_file_src_opsmindai_tools_logs_service_py["src/opsmindai/tools/logs/service.py"]
-    py_file_src_opsmindai_tools_logs_tool_py["src/opsmindai/tools/logs/tool.py"]
-    py_file_src_opsmindai_tools_ops___init___py["src/opsmindai/tools/ops/__init__.py"]
-    py_file_src_opsmindai_tools_ops_tool_py["src/opsmindai/tools/ops/tool.py"]
-    py_file_src_opsmindai_tools_registry_py["src/opsmindai/tools/registry.py"]
-    py_file_src_opsmindai_tools_sanity_service_py["src/opsmindai/tools/sanity/service.py"]
-    py_file_src_opsmindai_tools_sanity_tool_py["src/opsmindai/tools/sanity/tool.py"]
-    py_file_src_opsmindai_tools_startup_service_py["src/opsmindai/tools/startup/service.py"]
-    py_file_src_opsmindai_tools_startup_tool_py["src/opsmindai/tools/startup/tool.py"]
-    py_file_src_opsmindai_tools_traces_service_py["src/opsmindai/tools/traces/service.py"]
-    py_file_src_opsmindai_tools_traces_tool_py["src/opsmindai/tools/traces/tool.py"]
-    py_src_opsmindai_agents_base_agent_py_class_BaseAgent["BaseAgent"]
-    py_src_opsmindai_agents_base_agent_py_class_BaseAgent_method_execute["BaseAgent.execute"]
-    py_src_opsmindai_agents_base_agent_py_class_BaseAgent_method_run["BaseAgent.run"]
-    py_src_opsmindai_agents_base_schemas_py_class_AgentResult["AgentResult"]
-    py_src_opsmindai_agents_base_schemas_py_class_ExecutionContext["ExecutionContext"]
-    py_src_opsmindai_agents_base_schemas_py_class_ExecutionContext_method_send["ExecutionContext.send"]
-    py_src_opsmindai_agents_cognition_schemas_py_class_AgentMemory["AgentMemory"]
-    py_src_opsmindai_agents_cognition_schemas_py_class_CognitiveStep["CognitiveStep"]
-    py_src_opsmindai_agents_cognition_schemas_py_class_RouteDecision["RouteDecision"]
-    py_src_opsmindai_agents_onboarding_agent_py_class_OnboardingAgent["OnboardingAgent"]
-    py_src_opsmindai_agents_onboarding_agent_py_class_OnboardingAgent_method___init__["OnboardingAgent.__init__"]
-    py_src_opsmindai_agents_onboarding_agent_py_class_OnboardingAgent_method_execute["OnboardingAgent.execute"]
-    py_src_opsmindai_agents_onboarding_analyzer_py_func_build_onboarding_context["build_onboarding_context"]
-    py_src_opsmindai_agents_onboarding_context_repo_py_class_ContextRepoGenerator["ContextRepoGenerator"]
-    py_src_opsmindai_agents_onboarding_context_repo_py_class_ContextRepoGenerator_method___init__["ContextRepoGenerator.__init__"]
-    py_src_opsmindai_agents_onboarding_context_repo_py_class_ContextRepoGenerator_method_generate["ContextRepoGenerator.generate"]
-    py_src_opsmindai_agents_onboarding_context_repo_py_func__bullets["_bullets"]
-    py_src_opsmindai_agents_onboarding_context_repo_py_func__render_markdown["_render_markdown"]
-    py_src_opsmindai_agents_onboarding_schemas_py_class_Component["Component"]
-    py_src_opsmindai_agents_onboarding_schemas_py_class_OnboardingReport["OnboardingReport"]
-    py_src_opsmindai_agents_orchestrator_agent_py_class_OrchestratorAgent["OrchestratorAgent"]
-    py_src_opsmindai_agents_orchestrator_agent_py_class_OrchestratorAgent_method___init__["OrchestratorAgent.__init__"]
-    py_src_opsmindai_agents_orchestrator_agent_py_class_OrchestratorAgent_method_execute["OrchestratorAgent.execute"]
-    py_src_opsmindai_agents_rca_agent_py_class_RCAAgent["RCAAgent"]
-    py_src_opsmindai_agents_rca_agent_py_class_RCAAgent_method___init__["RCAAgent.__init__"]
-    py_src_opsmindai_agents_rca_agent_py_class_RCAAgent_method_execute["RCAAgent.execute"]
-    py_src_opsmindai_agents_rca_analyzer_py_func_build_rca_context["build_rca_context"]
-    py_src_opsmindai_agents_rca_report_generator_py_class_RCAReportWriter["RCAReportWriter"]
-    py_src_opsmindai_agents_rca_report_generator_py_class_RCAReportWriter_method_generate["RCAReportWriter.generate"]
-    py_src_opsmindai_agents_rca_schemas_py_class_RCAReport["RCAReport"]
-    py_src_opsmindai_agents_rca_skill_extractor_py_func__signature["_signature"]
-    py_src_opsmindai_agents_rca_skill_extractor_py_func_extract_skill["extract_skill"]
-    py_src_opsmindai_agents_release_agent_py_class_ReleaseAgent["ReleaseAgent"]
-    py_src_opsmindai_agents_release_agent_py_class_ReleaseAgent_method___init__["ReleaseAgent.__init__"]
-    py_src_opsmindai_agents_release_agent_py_class_ReleaseAgent_method_execute["ReleaseAgent.execute"]
-    py_src_opsmindai_agents_release_agent_py_func__system_context["_system_context"]
-    py_src_opsmindai_agents_release_analyzer_py_func_build_release_context["build_release_context"]
-    py_src_opsmindai_agents_release_report_generator_py_class_ReleaseReportWriter["ReleaseReportWriter"]
-    py_src_opsmindai_agents_release_report_generator_py_class_ReleaseReportWriter_method_generate["ReleaseReportWriter.generate"]
-    py_src_opsmindai_agents_release_schemas_py_class_RegionResult["RegionResult"]
-    py_src_opsmindai_agents_release_schemas_py_class_ReleaseReport["ReleaseReport"]
-    py_src_opsmindai_main_py_func_health["health"]
-    py_src_opsmindai_main_py_func_startup_event["startup_event"]
-    py_src_opsmindai_main_py_func_trace_middleware["trace_middleware"]
-    py_src_opsmindai_models_agent_run_py_class_AgentRun["AgentRun"]
-    py_src_opsmindai_models_customer_py_class_Customer["Customer"]
-    py_src_opsmindai_models_skill_py_class_Skill["Skill"]
-    py_src_opsmindai_models_tool_run_py_class_ToolRun["ToolRun"]
-    py_src_opsmindai_modules_agents_router_py_func_agent_execute["agent_execute"]
-    py_src_opsmindai_modules_agents_router_py_func_release_stream["release_stream"]
-    py_src_opsmindai_modules_agents_schemas_py_class_AgentRunRequest["AgentRunRequest"]
-    py_src_opsmindai_modules_agents_service_py_func_execute_agent["execute_agent"]
-    py_src_opsmindai_modules_agents_stream_py_func__sse["_sse"]
-    py_src_opsmindai_modules_agents_stream_py_func_stream_agent_sse["stream_agent_sse"]
-    py_src_opsmindai_modules_chat_router_py_func__sse["_sse"]
-    py_src_opsmindai_modules_chat_router_py_func_chat["chat"]
-    py_src_opsmindai_modules_chat_router_py_func_chat_facts["chat_facts"]
-    py_src_opsmindai_modules_chat_router_py_func_chat_history["chat_history"]
-    py_src_opsmindai_modules_chat_router_py_func_chat_stop["chat_stop"]
-    py_src_opsmindai_modules_chat_runtime_py_func__key["_key"]
-    py_src_opsmindai_modules_chat_runtime_py_func_clear_task["clear_task"]
-    py_src_opsmindai_modules_chat_runtime_py_func_is_busy["is_busy"]
-    py_src_opsmindai_modules_chat_runtime_py_func_lock_for["lock_for"]
-    py_src_opsmindai_modules_chat_runtime_py_func_register_task["register_task"]
-    py_src_opsmindai_modules_chat_runtime_py_func_stop["stop"]
-    py_src_opsmindai_modules_chat_schemas_py_class_ChatRequest["ChatRequest"]
-    py_src_opsmindai_modules_chat_schemas_py_class_ChatStopRequest["ChatStopRequest"]
-    py_src_opsmindai_modules_chat_service_py_class__LearnedFacts["_LearnedFacts"]
-    py_src_opsmindai_modules_chat_service_py_func__converse["_converse"]
-    py_src_opsmindai_modules_chat_service_py_func__fast_route["_fast_route"]
-    py_src_opsmindai_modules_chat_service_py_func__handle_ops["_handle_ops"]
-    py_src_opsmindai_modules_chat_service_py_func__ops_context["_ops_context"]
-    py_src_opsmindai_modules_chat_service_py_func__ops_mode["_ops_mode"]
-    py_src_opsmindai_modules_chat_service_py_func__ops_synth["_ops_synth"]
-    py_src_opsmindai_modules_chat_service_py_func__reflect["_reflect"]
-    py_src_opsmindai_modules_chat_service_py_func__route["_route"]
-    py_src_opsmindai_modules_chat_service_py_func__run_agent["_run_agent"]
-    py_src_opsmindai_modules_chat_service_py_func__say_logs["_say_logs"]
-    py_src_opsmindai_modules_chat_service_py_func__say_pods["_say_pods"]
-    py_src_opsmindai_modules_chat_service_py_func__say_status["_say_status"]
-    py_src_opsmindai_modules_chat_service_py_func__unwrap_reply["_unwrap_reply"]
-    py_src_opsmindai_modules_chat_service_py_func_run_turn["run_turn"]
-    py_src_opsmindai_modules_context_router_py_func_get_context["get_context"]
-    py_src_opsmindai_modules_incidents_schemas_py_class_Incident["Incident"]
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService["MemoryService"]
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_build_working_set["MemoryService.build_working_set"]
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_conversation_history["MemoryService.conversation_history"]
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_core["MemoryService.core"]
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_recall["MemoryService.recall"]
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_recent_facts["MemoryService.recent_facts"]
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_recent_turns["MemoryService.recent_turns"]
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_store["MemoryService.store"]
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_take["MemoryService.take"]
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_threads["MemoryService.threads"]
-    py_src_opsmindai_modules_memory_service_py_func__key["_key"]
-    py_src_opsmindai_modules_memory_service_py_func__match_query["_match_query"]
-    py_src_opsmindai_modules_memory_service_py_func__now["_now"]
-    py_src_opsmindai_modules_onboarding_cache_py_func_context_hash["context_hash"]
-    py_src_opsmindai_modules_onboarding_cache_py_func_get_cached["get_cached"]
-    py_src_opsmindai_modules_onboarding_cache_py_func_get_customer_report["get_customer_report"]
-    py_src_opsmindai_modules_onboarding_cache_py_func_get_repo_report["get_repo_report"]
-    py_src_opsmindai_modules_onboarding_cache_py_func_put_cached["put_cached"]
-    py_src_opsmindai_modules_orchestrator_router_py_func_orchestrator_run["orchestrator_run"]
-    py_src_opsmindai_modules_orchestrator_schemas_py_class_OrchestratorRunRequest["OrchestratorRunRequest"]
-    py_src_opsmindai_modules_orchestrator_service_py_func_run_orchestrator["run_orchestrator"]
-    py_src_opsmindai_modules_runs_repository_py_func__now["_now"]
-    py_src_opsmindai_modules_runs_repository_py_func__row_to_record["_row_to_record"]
-    py_src_opsmindai_modules_runs_repository_py_func_create_run["create_run"]
-    py_src_opsmindai_modules_runs_repository_py_func_ensure_ready["ensure_ready"]
-    py_src_opsmindai_modules_runs_repository_py_func_find_runs_by_trace_id["find_runs_by_trace_id"]
-    py_src_opsmindai_modules_runs_repository_py_func_get_run["get_run"]
-    py_src_opsmindai_modules_runs_repository_py_func_list_runs["list_runs"]
-    py_src_opsmindai_modules_runs_repository_py_func_update_run["update_run"]
-    py_src_opsmindai_modules_runs_router_py_func_run_detail["run_detail"]
-    py_src_opsmindai_modules_runs_router_py_func_runs["runs"]
-    py_src_opsmindai_modules_runs_router_py_func_trace_detail["trace_detail"]
-    py_src_opsmindai_modules_runs_schemas_py_class_RunRecord["RunRecord"]
-    py_src_opsmindai_modules_skills_repository_py_func__now["_now"]
-    py_src_opsmindai_modules_skills_repository_py_func__row_to_skill["_row_to_skill"]
-    py_src_opsmindai_modules_skills_repository_py_func__tokens["_tokens"]
-    py_src_opsmindai_modules_skills_repository_py_func_find_relevant_skills["find_relevant_skills"]
-    py_src_opsmindai_modules_skills_repository_py_func_list_skills["list_skills"]
-    py_src_opsmindai_modules_skills_repository_py_func_save_skill["save_skill"]
+    json_apps_api__codegraph_cache_index_v1_manifest_json["apps/api/.codegraph-cache/index-v1/manifest.json"]
+    json_apps_api__codegraph_cache_index_v1_manifest_json_buildOptions["buildOptions"]
+    json_apps_api__codegraph_cache_index_v1_manifest_json_configHash["configHash"]
+    json_apps_api__codegraph_cache_index_v1_manifest_json_files["files"]
+    json_apps_api__codegraph_cache_index_v1_manifest_json_graphOptions["graphOptions"]
+    json_apps_api__codegraph_cache_index_v1_manifest_json_lastCommit["lastCommit"]
+    json_apps_api__codegraph_cache_index_v1_manifest_json_projectRoot["projectRoot"]
+    json_apps_api__codegraph_cache_index_v1_manifest_json_updatedAt["updatedAt"]
+    json_apps_api__codegraph_cache_index_v1_manifest_json_version["version"]
+    json_apps_video_package_lock_json["apps/video/package-lock.json"]
+    json_apps_video_package_lock_json_lockfileVersion["lockfileVersion"]
+    json_apps_video_package_lock_json_name["name"]
+    json_apps_video_package_lock_json_packages["packages"]
+    json_apps_video_package_lock_json_requires["requires"]
+    json_apps_video_package_lock_json_version["version"]
+    json_apps_video_package_json["apps/video/package.json"]
+    json_apps_video_package_json_dependencies["dependencies"]
+    json_apps_video_package_json_devDependencies["devDependencies"]
+    json_apps_video_package_json_name["name"]
+    json_apps_video_package_json_private["private"]
+    json_apps_video_package_json_scripts["scripts"]
+    json_apps_video_package_json_version["version"]
+    json_apps_video_tsconfig_json["apps/video/tsconfig.json"]
+    json_apps_video_tsconfig_json_compilerOptions["compilerOptions"]
+    json_apps_video_tsconfig_json_include["include"]
+    json_apps_web_package_lock_json["apps/web/package-lock.json"]
+    json_apps_web_package_lock_json_lockfileVersion["lockfileVersion"]
+    json_apps_web_package_lock_json_name["name"]
+    json_apps_web_package_lock_json_packages["packages"]
+    json_apps_web_package_lock_json_requires["requires"]
+    json_apps_web_package_lock_json_version["version"]
+    json_apps_web_package_json["apps/web/package.json"]
+    json_apps_web_package_json_dependencies["dependencies"]
+    json_apps_web_package_json_devDependencies["devDependencies"]
+    json_apps_web_package_json_name["name"]
+    json_apps_web_package_json_private["private"]
+    json_apps_web_package_json_scripts["scripts"]
+    json_apps_web_package_json_type["type"]
+    json_apps_web_package_json_version["version"]
+    json_apps_web_tsconfig_app_json["apps/web/tsconfig.app.json"]
+    json_apps_web_tsconfig_json["apps/web/tsconfig.json"]
+    json_apps_web_tsconfig_json_files["files"]
+    json_apps_web_tsconfig_json_references["references"]
+    json_apps_web_tsconfig_node_json["apps/web/tsconfig.node.json"]
+    json_codeiq_call_graph_json["codeiq/call-graph.json"]
+    json_codeiq_call_graph_json_count["count"]
+    json_codeiq_call_graph_json_rows["rows"]
+    json_codeiq_endpoints_json["codeiq/endpoints.json"]
+    json_codeiq_entities_json["codeiq/entities.json"]
+    json_codeiq_full_graph_json["codeiq/full-graph.json"]
+    json_codeiq_full_graph_json_edges["edges"]
+    json_codeiq_full_graph_json_nodes["nodes"]
+    json_codeiq_full_graph_json_stats["stats"]
+    json_codeiq_method_entity_edges_json["codeiq/method-entity-edges.json"]
+    json_codeiq_method_entity_edges_json_count["count"]
+    json_codeiq_method_entity_edges_json_rows["rows"]
+    json_codeiq_stats_architecture_json["codeiq/stats-architecture.json"]
+    json_codeiq_stats_architecture_json_classes["classes"]
+    json_codeiq_stats_architecture_json_methods["methods"]
+    json_codeiq_stats_architecture_json_modules["modules"]
+    json_codeiq_stats_connections_json["codeiq/stats-connections.json"]
+    json_codeiq_stats_connections_json_consumers["consumers"]
+    json_codeiq_stats_connections_json_grpc["grpc"]
+    json_codeiq_stats_connections_json_producers["producers"]
+    json_codeiq_stats_connections_json_rest["rest"]
+    json_codeiq_stats_connections_json_websocket["websocket"]
+    json_codeiq_stats_frameworks_json["codeiq/stats-frameworks.json"]
+    json_codeiq_stats_frameworks_json_fastapi["fastapi"]
+    json_codeiq_stats_frameworks_json_pydantic["pydantic"]
+    json_codeiq_stats_frameworks_json_sqlalchemy["sqlalchemy"]
+    json_codeiq_stats_graph_json["codeiq/stats-graph.json"]
+    json_codeiq_stats_graph_json_edges["edges"]
+    json_codeiq_stats_graph_json_edges_by_kind["edges_by_kind"]
+    json_codeiq_stats_graph_json_files["files"]
+    json_codeiq_stats_graph_json_nodes["nodes"]
+    json_codeiq_stats_languages_json["codeiq/stats-languages.json"]
+    json_codeiq_stats_languages_json_python["python"]
+    json_codeiq_stats_languages_json_toml["toml"]
+    json_railway_json["railway.json"]
+    json_railway_json__schema["$schema"]
+    json_railway_json_build["build"]
+    json_railway_json_deploy["deploy"]
+    md_BUILD_JOURNAL_md["Build Journal — OpsMindAI"]
+    md_BUILD_JOURNAL_md_heading_1["Build Journal — OpsMindAI"]
+    md_BUILD_JOURNAL_md_heading_123["Iteration 3 — Running it fully local on Ollama/Gemma"]
+    md_BUILD_JOURNAL_md_heading_142["Iteration 4 — Memory: research before I built"]
+    md_BUILD_JOURNAL_md_heading_15["The brief, and my one guiding rule"]
+    md_BUILD_JOURNAL_md_heading_167["Iteration 5 — Chat that shows its work"]
+    md_BUILD_JOURNAL_md_heading_186["Iteration 6 — The gating race &#40;a frontend bug worth documenting&#41;"]
+    md_BUILD_JOURNAL_md_heading_203["Iteration 7 — &#34;I can't demo the release like this&#34; → the flagship rework"]
+    md_BUILD_JOURNAL_md_heading_234["Iteration 8 — The gateway: a Telegram bot on the same brain"]
+    md_BUILD_JOURNAL_md_heading_266["Iteration 9 — Mindy: the orchestrator becomes a real agent"]
+    md_BUILD_JOURNAL_md_heading_301["Iteration 10 — Mindy learns: org memory + a self-healing RCA fix"]
+    md_BUILD_JOURNAL_md_heading_33["Phase 1–2 — Foundation and the LLM runtime"]
+    md_BUILD_JOURNAL_md_heading_335["What's real vs mocked &#40;current, honest&#41;"]
+    md_BUILD_JOURNAL_md_heading_355["What I deliberately cut, and why"]
+    md_BUILD_JOURNAL_md_heading_368["If I kept going"]
+    md_BUILD_JOURNAL_md_heading_59["Phase 3 — The three agents"]
+    md_BUILD_JOURNAL_md_heading_77["Iteration 1 — &#34;Most of this is mocked. Is the context repo actually any good?&#34;"]
+    md_BUILD_JOURNAL_md_heading_99["Iteration 2 — &#34;Wouldn't my tokens be exhausted?&#34; → the throttling wall"]
+    md_CHANGELOG_md["CHANGELOG.md"]
+    md_CHANGELOG_md_heading_1["2026-05-28 — Convergence Fixes"]
+    md_DEMO_md["Demo Walkthrough"]
+    md_DEMO_md_heading_1["Demo Walkthrough"]
+    md_DEMO_md_heading_10["Script"]
+    md_DEMO_md_heading_12["0. Landing page &#40;15s&#41;"]
+    md_DEMO_md_heading_17["1. Onboarding — real GitHub context repo &#40;60s&#41;"]
+    md_DEMO_md_heading_29["2. RCA — trace correlation + self-improving memory &#40;60s&#41;"]
+    md_DEMO_md_heading_41["3. Knowledge — the learned playbook &#40;30s&#41;"]
+    md_DEMO_md_heading_48["4. Release — the deploy gate &#40;45s&#41;"]
+    md_DEMO_md_heading_5["Setup &#40;once&#41;"]
+    md_DEMO_md_heading_56["5. Chat — Mindy, the conversational DevOps agent &#40;60s&#41;"]
+    md_DEMO_md_heading_70["6. Telegram gateway — same agent, in your pocket &#40;45s&#41;"]
+    md_DEMO_md_heading_79["Edge cases to show &#40;optional, 30s&#41;"]
+    md_DEMO_md_heading_87["One-line pitch"]
+    md_DEPLOY_md["Deploy"]
+    md_DEPLOY_md_heading_1["Deploy"]
+    md_DEPLOY_md_heading_10["How it's wired"]
+    md_DEPLOY_md_heading_19["Hosted on Railway &#40;CLI, no GitHub needed&#41;"]
+    md_DEPLOY_md_heading_38["Notes"]
+    md_IMPLEMENTATION_LOG_md["Implementation Log"]
+    md_IMPLEMENTATION_LOG_md_heading_1["Implementation Log"]
+    md_IMPLEMENTATION_LOG_md_heading_105["What was cut, and why"]
+    md_IMPLEMENTATION_LOG_md_heading_114["Known limitations / next steps"]
+    md_IMPLEMENTATION_LOG_md_heading_29["Key decisions"]
+    md_IMPLEMENTATION_LOG_md_heading_6["Approach"]
+    md_IMPLEMENTATION_LOG_md_heading_60["Wow factors &#40;all real&#41;"]
+    md_IMPLEMENTATION_LOG_md_heading_74["Edge cases handled"]
+    md_IMPLEMENTATION_LOG_md_heading_87["What is mocked vs real"]
+    md_README_md["OpsMindAI"]
+    md_README_md_heading_1["OpsMindAI"]
+    md_README_md_heading_14["What it does"]
+    md_README_md_heading_26["Architecture"]
+    md_README_md_heading_46["Setup"]
+    md_README_md_heading_48["Prerequisites"]
+    md_README_md_heading_55["1. Backend"]
+    md_README_md_heading_62["Create apps/api/.env  &#40;only these keys — config forbids unknown keys&#41;:"]
+    md_README_md_heading_63["llm_provider=groq"]
+    md_README_md_heading_64["groq_api_key=YOUR_GROQ_KEY"]
+    md_README_md_heading_65["github_token=YOUR_FINEGRAINED_PAT"]
+    md_README_md_heading_66["github_context_repo=owner/your-context-repo"]
+    md_README_md_heading_74["2. Frontend"]
+    md_README_md_heading_86["API"]
+    md_README_md_heading_98["What is real vs mocked"]
+    md_apps_video_README_md["OpsMindAI — launch video &#40;Remotion&#41;"]
+    md_apps_video_README_md_heading_1["OpsMindAI — launch video &#40;Remotion&#41;"]
+    md_apps_video_README_md_heading_17["Music credit"]
+    md_apps_video_README_md_heading_6["Develop / render"]
+    md_apps_web_README_md["React + TypeScript + Vite"]
+    md_apps_web_README_md_heading_1["React + TypeScript + Vite"]
+    md_apps_web_README_md_heading_10["React Compiler"]
+    md_apps_web_README_md_heading_14["Expanding the ESLint configuration"]
+    md_codeiq_README_md["OpsMind — Code Intelligence Analysis"]
+    md_codeiq_README_md_heading_1["OpsMind — Code Intelligence Analysis"]
+    md_codeiq_README_md_heading_22["Artifacts"]
+    md_codeiq_README_md_heading_32["Architecture"]
+    md_codeiq_README_md_heading_42["Key endpoints"]
+    md_codeiq_README_md_heading_5["Summary"]
+    md_codeiq_README_md_heading_64["Call graph sample"]
+    md_context_md["Context"]
+    md_context_md_heading_1["Context"]
+    md_context_md_heading_19["Next"]
+    md_context_md_heading_26["Problems & Solutions"]
+    md_context_md_heading_28["2026-05-28 — Thin prompts reduced cognitive quality"]
+    md_context_md_heading_3["Now"]
+    md_context_md_heading_41["2026-05-28 — Telegram interface missing"]
+    md_context_md_heading_54["2026-05-28 — Demo logs were too flat"]
+    md_context_md_heading_9["Done"]
+    md_docs_architecture_md["OpsMindAI Architecture"]
+    md_docs_architecture_md_heading_1["OpsMindAI Architecture"]
+    md_docs_architecture_md_heading_16["Why Relational DB"]
+    md_docs_architecture_md_heading_26["Multi-Tenant Strategy"]
+    md_docs_architecture_md_heading_3["Architectural Philosophy"]
+    md_docs_architecture_md_heading_32["Backend Stack"]
+    md_docs_architecture_md_heading_40["Frontend Stack"]
+    md_docs_architecture_md_heading_46["Scaling Philosophy"]
+    md_docs_cognitive_runtime_md["Cognitive Runtime"]
+    md_docs_cognitive_runtime_md_heading_1["Cognitive Runtime"]
+    md_docs_cognitive_runtime_md_heading_11["Runtime Safety"]
+    md_docs_cognitive_runtime_md_heading_3["Execution Flow"]
+    md_docs_onboarding_agent_md["Onboarding Agent"]
+    md_docs_onboarding_agent_md_heading_1["Onboarding Agent"]
+    md_docs_onboarding_agent_md_heading_13["Output Artifacts"]
+    md_docs_onboarding_agent_md_heading_19["Large Repository Strategy"]
+    md_docs_onboarding_agent_md_heading_23["Runtime Guarantees"]
+    md_docs_onboarding_agent_md_heading_3["Purpose"]
+    md_docs_onboarding_agent_md_heading_6["Why This Matters"]
+    md_docs_onboarding_agent_md_heading_9["Intelligence Model"]
+    md_docs_phase_1_foundation_plan_md["Phase 1 — Core Runtime Foundation"]
+    md_docs_phase_1_foundation_plan_md_heading_1["Phase 1 — Core Runtime Foundation"]
+    md_docs_phase_1_foundation_plan_md_heading_15["FastAPI Bootstrap"]
+    md_docs_phase_1_foundation_plan_md_heading_21["Design Decisions"]
+    md_docs_phase_1_foundation_plan_md_heading_29["Deliverables"]
+    md_docs_phase_1_foundation_plan_md_heading_3["Objective"]
+    md_docs_phase_1_foundation_plan_md_heading_31["Config System"]
+    md_docs_phase_1_foundation_plan_md_heading_34["Structured Logging"]
+    md_docs_phase_1_foundation_plan_md_heading_37["Trace Middleware"]
+    md_docs_phase_1_foundation_plan_md_heading_40["Response Envelopes"]
+    md_docs_phase_1_foundation_plan_md_heading_43["Error System"]
+    md_docs_phase_1_foundation_plan_md_heading_46["Review Checklist"]
+    md_docs_phase_1_foundation_plan_md_heading_6["Scope"]
+    md_docs_phase_1_foundation_plan_md_heading_8["Shared Runtime"]
+    md_docs_phase_2_runtime_plan_md["Phase 2 — Database + Agent Runtime"]
+    md_docs_phase_2_runtime_plan_md_heading_1["Phase 2 — Database + Agent Runtime"]
+    md_docs_phase_2_runtime_plan_md_heading_13["LangGraph-Inspired"]
+    md_docs_phase_2_runtime_plan_md_heading_18["PydanticAI-Inspired"]
+    md_docs_phase_2_runtime_plan_md_heading_23["Runtime Philosophy"]
+    md_docs_phase_2_runtime_plan_md_heading_26["Deliverables"]
+    md_docs_phase_2_runtime_plan_md_heading_28["Database Foundation"]
+    md_docs_phase_2_runtime_plan_md_heading_3["Objective"]
+    md_docs_phase_2_runtime_plan_md_heading_33["Runtime Models"]
+    md_docs_phase_2_runtime_plan_md_heading_39["Base Runtime"]
+    md_docs_phase_2_runtime_plan_md_heading_46["Runtime Guarantees"]
+    md_docs_phase_2_runtime_plan_md_heading_53["Review Checklist"]
+    md_docs_phase_2_runtime_plan_md_heading_6["Research-Informed Decisions"]
+    md_docs_phase_2_runtime_plan_md_heading_8["Hermes-Inspired"]
+    md_docs_phase_3_onboarding_plan_md["Phase 3.1 — Onboarding Agent"]
 
-    py_file_src_opsmindai_agents_base_agent_py -->|imports| py_external___future__
-    py_file_src_opsmindai_agents_base_agent_py -->|imports| py_external_abc
-    py_file_src_opsmindai_agents_base_agent_py -->|imports| py_external_opsmindai_agents_base_schemas
-    py_file_src_opsmindai_agents_base_agent_py -->|imports| py_external_opsmindai_shared_logging
-    py_file_src_opsmindai_agents_base_agent_py -->|imports| py_external_time
-    py_file_src_opsmindai_agents_base_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_agents_base_schemas_py -->|imports| py_external_typing
-    py_file_src_opsmindai_agents_cognition_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external___future__
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_json
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_opsmindai_agents_base_agent
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_opsmindai_agents_base_schemas
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_opsmindai_agents_onboarding_analyzer
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_opsmindai_agents_onboarding_context_repo
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_opsmindai_agents_onboarding_schemas
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_opsmindai_agents_prompts
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_opsmindai_modules_memory_service
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_opsmindai_modules_onboarding_cache
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_opsmindai_runtime_runner
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_opsmindai_tools_github_schemas
-    py_file_src_opsmindai_agents_onboarding_agent_py -->|imports| py_external_opsmindai_tools_github_tool
-    py_file_src_opsmindai_agents_onboarding_analyzer_py -->|imports| py_external_opsmindai_tools_github_schemas
-    py_file_src_opsmindai_agents_onboarding_context_repo_py -->|imports| py_external___future__
-    py_file_src_opsmindai_agents_onboarding_context_repo_py -->|imports| py_external_opsmindai_agents_onboarding_schemas
-    py_file_src_opsmindai_agents_onboarding_context_repo_py -->|imports| py_external_opsmindai_tools_github_client
-    py_file_src_opsmindai_agents_onboarding_context_repo_py -->|imports| py_external_pathlib
-    py_file_src_opsmindai_agents_onboarding_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_agents_orchestrator_agent_py -->|imports| py_external___future__
-    py_file_src_opsmindai_agents_orchestrator_agent_py -->|imports| py_external_json
-    py_file_src_opsmindai_agents_orchestrator_agent_py -->|imports| py_external_opsmindai_agents_base_agent
-    py_file_src_opsmindai_agents_orchestrator_agent_py -->|imports| py_external_opsmindai_agents_base_schemas
-    py_file_src_opsmindai_agents_orchestrator_agent_py -->|imports| py_external_opsmindai_agents_cognition_schemas
-    py_file_src_opsmindai_agents_orchestrator_agent_py -->|imports| py_external_opsmindai_agents_prompts
-    py_file_src_opsmindai_agents_orchestrator_agent_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_agents_orchestrator_agent_py -->|imports| py_external_opsmindai_shared_llm_client
-    py_file_src_opsmindai_agents_orchestrator_schemas_py -->|imports| py_external_opsmindai_agents_cognition_schemas
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external___future__
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_json
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_agents_base_agent
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_agents_base_schemas
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_agents_prompts
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_agents_rca_analyzer
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_agents_rca_report_generator
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_agents_rca_schemas
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_agents_rca_skill_extractor
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_modules_memory_service
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_modules_skills_repository
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_runtime_runner
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_tools_logs_tool
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_opsmindai_tools_traces_tool
-    py_file_src_opsmindai_agents_rca_agent_py -->|imports| py_external_pathlib
-    py_file_src_opsmindai_agents_rca_analyzer_py -->|imports| py_external___future__
-    py_file_src_opsmindai_agents_rca_analyzer_py -->|imports| py_external_json
-    py_file_src_opsmindai_agents_rca_report_generator_py -->|imports| py_external_opsmindai_agents_rca_schemas
-    py_file_src_opsmindai_agents_rca_report_generator_py -->|imports| py_external_pathlib
-    py_file_src_opsmindai_agents_rca_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_agents_rca_skill_extractor_py -->|imports| py_external___future__
-    py_file_src_opsmindai_agents_rca_skill_extractor_py -->|imports| py_external_opsmindai_agents_rca_schemas
-    py_file_src_opsmindai_agents_rca_skill_extractor_py -->|imports| py_external_re
-    py_file_src_opsmindai_agents_release_agent_py -->|imports| py_external___future__
-    py_file_src_opsmindai_agents_release_agent_py -->|imports| py_external_asyncio
-    py_file_src_opsmindai_agents_release_agent_py -->|imports| py_external_opsmindai_agents_base_agent
-    py_file_src_opsmindai_agents_release_agent_py -->|imports| py_external_opsmindai_agents_base_schemas
-    py_file_src_opsmindai_agents_release_agent_py -->|imports| py_external_opsmindai_agents_release_report_generator
-    py_file_src_opsmindai_agents_release_agent_py -->|imports| py_external_opsmindai_agents_release_schemas
-    py_file_src_opsmindai_agents_release_agent_py -->|imports| py_external_opsmindai_modules_onboarding_cache
-    py_file_src_opsmindai_agents_release_agent_py -->|imports| py_external_opsmindai_tools_aws_tool
-    py_file_src_opsmindai_agents_release_agent_py -->|imports| py_external_uuid
-    py_file_src_opsmindai_agents_release_analyzer_py -->|imports| py_external___future__
-    py_file_src_opsmindai_agents_release_analyzer_py -->|imports| py_external_json
-    py_file_src_opsmindai_agents_release_report_generator_py -->|imports| py_external_opsmindai_agents_release_schemas
-    py_file_src_opsmindai_agents_release_report_generator_py -->|imports| py_external_pathlib
-    py_file_src_opsmindai_agents_release_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_main_py -->|imports| py_external_fastapi
-    py_file_src_opsmindai_main_py -->|imports| py_external_fastapi_staticfiles
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_modules_agents_router
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_modules_chat_router
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_modules_context_router
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_modules_orchestrator_router
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_modules_runs_router
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_modules_skills_router
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_modules_telegram_router
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_shared_db
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_shared_errors
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_shared_logging
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_shared_responses
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_shared_trace
-    py_file_src_opsmindai_main_py -->|imports| py_external_opsmindai_tools_registry
-    py_file_src_opsmindai_main_py -->|imports| py_external_os
-    py_file_src_opsmindai_main_py -->|imports| py_external_pathlib
-    py_file_src_opsmindai_models_agent_run_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_models_agent_run_py -->|imports| py_external_sqlmodel
-    py_file_src_opsmindai_models_agent_run_py -->|imports| py_external_typing
-    py_file_src_opsmindai_models_customer_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_models_customer_py -->|imports| py_external_sqlmodel
-    py_file_src_opsmindai_models_skill_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_models_skill_py -->|imports| py_external_sqlmodel
-    py_file_src_opsmindai_models_tool_run_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_models_tool_run_py -->|imports| py_external_sqlmodel
-    py_file_src_opsmindai_models_tool_run_py -->|imports| py_external_typing
-    py_file_src_opsmindai_modules_agents_router_py -->|imports| py_external_fastapi
-    py_file_src_opsmindai_modules_agents_router_py -->|imports| py_external_opsmindai_agents_release_agent
-    py_file_src_opsmindai_modules_agents_router_py -->|imports| py_external_opsmindai_modules_agents_schemas
-    py_file_src_opsmindai_modules_agents_router_py -->|imports| py_external_opsmindai_modules_agents_service
-    py_file_src_opsmindai_modules_agents_router_py -->|imports| py_external_opsmindai_modules_agents_stream
-    py_file_src_opsmindai_modules_agents_router_py -->|imports| py_external_opsmindai_shared_responses
-    py_file_src_opsmindai_modules_agents_router_py -->|imports| py_external_opsmindai_shared_trace
-    py_file_src_opsmindai_modules_agents_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_modules_agents_service_py -->|imports| py_external___future__
-    py_file_src_opsmindai_modules_agents_service_py -->|imports| py_external_asyncio
-    py_file_src_opsmindai_modules_agents_service_py -->|imports| py_external_opsmindai_agents_base_schemas
-    py_file_src_opsmindai_modules_agents_service_py -->|imports| py_external_opsmindai_agents_onboarding_agent
-    py_file_src_opsmindai_modules_agents_service_py -->|imports| py_external_opsmindai_agents_rca_agent
-    py_file_src_opsmindai_modules_agents_service_py -->|imports| py_external_opsmindai_agents_release_agent
-    py_file_src_opsmindai_modules_agents_service_py -->|imports| py_external_opsmindai_modules_runs_repository
-    py_file_src_opsmindai_modules_agents_stream_py -->|imports| py_external___future__
-    py_file_src_opsmindai_modules_agents_stream_py -->|imports| py_external_asyncio
-    py_file_src_opsmindai_modules_agents_stream_py -->|imports| py_external_fastapi_responses
-    py_file_src_opsmindai_modules_agents_stream_py -->|imports| py_external_json
-    py_file_src_opsmindai_modules_agents_stream_py -->|imports| py_external_opsmindai_agents_base_agent
-    py_file_src_opsmindai_modules_agents_stream_py -->|imports| py_external_opsmindai_agents_base_schemas
-    py_file_src_opsmindai_modules_agents_stream_py -->|imports| py_external_opsmindai_shared_trace
-    py_file_src_opsmindai_modules_chat_router_py -->|imports| py_external___future__
-    py_file_src_opsmindai_modules_chat_router_py -->|imports| py_external_asyncio
-    py_file_src_opsmindai_modules_chat_router_py -->|imports| py_external_fastapi
-    py_file_src_opsmindai_modules_chat_router_py -->|imports| py_external_fastapi_responses
-    py_file_src_opsmindai_modules_chat_router_py -->|imports| py_external_json
-    py_file_src_opsmindai_modules_chat_router_py -->|imports| py_external_opsmindai_modules_chat_runtime
-    py_file_src_opsmindai_modules_chat_router_py -->|imports| py_external_opsmindai_modules_chat_schemas
-    py_file_src_opsmindai_modules_chat_router_py -->|imports| py_external_opsmindai_modules_chat_service
-    py_file_src_opsmindai_modules_chat_router_py -->|imports| py_external_opsmindai_modules_memory_service
-    py_file_src_opsmindai_modules_chat_router_py -->|imports| py_external_opsmindai_shared_responses
-    py_file_src_opsmindai_modules_chat_runtime_py -->|imports| py_external___future__
-    py_file_src_opsmindai_modules_chat_runtime_py -->|imports| py_external_asyncio
-    py_file_src_opsmindai_modules_chat_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external___future__
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_asyncio
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_json
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_opsmindai_agents_base_schemas
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_opsmindai_agents_cognition_schemas
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_opsmindai_agents_onboarding_agent
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_opsmindai_agents_rca_agent
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_opsmindai_agents_release_agent
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_opsmindai_modules_memory_service
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_opsmindai_modules_onboarding_cache
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_opsmindai_shared_llm_client
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_opsmindai_shared_trace
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_opsmindai_tools_ops_tool
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_re
-    py_file_src_opsmindai_modules_chat_service_py -->|imports| py_external_typing
-    py_file_src_opsmindai_modules_context_router_py -->|imports| py_external_fastapi
-    py_file_src_opsmindai_modules_context_router_py -->|imports| py_external_opsmindai_shared_responses
-    py_file_src_opsmindai_modules_context_router_py -->|imports| py_external_pathlib
-    py_file_src_opsmindai_modules_incidents_schemas_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_modules_incidents_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_modules_memory_service_py -->|imports| py_external___future__
-    py_file_src_opsmindai_modules_memory_service_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_modules_memory_service_py -->|imports| py_external_math
-    py_file_src_opsmindai_modules_memory_service_py -->|imports| py_external_opsmindai_modules_skills_repository
-    py_file_src_opsmindai_modules_memory_service_py -->|imports| py_external_opsmindai_shared_db
-    py_file_src_opsmindai_modules_memory_service_py -->|imports| py_external_opsmindai_shared_logging
-    py_file_src_opsmindai_modules_memory_service_py -->|imports| py_external_re
-    py_file_src_opsmindai_modules_onboarding_cache_py -->|imports| py_external___future__
-    py_file_src_opsmindai_modules_onboarding_cache_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_modules_onboarding_cache_py -->|imports| py_external_hashlib
-    py_file_src_opsmindai_modules_onboarding_cache_py -->|imports| py_external_json
-    py_file_src_opsmindai_modules_onboarding_cache_py -->|imports| py_external_opsmindai_shared_db
-    py_file_src_opsmindai_modules_orchestrator_router_py -->|imports| py_external_fastapi
-    py_file_src_opsmindai_modules_orchestrator_router_py -->|imports| py_external_opsmindai_modules_orchestrator_schemas
-    py_file_src_opsmindai_modules_orchestrator_router_py -->|imports| py_external_opsmindai_modules_orchestrator_service
-    py_file_src_opsmindai_modules_orchestrator_router_py -->|imports| py_external_opsmindai_shared_responses
-    py_file_src_opsmindai_modules_orchestrator_router_py -->|imports| py_external_opsmindai_shared_trace
-    py_file_src_opsmindai_modules_orchestrator_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_modules_orchestrator_service_py -->|imports| py_external___future__
-    py_file_src_opsmindai_modules_orchestrator_service_py -->|imports| py_external_opsmindai_agents_base_schemas
-    py_file_src_opsmindai_modules_orchestrator_service_py -->|imports| py_external_opsmindai_agents_orchestrator_agent
-    py_file_src_opsmindai_modules_orchestrator_service_py -->|imports| py_external_opsmindai_modules_agents_service
-    py_file_src_opsmindai_modules_runs_repository_py -->|imports| py_external___future__
-    py_file_src_opsmindai_modules_runs_repository_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_modules_runs_repository_py -->|imports| py_external_json
-    py_file_src_opsmindai_modules_runs_repository_py -->|imports| py_external_opsmindai_modules_runs_schemas
-    py_file_src_opsmindai_modules_runs_repository_py -->|imports| py_external_opsmindai_shared_db
-    py_file_src_opsmindai_modules_runs_repository_py -->|imports| py_external_sqlite3
-    py_file_src_opsmindai_modules_runs_repository_py -->|imports| py_external_uuid
-    py_file_src_opsmindai_modules_runs_router_py -->|imports| py_external_fastapi
-    py_file_src_opsmindai_modules_runs_router_py -->|imports| py_external_opsmindai_modules_runs_repository
-    py_file_src_opsmindai_modules_runs_router_py -->|imports| py_external_opsmindai_shared_responses
-    py_file_src_opsmindai_modules_runs_schemas_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_modules_runs_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_modules_skills_repository_py -->|imports| py_external___future__
-    py_file_src_opsmindai_modules_skills_repository_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_modules_skills_repository_py -->|imports| py_external_opsmindai_shared_db
-    py_file_src_opsmindai_modules_skills_repository_py -->|imports| py_external_re
-    py_file_src_opsmindai_modules_skills_repository_py -->|imports| py_external_sqlite3
-    py_file_src_opsmindai_modules_skills_repository_py -->|imports| py_external_uuid
-    py_file_src_opsmindai_modules_skills_router_py -->|imports| py_external_fastapi
-    py_file_src_opsmindai_modules_skills_router_py -->|imports| py_external_opsmindai_modules_skills_repository
-    py_file_src_opsmindai_modules_skills_router_py -->|imports| py_external_opsmindai_shared_responses
-    py_file_src_opsmindai_modules_telegram_gateway_py -->|imports| py_external___future__
-    py_file_src_opsmindai_modules_telegram_gateway_py -->|imports| py_external_asyncio
-    py_file_src_opsmindai_modules_telegram_gateway_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_modules_telegram_gateway_py -->|imports| py_external_httpx
-    py_file_src_opsmindai_modules_telegram_gateway_py -->|imports| py_external_opsmindai_modules_chat_runtime
-    py_file_src_opsmindai_modules_telegram_gateway_py -->|imports| py_external_opsmindai_modules_chat_service
-    py_file_src_opsmindai_modules_telegram_gateway_py -->|imports| py_external_opsmindai_shared_db
-    py_file_src_opsmindai_modules_telegram_gateway_py -->|imports| py_external_opsmindai_shared_logging
-    py_file_src_opsmindai_modules_telegram_router_py -->|imports| py_external_fastapi
-    py_file_src_opsmindai_modules_telegram_router_py -->|imports| py_external_opsmindai_modules_memory_service
-    py_file_src_opsmindai_modules_telegram_router_py -->|imports| py_external_opsmindai_modules_telegram
-    py_file_src_opsmindai_modules_telegram_router_py -->|imports| py_external_opsmindai_modules_telegram_service
-    py_file_src_opsmindai_modules_telegram_router_py -->|imports| py_external_opsmindai_shared_responses
-    py_file_src_opsmindai_modules_telegram_router_py -->|imports| py_external_opsmindai_shared_trace
-    py_file_src_opsmindai_modules_telegram_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_modules_telegram_service_py -->|imports| py_external_opsmindai_modules_orchestrator_service
-    py_file_src_opsmindai_runtime_runner_py -->|imports| py_external___future__
-    py_file_src_opsmindai_runtime_runner_py -->|imports| py_external_json
-    py_file_src_opsmindai_runtime_runner_py -->|imports| py_external_opsmindai_agents_cognition_schemas
-    py_file_src_opsmindai_runtime_runner_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_runtime_runner_py -->|imports| py_external_opsmindai_shared_llm_client
-    py_file_src_opsmindai_runtime_runner_py -->|imports| py_external_opsmindai_tools_registry
-    py_file_src_opsmindai_runtime_runner_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_runtime_runner_py -->|imports| py_external_typing
-    py_file_src_opsmindai_shared_config_py -->|imports| py_external_pydantic_settings
-    py_file_src_opsmindai_shared_db_py -->|imports| py_external___future__
-    py_file_src_opsmindai_shared_db_py -->|imports| py_external_contextlib
-    py_file_src_opsmindai_shared_db_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_shared_db_py -->|imports| py_external_opsmindai_shared_config
-    py_file_src_opsmindai_shared_db_py -->|imports| py_external_sqlite3
-    py_file_src_opsmindai_shared_errors_py -->|imports| py_external_fastapi
-    py_file_src_opsmindai_shared_errors_py -->|imports| py_external_fastapi_responses
-    py_file_src_opsmindai_shared_errors_py -->|imports| py_external_opsmindai_shared_logging
-    py_file_src_opsmindai_shared_errors_py -->|imports| py_external_opsmindai_shared_responses
-    py_file_src_opsmindai_shared_llm_adapters_bedrock_adapter_py -->|imports| py_external_opsmindai_shared_config
-    py_file_src_opsmindai_shared_llm_adapters_bedrock_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_generators
-    py_file_src_opsmindai_shared_llm_adapters_bedrock_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_shared_llm_adapters_bedrock_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_provider
-    py_file_src_opsmindai_shared_llm_adapters_claude_adapter_py -->|imports| py_external_opsmindai_shared_config
-    py_file_src_opsmindai_shared_llm_adapters_claude_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_generators
-    py_file_src_opsmindai_shared_llm_adapters_claude_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_shared_llm_adapters_claude_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_provider
-    py_file_src_opsmindai_shared_llm_adapters_deepseek_adapter_py -->|imports| py_external_opsmindai_shared_config
-    py_file_src_opsmindai_shared_llm_adapters_deepseek_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_generators
-    py_file_src_opsmindai_shared_llm_adapters_deepseek_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_shared_llm_adapters_deepseek_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_provider
-    py_file_src_opsmindai_shared_llm_adapters_groq_adapter_py -->|imports| py_external_opsmindai_shared_config
-    py_file_src_opsmindai_shared_llm_adapters_groq_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_generators
-    py_file_src_opsmindai_shared_llm_adapters_groq_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_shared_llm_adapters_groq_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_provider
-    py_file_src_opsmindai_shared_llm_adapters_ollama_adapter_py -->|imports| py_external_opsmindai_shared_config
-    py_file_src_opsmindai_shared_llm_adapters_ollama_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_generators
-    py_file_src_opsmindai_shared_llm_adapters_ollama_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_shared_llm_adapters_ollama_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_provider
-    py_file_src_opsmindai_shared_llm_adapters_openai_adapter_py -->|imports| py_external_opsmindai_shared_config
-    py_file_src_opsmindai_shared_llm_adapters_openai_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_generators
-    py_file_src_opsmindai_shared_llm_adapters_openai_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_shared_llm_adapters_openai_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_provider
-    py_file_src_opsmindai_shared_llm_adapters_openrouter_adapter_py -->|imports| py_external_opsmindai_shared_config
-    py_file_src_opsmindai_shared_llm_adapters_openrouter_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_generators
-    py_file_src_opsmindai_shared_llm_adapters_openrouter_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_shared_llm_adapters_openrouter_adapter_py -->|imports| py_external_opsmindai_shared_llm_base_provider
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external___future__
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_asyncio
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_boto3
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_httpx
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_json
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_opsmindai_shared_config
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_opsmindai_shared_llm_base_exceptions
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_opsmindai_shared_llm_base_helpers
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_random
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_time
-    py_file_src_opsmindai_shared_llm_base_generators_py -->|imports| py_external_typing
-    py_file_src_opsmindai_shared_llm_base_helpers_py -->|imports| py_external___future__
-    py_file_src_opsmindai_shared_llm_base_helpers_py -->|imports| py_external_json
-    py_file_src_opsmindai_shared_llm_base_helpers_py -->|imports| py_external_opsmindai_shared_llm_base_exceptions
-    py_file_src_opsmindai_shared_llm_base_helpers_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_shared_llm_base_helpers_py -->|imports| py_external_re
-    py_file_src_opsmindai_shared_llm_base_helpers_py -->|imports| py_external_typing
-    py_file_src_opsmindai_shared_llm_base_models_py -->|imports| py_external___future__
-    py_file_src_opsmindai_shared_llm_base_models_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_shared_llm_base_models_py -->|imports| py_external_typing
-    py_file_src_opsmindai_shared_llm_base_provider_py -->|imports| py_external_abc
-    py_file_src_opsmindai_shared_llm_base_provider_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_shared_llm_client_py -->|imports| py_external_opsmindai_shared_config
-    py_file_src_opsmindai_shared_llm_client_py -->|imports| py_external_opsmindai_shared_llm_base_models
-    py_file_src_opsmindai_shared_llm_client_py -->|imports| py_external_opsmindai_shared_llm_factory
-    py_file_src_opsmindai_shared_llm_factory_py -->|imports| py_external_opsmindai_shared_llm_registry
-    py_file_src_opsmindai_shared_llm_registry_py -->|imports| py_external_opsmindai_shared_llm_adapters_bedrock_adapter
-    py_file_src_opsmindai_shared_llm_registry_py -->|imports| py_external_opsmindai_shared_llm_adapters_claude_adapter
-    py_file_src_opsmindai_shared_llm_registry_py -->|imports| py_external_opsmindai_shared_llm_adapters_deepseek_adapter
-    py_file_src_opsmindai_shared_llm_registry_py -->|imports| py_external_opsmindai_shared_llm_adapters_groq_adapter
-    py_file_src_opsmindai_shared_llm_registry_py -->|imports| py_external_opsmindai_shared_llm_adapters_ollama_adapter
-    py_file_src_opsmindai_shared_llm_registry_py -->|imports| py_external_opsmindai_shared_llm_adapters_openai_adapter
-    py_file_src_opsmindai_shared_llm_registry_py -->|imports| py_external_opsmindai_shared_llm_adapters_openrouter_adapter
-    py_file_src_opsmindai_shared_llm_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_shared_logging_py -->|imports| py_external___future__
-    py_file_src_opsmindai_shared_logging_py -->|imports| py_external_datetime
-    py_file_src_opsmindai_shared_logging_py -->|imports| py_external_json
-    py_file_src_opsmindai_shared_logging_py -->|imports| py_external_logging
-    py_file_src_opsmindai_shared_logging_py -->|imports| py_external_opsmindai_shared_trace
-    py_file_src_opsmindai_shared_responses_py -->|imports| py_external_opsmindai_shared_trace
-    py_file_src_opsmindai_shared_trace_py -->|imports| py_external_contextvars
-    py_file_src_opsmindai_shared_trace_py -->|imports| py_external_uuid
-    py_file_src_opsmindai_tools_aws_service_py -->|imports| py_external_opsmindai_tools_aws_tool
-    py_file_src_opsmindai_tools_aws_tool_py -->|imports| py_external_opsmindai_tools_base_schemas
-    py_file_src_opsmindai_tools_aws_tool_py -->|imports| py_external_opsmindai_tools_base_tool
-    py_file_src_opsmindai_tools_base_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_tools_base_tool_py -->|imports| py_external_abc
-    py_file_src_opsmindai_tools_base_tool_py -->|imports| py_external_opsmindai_tools_base_schemas
-    py_file_src_opsmindai_tools_github_client_py -->|imports| py_external___future__
-    py_file_src_opsmindai_tools_github_client_py -->|imports| py_external_base64
-    py_file_src_opsmindai_tools_github_client_py -->|imports| py_external_httpx
-    py_file_src_opsmindai_tools_github_client_py -->|imports| py_external_opsmindai_shared_config
-    py_file_src_opsmindai_tools_github_client_py -->|imports| py_external_re
-    py_file_src_opsmindai_tools_github_client_py -->|imports| py_external_typing
-    py_file_src_opsmindai_tools_github_schemas_py -->|imports| py_external_pydantic
-    py_file_src_opsmindai_tools_github_service_py -->|imports| py_external_opsmindai_tools_github_tool
-    py_file_src_opsmindai_tools_github_tool_py -->|imports| py_external___future__
-    py_file_src_opsmindai_tools_github_tool_py -->|imports| py_external_json
-    py_file_src_opsmindai_tools_github_tool_py -->|imports| py_external_opsmindai_tools_base_schemas
-    py_file_src_opsmindai_tools_github_tool_py -->|imports| py_external_opsmindai_tools_base_tool
-    py_file_src_opsmindai_tools_jenkins_service_py -->|imports| py_external_opsmindai_tools_jenkins_tool
-    py_file_src_opsmindai_tools_jenkins_tool_py -->|imports| py_external_opsmindai_tools_base_schemas
-    py_file_src_opsmindai_tools_jenkins_tool_py -->|imports| py_external_opsmindai_tools_base_tool
-    py_file_src_opsmindai_tools_jenkins_tool_py -->|imports| py_external_uuid
-    py_file_src_opsmindai_tools_logs_service_py -->|imports| py_external_opsmindai_tools_logs_tool
-    py_file_src_opsmindai_tools_logs_tool_py -->|imports| py_external_opsmindai_tools_base_schemas
-    py_file_src_opsmindai_tools_logs_tool_py -->|imports| py_external_opsmindai_tools_base_tool
-    py_file_src_opsmindai_tools_ops___init___py -->|imports| py_external_opsmindai_tools_ops_tool
-    py_file_src_opsmindai_tools_ops_tool_py -->|imports| py_external___future__
-    py_file_src_opsmindai_tools_ops_tool_py -->|imports| py_external_hashlib
-    py_file_src_opsmindai_tools_ops_tool_py -->|imports| py_external_opsmindai_tools_base_schemas
-    py_file_src_opsmindai_tools_ops_tool_py -->|imports| py_external_opsmindai_tools_base_tool
-    py_file_src_opsmindai_tools_registry_py -->|imports| py_external_opsmindai_tools_aws_tool
-    py_file_src_opsmindai_tools_registry_py -->|imports| py_external_opsmindai_tools_github_tool
-    py_file_src_opsmindai_tools_registry_py -->|imports| py_external_opsmindai_tools_jenkins_tool
-    py_file_src_opsmindai_tools_registry_py -->|imports| py_external_opsmindai_tools_logs_tool
-    py_file_src_opsmindai_tools_registry_py -->|imports| py_external_opsmindai_tools_sanity_tool
-    py_file_src_opsmindai_tools_registry_py -->|imports| py_external_opsmindai_tools_startup_tool
-    py_file_src_opsmindai_tools_registry_py -->|imports| py_external_opsmindai_tools_traces_tool
-    py_file_src_opsmindai_tools_sanity_service_py -->|imports| py_external_opsmindai_tools_sanity_tool
-    py_file_src_opsmindai_tools_sanity_tool_py -->|imports| py_external_opsmindai_tools_base_schemas
-    py_file_src_opsmindai_tools_sanity_tool_py -->|imports| py_external_opsmindai_tools_base_tool
-    py_file_src_opsmindai_tools_startup_service_py -->|imports| py_external_opsmindai_tools_startup_tool
-    py_file_src_opsmindai_tools_startup_tool_py -->|imports| py_external_opsmindai_tools_base_schemas
-    py_file_src_opsmindai_tools_startup_tool_py -->|imports| py_external_opsmindai_tools_base_tool
-    py_file_src_opsmindai_tools_traces_service_py -->|imports| py_external_opsmindai_tools_traces_tool
-    py_file_src_opsmindai_tools_traces_tool_py -->|imports| py_external___future__
-    py_file_src_opsmindai_tools_traces_tool_py -->|imports| py_external_opsmindai_tools_base_schemas
-    py_file_src_opsmindai_tools_traces_tool_py -->|imports| py_external_opsmindai_tools_base_tool
-    py_src_opsmindai_agents_base_agent_py_class_BaseAgent -->|defines| py_src_opsmindai_agents_base_agent_py_class_BaseAgent_method_execute
-    py_src_opsmindai_agents_base_agent_py_class_BaseAgent -->|defines| py_src_opsmindai_agents_base_agent_py_class_BaseAgent_method_run
-    py_src_opsmindai_agents_base_schemas_py_class_ExecutionContext -->|defines| py_src_opsmindai_agents_base_schemas_py_class_ExecutionContext_method_send
-    py_src_opsmindai_agents_onboarding_agent_py_class_OnboardingAgent -->|defines| py_src_opsmindai_agents_onboarding_agent_py_class_OnboardingAgent_method___init__
-    py_src_opsmindai_agents_onboarding_agent_py_class_OnboardingAgent -->|defines| py_src_opsmindai_agents_onboarding_agent_py_class_OnboardingAgent_method_execute
-    py_src_opsmindai_agents_onboarding_context_repo_py_class_ContextRepoGenerator -->|defines| py_src_opsmindai_agents_onboarding_context_repo_py_class_ContextRepoGenerator_method___init__
-    py_src_opsmindai_agents_onboarding_context_repo_py_class_ContextRepoGenerator -->|defines| py_src_opsmindai_agents_onboarding_context_repo_py_class_ContextRepoGenerator_method_generate
-    py_src_opsmindai_agents_onboarding_context_repo_py_func__render_markdown -->|calls| py_src_opsmindai_agents_onboarding_context_repo_py_func__bullets
-    py_src_opsmindai_agents_onboarding_context_repo_py_func__render_markdown -->|calls| py_src_opsmindai_agents_onboarding_context_repo_py_func__bullets
-    py_src_opsmindai_agents_onboarding_context_repo_py_func__render_markdown -->|calls| py_src_opsmindai_agents_onboarding_context_repo_py_func__bullets
-    py_src_opsmindai_agents_onboarding_context_repo_py_func__render_markdown -->|calls| py_src_opsmindai_agents_onboarding_context_repo_py_func__bullets
-    py_src_opsmindai_agents_onboarding_context_repo_py_func__render_markdown -->|calls| py_src_opsmindai_agents_onboarding_context_repo_py_func__bullets
-    py_src_opsmindai_agents_onboarding_context_repo_py_func__render_markdown -->|calls| py_src_opsmindai_agents_onboarding_context_repo_py_func__bullets
-    py_src_opsmindai_agents_orchestrator_agent_py_class_OrchestratorAgent -->|defines| py_src_opsmindai_agents_orchestrator_agent_py_class_OrchestratorAgent_method___init__
-    py_src_opsmindai_agents_orchestrator_agent_py_class_OrchestratorAgent -->|defines| py_src_opsmindai_agents_orchestrator_agent_py_class_OrchestratorAgent_method_execute
-    py_src_opsmindai_agents_rca_agent_py_class_RCAAgent -->|defines| py_src_opsmindai_agents_rca_agent_py_class_RCAAgent_method___init__
-    py_src_opsmindai_agents_rca_agent_py_class_RCAAgent -->|defines| py_src_opsmindai_agents_rca_agent_py_class_RCAAgent_method_execute
-    py_src_opsmindai_agents_rca_report_generator_py_class_RCAReportWriter -->|defines| py_src_opsmindai_agents_rca_report_generator_py_class_RCAReportWriter_method_generate
-    py_src_opsmindai_agents_rca_skill_extractor_py_func_extract_skill -->|calls| py_src_opsmindai_agents_rca_skill_extractor_py_func__signature
-    py_src_opsmindai_agents_release_agent_py_class_ReleaseAgent -->|defines| py_src_opsmindai_agents_release_agent_py_class_ReleaseAgent_method___init__
-    py_src_opsmindai_agents_release_agent_py_class_ReleaseAgent -->|defines| py_src_opsmindai_agents_release_agent_py_class_ReleaseAgent_method_execute
-    py_src_opsmindai_agents_release_agent_py_func__system_context -->|calls| py_src_opsmindai_modules_onboarding_cache_py_func_get_customer_report
-    py_src_opsmindai_agents_release_report_generator_py_class_ReleaseReportWriter -->|defines| py_src_opsmindai_agents_release_report_generator_py_class_ReleaseReportWriter_method_generate
-    py_src_opsmindai_modules_agents_router_py_func_agent_execute -->|calls| py_src_opsmindai_modules_agents_service_py_func_execute_agent
-    py_src_opsmindai_modules_agents_router_py_func_release_stream -->|calls| py_src_opsmindai_agents_release_agent_py_class_ReleaseAgent
-    py_src_opsmindai_modules_agents_router_py_func_release_stream -->|calls| py_src_opsmindai_modules_agents_stream_py_func_stream_agent_sse
-    py_src_opsmindai_modules_agents_service_py_func_execute_agent -->|calls| py_src_opsmindai_agents_base_schemas_py_class_ExecutionContext
-    py_src_opsmindai_modules_agents_service_py_func_execute_agent -->|calls| py_src_opsmindai_modules_runs_repository_py_func_create_run
-    py_src_opsmindai_modules_agents_service_py_func_execute_agent -->|calls| py_src_opsmindai_modules_runs_repository_py_func_update_run
-    py_src_opsmindai_modules_agents_service_py_func_execute_agent -->|calls| py_src_opsmindai_modules_runs_repository_py_func_update_run
-    py_src_opsmindai_modules_agents_service_py_func_execute_agent -->|calls| py_src_opsmindai_modules_runs_repository_py_func_update_run
-    py_src_opsmindai_modules_agents_service_py_func_execute_agent -->|calls| py_src_opsmindai_modules_runs_repository_py_func_update_run
-    py_src_opsmindai_modules_agents_stream_py_func_stream_agent_sse -->|calls| py_src_opsmindai_agents_base_schemas_py_class_ExecutionContext
-    py_src_opsmindai_modules_agents_stream_py_func_stream_agent_sse -->|calls| py_src_opsmindai_modules_chat_router_py_func__sse
-    py_src_opsmindai_modules_chat_router_py_func_chat -->|calls| py_src_opsmindai_modules_chat_router_py_func__sse
-    py_src_opsmindai_modules_chat_router_py_func_chat -->|calls| py_src_opsmindai_modules_chat_router_py_func__sse
-    py_src_opsmindai_modules_chat_router_py_func_chat -->|calls| py_src_opsmindai_modules_chat_runtime_py_func_clear_task
-    py_src_opsmindai_modules_chat_router_py_func_chat -->|calls| py_src_opsmindai_modules_chat_runtime_py_func_is_busy
-    py_src_opsmindai_modules_chat_router_py_func_chat -->|calls| py_src_opsmindai_modules_chat_runtime_py_func_lock_for
-    py_src_opsmindai_modules_chat_router_py_func_chat -->|calls| py_src_opsmindai_modules_chat_runtime_py_func_register_task
-    py_src_opsmindai_modules_chat_router_py_func_chat -->|calls| py_src_opsmindai_modules_chat_service_py_func_run_turn
-    py_src_opsmindai_modules_chat_router_py_func_chat_stop -->|calls| py_src_opsmindai_modules_chat_runtime_py_func_stop
-    py_src_opsmindai_modules_chat_runtime_py_func_clear_task -->|calls| py_src_opsmindai_modules_memory_service_py_func__key
-    py_src_opsmindai_modules_chat_runtime_py_func_is_busy -->|calls| py_src_opsmindai_modules_memory_service_py_func__key
-    py_src_opsmindai_modules_chat_runtime_py_func_lock_for -->|calls| py_src_opsmindai_modules_memory_service_py_func__key
-    py_src_opsmindai_modules_chat_runtime_py_func_register_task -->|calls| py_src_opsmindai_modules_memory_service_py_func__key
-    py_src_opsmindai_modules_chat_runtime_py_func_stop -->|calls| py_src_opsmindai_modules_memory_service_py_func__key
-    py_src_opsmindai_modules_chat_service_py_func__converse -->|calls| py_src_opsmindai_modules_chat_service_py_func__unwrap_reply
-    py_src_opsmindai_modules_chat_service_py_func__handle_ops -->|calls| py_src_opsmindai_modules_chat_service_py_func__ops_context
-    py_src_opsmindai_modules_chat_service_py_func__handle_ops -->|calls| py_src_opsmindai_modules_chat_service_py_func__ops_mode
-    py_src_opsmindai_modules_chat_service_py_func__handle_ops -->|calls| py_src_opsmindai_modules_chat_service_py_func__ops_synth
-    py_src_opsmindai_modules_chat_service_py_func__ops_context -->|calls| py_src_opsmindai_modules_onboarding_cache_py_func_get_customer_report
-    py_src_opsmindai_modules_chat_service_py_func__ops_synth -->|calls| py_src_opsmindai_modules_chat_service_py_func__unwrap_reply
-    py_src_opsmindai_modules_chat_service_py_func__route -->|calls| py_src_opsmindai_modules_chat_service_py_func__fast_route
-    py_src_opsmindai_modules_chat_service_py_func__run_agent -->|calls| py_src_opsmindai_agents_base_schemas_py_class_ExecutionContext
-    py_src_opsmindai_modules_chat_service_py_func_run_turn -->|calls| py_src_opsmindai_agents_onboarding_agent_py_class_OnboardingAgent
-    py_src_opsmindai_modules_chat_service_py_func_run_turn -->|calls| py_src_opsmindai_agents_rca_agent_py_class_RCAAgent
-    py_src_opsmindai_modules_chat_service_py_func_run_turn -->|calls| py_src_opsmindai_agents_release_agent_py_class_ReleaseAgent
-    py_src_opsmindai_modules_chat_service_py_func_run_turn -->|calls| py_src_opsmindai_modules_chat_service_py_func__converse
-    py_src_opsmindai_modules_chat_service_py_func_run_turn -->|calls| py_src_opsmindai_modules_chat_service_py_func__handle_ops
-    py_src_opsmindai_modules_chat_service_py_func_run_turn -->|calls| py_src_opsmindai_modules_chat_service_py_func__ops_context
-    py_src_opsmindai_modules_chat_service_py_func_run_turn -->|calls| py_src_opsmindai_modules_chat_service_py_func__reflect
-    py_src_opsmindai_modules_chat_service_py_func_run_turn -->|calls| py_src_opsmindai_modules_chat_service_py_func__route
-    py_src_opsmindai_modules_chat_service_py_func_run_turn -->|calls| py_src_opsmindai_modules_chat_service_py_func__run_agent
-    py_src_opsmindai_modules_chat_service_py_func_run_turn -->|calls| py_src_opsmindai_modules_chat_service_py_func__run_agent
-    py_src_opsmindai_modules_chat_service_py_func_run_turn -->|calls| py_src_opsmindai_modules_chat_service_py_func__run_agent
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService -->|defines| py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_build_working_set
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService -->|defines| py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_conversation_history
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService -->|defines| py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_core
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService -->|defines| py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_recall
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService -->|defines| py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_recent_facts
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService -->|defines| py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_recent_turns
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService -->|defines| py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_store
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService -->|defines| py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_take
-    py_src_opsmindai_modules_memory_service_py_class_MemoryService -->|defines| py_src_opsmindai_modules_memory_service_py_class_MemoryService_method_threads
-    py_src_opsmindai_modules_orchestrator_router_py_func_orchestrator_run -->|calls| py_src_opsmindai_modules_orchestrator_service_py_func_run_orchestrator
-    py_src_opsmindai_modules_orchestrator_service_py_func_run_orchestrator -->|calls| py_src_opsmindai_agents_base_schemas_py_class_ExecutionContext
-    py_src_opsmindai_modules_orchestrator_service_py_func_run_orchestrator -->|calls| py_src_opsmindai_agents_orchestrator_agent_py_class_OrchestratorAgent
-    py_src_opsmindai_modules_orchestrator_service_py_func_run_orchestrator -->|calls| py_src_opsmindai_modules_agents_service_py_func_execute_agent
-    py_src_opsmindai_modules_runs_repository_py_func__row_to_record -->|calls| py_src_opsmindai_modules_runs_schemas_py_class_RunRecord
-    py_src_opsmindai_modules_runs_repository_py_func_create_run -->|calls| py_src_opsmindai_modules_runs_repository_py_func_ensure_ready
-    py_src_opsmindai_modules_runs_repository_py_func_create_run -->|calls| py_src_opsmindai_modules_runs_repository_py_func_get_run
-    py_src_opsmindai_modules_runs_repository_py_func_find_runs_by_trace_id -->|calls| py_src_opsmindai_modules_runs_repository_py_func__row_to_record
-    py_src_opsmindai_modules_runs_repository_py_func_find_runs_by_trace_id -->|calls| py_src_opsmindai_modules_runs_repository_py_func_ensure_ready
-    py_src_opsmindai_modules_runs_repository_py_func_get_run -->|calls| py_src_opsmindai_modules_runs_repository_py_func__row_to_record
-    py_src_opsmindai_modules_runs_repository_py_func_get_run -->|calls| py_src_opsmindai_modules_runs_repository_py_func_ensure_ready
-    py_src_opsmindai_modules_runs_repository_py_func_list_runs -->|calls| py_src_opsmindai_modules_runs_repository_py_func__row_to_record
-    py_src_opsmindai_modules_runs_repository_py_func_list_runs -->|calls| py_src_opsmindai_modules_runs_repository_py_func_ensure_ready
-    py_src_opsmindai_modules_runs_repository_py_func_update_run -->|calls| py_src_opsmindai_modules_runs_repository_py_func_ensure_ready
-    py_src_opsmindai_modules_runs_repository_py_func_update_run -->|calls| py_src_opsmindai_modules_runs_repository_py_func_get_run
-    py_src_opsmindai_modules_runs_router_py_func_run_detail -->|calls| py_src_opsmindai_modules_runs_repository_py_func_get_run
-    py_src_opsmindai_modules_runs_router_py_func_runs -->|calls| py_src_opsmindai_modules_runs_repository_py_func_list_runs
-    py_src_opsmindai_modules_runs_router_py_func_trace_detail -->|calls| py_src_opsmindai_modules_runs_repository_py_func_find_runs_by_trace_id
-    py_src_opsmindai_modules_skills_repository_py_func_find_relevant_skills -->|calls| py_src_opsmindai_modules_skills_repository_py_func__tokens
-    py_src_opsmindai_modules_skills_repository_py_func_find_relevant_skills -->|calls| py_src_opsmindai_modules_skills_repository_py_func__tokens
-    py_src_opsmindai_modules_skills_repository_py_func_find_relevant_skills -->|calls| py_src_opsmindai_modules_skills_repository_py_func_list_skills
-    py_src_opsmindai_modules_skills_repository_py_func_list_skills -->|calls| py_src_opsmindai_modules_skills_repository_py_func__row_to_skill
-    py_src_opsmindai_modules_skills_repository_py_func_save_skill -->|calls| py_src_opsmindai_modules_skills_repository_py_func__row_to_skill
+    apps_api_src_opsmindai_agents_base_agent_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_agents_base_agent_py_file -->|imports| ext_abc
+    apps_api_src_opsmindai_agents_base_agent_py_file -->|imports| ext_opsmindai_agents_base_schemas
+    apps_api_src_opsmindai_agents_base_agent_py_file -->|imports| ext_opsmindai_shared_logging
+    apps_api_src_opsmindai_agents_base_agent_py_file -->|imports| ext_time
+    apps_api_src_opsmindai_agents_base_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_agents_base_schemas_py_file -->|imports| ext_typing
+    apps_api_src_opsmindai_agents_cognition_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_opsmindai_agents_base_agent
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_opsmindai_agents_base_schemas
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_opsmindai_agents_onboarding_analyzer
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_opsmindai_agents_onboarding_context_repo
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_opsmindai_agents_onboarding_schemas
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_opsmindai_agents_prompts
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_opsmindai_modules_memory_service
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_opsmindai_modules_onboarding_cache
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_opsmindai_runtime_runner
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_opsmindai_tools_github_schemas
+    apps_api_src_opsmindai_agents_onboarding_agent_py_file -->|imports| ext_opsmindai_tools_github_tool
+    apps_api_src_opsmindai_agents_onboarding_analyzer_py_file -->|imports| ext_opsmindai_tools_github_schemas
+    apps_api_src_opsmindai_agents_onboarding_context_repo_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_agents_onboarding_context_repo_py_file -->|imports| ext_opsmindai_agents_onboarding_schemas
+    apps_api_src_opsmindai_agents_onboarding_context_repo_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_agents_onboarding_context_repo_py_file -->|imports| ext_opsmindai_tools_github_client
+    apps_api_src_opsmindai_agents_onboarding_context_repo_py_file -->|imports| ext_pathlib
+    apps_api_src_opsmindai_agents_onboarding_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_agents_orchestrator_agent_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_agents_orchestrator_agent_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_agents_orchestrator_agent_py_file -->|imports| ext_opsmindai_agents_base_agent
+    apps_api_src_opsmindai_agents_orchestrator_agent_py_file -->|imports| ext_opsmindai_agents_base_schemas
+    apps_api_src_opsmindai_agents_orchestrator_agent_py_file -->|imports| ext_opsmindai_agents_cognition_schemas
+    apps_api_src_opsmindai_agents_orchestrator_agent_py_file -->|imports| ext_opsmindai_agents_prompts
+    apps_api_src_opsmindai_agents_orchestrator_agent_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_agents_orchestrator_agent_py_file -->|imports| ext_opsmindai_shared_llm_client
+    apps_api_src_opsmindai_agents_orchestrator_schemas_py_file -->|imports| ext_opsmindai_agents_cognition_schemas
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_agents_base_agent
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_agents_base_schemas
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_agents_prompts
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_agents_rca_analyzer
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_agents_rca_report_generator
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_agents_rca_schemas
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_agents_rca_skill_extractor
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_modules_memory_service
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_modules_skills_repository
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_runtime_runner
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_tools_logs_tool
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_opsmindai_tools_traces_tool
+    apps_api_src_opsmindai_agents_rca_agent_py_file -->|imports| ext_pathlib
+    apps_api_src_opsmindai_agents_rca_analyzer_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_agents_rca_analyzer_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_agents_rca_report_generator_py_file -->|imports| ext_opsmindai_agents_rca_schemas
+    apps_api_src_opsmindai_agents_rca_report_generator_py_file -->|imports| ext_pathlib
+    apps_api_src_opsmindai_agents_rca_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_agents_rca_skill_extractor_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_agents_rca_skill_extractor_py_file -->|imports| ext_opsmindai_agents_rca_schemas
+    apps_api_src_opsmindai_agents_rca_skill_extractor_py_file -->|imports| ext_re
+    apps_api_src_opsmindai_agents_release_agent_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_agents_release_agent_py_file -->|imports| ext_asyncio
+    apps_api_src_opsmindai_agents_release_agent_py_file -->|imports| ext_opsmindai_agents_base_agent
+    apps_api_src_opsmindai_agents_release_agent_py_file -->|imports| ext_opsmindai_agents_base_schemas
+    apps_api_src_opsmindai_agents_release_agent_py_file -->|imports| ext_opsmindai_agents_release_report_generator
+    apps_api_src_opsmindai_agents_release_agent_py_file -->|imports| ext_opsmindai_agents_release_schemas
+    apps_api_src_opsmindai_agents_release_agent_py_file -->|imports| ext_opsmindai_modules_onboarding_cache
+    apps_api_src_opsmindai_agents_release_agent_py_file -->|imports| ext_opsmindai_tools_aws_tool
+    apps_api_src_opsmindai_agents_release_agent_py_file -->|imports| ext_uuid
+    apps_api_src_opsmindai_agents_release_analyzer_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_agents_release_analyzer_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_agents_release_report_generator_py_file -->|imports| ext_opsmindai_agents_release_schemas
+    apps_api_src_opsmindai_agents_release_report_generator_py_file -->|imports| ext_pathlib
+    apps_api_src_opsmindai_agents_release_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_fastapi
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_fastapi_staticfiles
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_modules_agents_router
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_modules_chat_router
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_modules_context_router
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_modules_orchestrator_router
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_modules_runs_router
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_modules_skills_router
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_modules_telegram
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_modules_telegram_router
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_shared_db
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_shared_errors
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_shared_logging
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_shared_responses
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_shared_trace
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_opsmindai_tools_registry
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_os
+    apps_api_src_opsmindai_main_py_file -->|imports| ext_pathlib
+    apps_api_src_opsmindai_models_agent_run_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_models_agent_run_py_file -->|imports| ext_sqlmodel
+    apps_api_src_opsmindai_models_agent_run_py_file -->|imports| ext_typing
+    apps_api_src_opsmindai_models_customer_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_models_customer_py_file -->|imports| ext_sqlmodel
+    apps_api_src_opsmindai_models_skill_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_models_skill_py_file -->|imports| ext_sqlmodel
+    apps_api_src_opsmindai_models_tool_run_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_models_tool_run_py_file -->|imports| ext_sqlmodel
+    apps_api_src_opsmindai_models_tool_run_py_file -->|imports| ext_typing
+    apps_api_src_opsmindai_modules_agents_router_py_file -->|imports| ext_fastapi
+    apps_api_src_opsmindai_modules_agents_router_py_file -->|imports| ext_opsmindai_agents_release_agent
+    apps_api_src_opsmindai_modules_agents_router_py_file -->|imports| ext_opsmindai_modules_agents_schemas
+    apps_api_src_opsmindai_modules_agents_router_py_file -->|imports| ext_opsmindai_modules_agents_service
+    apps_api_src_opsmindai_modules_agents_router_py_file -->|imports| ext_opsmindai_modules_agents_stream
+    apps_api_src_opsmindai_modules_agents_router_py_file -->|imports| ext_opsmindai_shared_responses
+    apps_api_src_opsmindai_modules_agents_router_py_file -->|imports| ext_opsmindai_shared_trace
+    apps_api_src_opsmindai_modules_agents_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_modules_agents_service_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_modules_agents_service_py_file -->|imports| ext_asyncio
+    apps_api_src_opsmindai_modules_agents_service_py_file -->|imports| ext_opsmindai_agents_base_schemas
+    apps_api_src_opsmindai_modules_agents_service_py_file -->|imports| ext_opsmindai_agents_onboarding_agent
+    apps_api_src_opsmindai_modules_agents_service_py_file -->|imports| ext_opsmindai_agents_rca_agent
+    apps_api_src_opsmindai_modules_agents_service_py_file -->|imports| ext_opsmindai_agents_release_agent
+    apps_api_src_opsmindai_modules_agents_service_py_file -->|imports| ext_opsmindai_modules_runs_repository
+    apps_api_src_opsmindai_modules_agents_stream_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_modules_agents_stream_py_file -->|imports| ext_asyncio
+    apps_api_src_opsmindai_modules_agents_stream_py_file -->|imports| ext_fastapi_responses
+    apps_api_src_opsmindai_modules_agents_stream_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_modules_agents_stream_py_file -->|imports| ext_opsmindai_agents_base_agent
+    apps_api_src_opsmindai_modules_agents_stream_py_file -->|imports| ext_opsmindai_agents_base_schemas
+    apps_api_src_opsmindai_modules_agents_stream_py_file -->|imports| ext_opsmindai_shared_trace
+    apps_api_src_opsmindai_modules_chat_router_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_modules_chat_router_py_file -->|imports| ext_asyncio
+    apps_api_src_opsmindai_modules_chat_router_py_file -->|imports| ext_fastapi
+    apps_api_src_opsmindai_modules_chat_router_py_file -->|imports| ext_fastapi_responses
+    apps_api_src_opsmindai_modules_chat_router_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_modules_chat_router_py_file -->|imports| ext_opsmindai_modules_chat_runtime
+    apps_api_src_opsmindai_modules_chat_router_py_file -->|imports| ext_opsmindai_modules_chat_schemas
+    apps_api_src_opsmindai_modules_chat_router_py_file -->|imports| ext_opsmindai_modules_chat_service
+    apps_api_src_opsmindai_modules_chat_router_py_file -->|imports| ext_opsmindai_modules_memory_service
+    apps_api_src_opsmindai_modules_chat_router_py_file -->|imports| ext_opsmindai_shared_responses
+    apps_api_src_opsmindai_modules_chat_runtime_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_modules_chat_runtime_py_file -->|imports| ext_asyncio
+    apps_api_src_opsmindai_modules_chat_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_asyncio
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_opsmindai_agents_base_schemas
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_opsmindai_agents_cognition_schemas
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_opsmindai_agents_onboarding_agent
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_opsmindai_agents_rca_agent
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_opsmindai_agents_release_agent
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_opsmindai_modules_memory_service
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_opsmindai_modules_onboarding_cache
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_opsmindai_shared_llm_client
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_opsmindai_shared_trace
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_opsmindai_tools_ops_tool
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_re
+    apps_api_src_opsmindai_modules_chat_service_py_file -->|imports| ext_typing
+    apps_api_src_opsmindai_modules_context_router_py_file -->|imports| ext_fastapi
+    apps_api_src_opsmindai_modules_context_router_py_file -->|imports| ext_opsmindai_shared_responses
+    apps_api_src_opsmindai_modules_context_router_py_file -->|imports| ext_pathlib
+    apps_api_src_opsmindai_modules_incidents_schemas_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_modules_incidents_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_modules_memory_service_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_modules_memory_service_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_modules_memory_service_py_file -->|imports| ext_math
+    apps_api_src_opsmindai_modules_memory_service_py_file -->|imports| ext_opsmindai_modules_skills_repository
+    apps_api_src_opsmindai_modules_memory_service_py_file -->|imports| ext_opsmindai_shared_db
+    apps_api_src_opsmindai_modules_memory_service_py_file -->|imports| ext_opsmindai_shared_logging
+    apps_api_src_opsmindai_modules_memory_service_py_file -->|imports| ext_re
+    apps_api_src_opsmindai_modules_onboarding_cache_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_modules_onboarding_cache_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_modules_onboarding_cache_py_file -->|imports| ext_hashlib
+    apps_api_src_opsmindai_modules_onboarding_cache_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_modules_onboarding_cache_py_file -->|imports| ext_opsmindai_shared_db
+    apps_api_src_opsmindai_modules_orchestrator_router_py_file -->|imports| ext_fastapi
+    apps_api_src_opsmindai_modules_orchestrator_router_py_file -->|imports| ext_opsmindai_modules_orchestrator_schemas
+    apps_api_src_opsmindai_modules_orchestrator_router_py_file -->|imports| ext_opsmindai_modules_orchestrator_service
+    apps_api_src_opsmindai_modules_orchestrator_router_py_file -->|imports| ext_opsmindai_shared_responses
+    apps_api_src_opsmindai_modules_orchestrator_router_py_file -->|imports| ext_opsmindai_shared_trace
+    apps_api_src_opsmindai_modules_orchestrator_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_modules_orchestrator_service_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_modules_orchestrator_service_py_file -->|imports| ext_opsmindai_agents_base_schemas
+    apps_api_src_opsmindai_modules_orchestrator_service_py_file -->|imports| ext_opsmindai_agents_orchestrator_agent
+    apps_api_src_opsmindai_modules_orchestrator_service_py_file -->|imports| ext_opsmindai_modules_agents_service
+    apps_api_src_opsmindai_modules_runs_repository_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_modules_runs_repository_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_modules_runs_repository_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_modules_runs_repository_py_file -->|imports| ext_opsmindai_modules_runs_schemas
+    apps_api_src_opsmindai_modules_runs_repository_py_file -->|imports| ext_opsmindai_shared_db
+    apps_api_src_opsmindai_modules_runs_repository_py_file -->|imports| ext_sqlite3
+    apps_api_src_opsmindai_modules_runs_repository_py_file -->|imports| ext_uuid
+    apps_api_src_opsmindai_modules_runs_router_py_file -->|imports| ext_fastapi
+    apps_api_src_opsmindai_modules_runs_router_py_file -->|imports| ext_opsmindai_modules_runs_repository
+    apps_api_src_opsmindai_modules_runs_router_py_file -->|imports| ext_opsmindai_shared_responses
+    apps_api_src_opsmindai_modules_runs_schemas_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_modules_runs_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_modules_runs_service_py_file -->|imports| ext_opsmindai_modules_runs_repository
+    apps_api_src_opsmindai_modules_skills_repository_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_modules_skills_repository_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_modules_skills_repository_py_file -->|imports| ext_opsmindai_shared_db
+    apps_api_src_opsmindai_modules_skills_repository_py_file -->|imports| ext_re
+    apps_api_src_opsmindai_modules_skills_repository_py_file -->|imports| ext_sqlite3
+    apps_api_src_opsmindai_modules_skills_repository_py_file -->|imports| ext_uuid
+    apps_api_src_opsmindai_modules_skills_router_py_file -->|imports| ext_fastapi
+    apps_api_src_opsmindai_modules_skills_router_py_file -->|imports| ext_opsmindai_modules_skills_repository
+    apps_api_src_opsmindai_modules_skills_router_py_file -->|imports| ext_opsmindai_shared_responses
+    apps_api_src_opsmindai_modules_telegram_gateway_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_modules_telegram_gateway_py_file -->|imports| ext_asyncio
+    apps_api_src_opsmindai_modules_telegram_gateway_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_modules_telegram_gateway_py_file -->|imports| ext_httpx
+    apps_api_src_opsmindai_modules_telegram_gateway_py_file -->|imports| ext_opsmindai_modules_chat_runtime
+    apps_api_src_opsmindai_modules_telegram_gateway_py_file -->|imports| ext_opsmindai_modules_chat_service
+    apps_api_src_opsmindai_modules_telegram_gateway_py_file -->|imports| ext_opsmindai_shared_db
+    apps_api_src_opsmindai_modules_telegram_gateway_py_file -->|imports| ext_opsmindai_shared_logging
+    apps_api_src_opsmindai_modules_telegram_router_py_file -->|imports| ext_fastapi
+    apps_api_src_opsmindai_modules_telegram_router_py_file -->|imports| ext_opsmindai_modules_memory_service
+    apps_api_src_opsmindai_modules_telegram_router_py_file -->|imports| ext_opsmindai_modules_telegram
+    apps_api_src_opsmindai_modules_telegram_router_py_file -->|imports| ext_opsmindai_modules_telegram_schemas
+    apps_api_src_opsmindai_modules_telegram_router_py_file -->|imports| ext_opsmindai_modules_telegram_service
+    apps_api_src_opsmindai_modules_telegram_router_py_file -->|imports| ext_opsmindai_shared_responses
+    apps_api_src_opsmindai_modules_telegram_router_py_file -->|imports| ext_opsmindai_shared_trace
+    apps_api_src_opsmindai_modules_telegram_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_modules_telegram_service_py_file -->|imports| ext_opsmindai_modules_orchestrator_service
+    apps_api_src_opsmindai_runtime_runner_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_runtime_runner_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_runtime_runner_py_file -->|imports| ext_opsmindai_agents_cognition_schemas
+    apps_api_src_opsmindai_runtime_runner_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_runtime_runner_py_file -->|imports| ext_opsmindai_shared_llm_client
+    apps_api_src_opsmindai_runtime_runner_py_file -->|imports| ext_opsmindai_tools_registry
+    apps_api_src_opsmindai_runtime_runner_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_runtime_runner_py_file -->|imports| ext_typing
+    apps_api_src_opsmindai_shared_config_py_file -->|imports| ext_pydantic_settings
+    apps_api_src_opsmindai_shared_db_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_shared_db_py_file -->|imports| ext_contextlib
+    apps_api_src_opsmindai_shared_db_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_shared_db_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_shared_db_py_file -->|imports| ext_sqlite3
+    apps_api_src_opsmindai_shared_errors_py_file -->|imports| ext_fastapi
+    apps_api_src_opsmindai_shared_errors_py_file -->|imports| ext_fastapi_responses
+    apps_api_src_opsmindai_shared_errors_py_file -->|imports| ext_opsmindai_shared_logging
+    apps_api_src_opsmindai_shared_errors_py_file -->|imports| ext_opsmindai_shared_responses
+    apps_api_src_opsmindai_shared_llm_adapters_bedrock_adapter_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_shared_llm_adapters_bedrock_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_generators
+    apps_api_src_opsmindai_shared_llm_adapters_bedrock_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_shared_llm_adapters_bedrock_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_provider
+    apps_api_src_opsmindai_shared_llm_adapters_claude_adapter_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_shared_llm_adapters_claude_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_generators
+    apps_api_src_opsmindai_shared_llm_adapters_claude_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_shared_llm_adapters_claude_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_provider
+    apps_api_src_opsmindai_shared_llm_adapters_deepseek_adapter_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_shared_llm_adapters_deepseek_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_generators
+    apps_api_src_opsmindai_shared_llm_adapters_deepseek_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_shared_llm_adapters_deepseek_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_provider
+    apps_api_src_opsmindai_shared_llm_adapters_groq_adapter_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_shared_llm_adapters_groq_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_generators
+    apps_api_src_opsmindai_shared_llm_adapters_groq_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_shared_llm_adapters_groq_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_provider
+    apps_api_src_opsmindai_shared_llm_adapters_ollama_adapter_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_shared_llm_adapters_ollama_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_generators
+    apps_api_src_opsmindai_shared_llm_adapters_ollama_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_shared_llm_adapters_ollama_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_provider
+    apps_api_src_opsmindai_shared_llm_adapters_openai_adapter_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_shared_llm_adapters_openai_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_generators
+    apps_api_src_opsmindai_shared_llm_adapters_openai_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_shared_llm_adapters_openai_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_provider
+    apps_api_src_opsmindai_shared_llm_adapters_openrouter_adapter_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_shared_llm_adapters_openrouter_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_generators
+    apps_api_src_opsmindai_shared_llm_adapters_openrouter_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_shared_llm_adapters_openrouter_adapter_py_file -->|imports| ext_opsmindai_shared_llm_base_provider
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_asyncio
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_boto3
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_httpx
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_opsmindai_shared_llm_base_exceptions
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_opsmindai_shared_llm_base_helpers
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_random
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_time
+    apps_api_src_opsmindai_shared_llm_base_generators_py_file -->|imports| ext_typing
+    apps_api_src_opsmindai_shared_llm_base_helpers_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_shared_llm_base_helpers_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_shared_llm_base_helpers_py_file -->|imports| ext_opsmindai_shared_llm_base_exceptions
+    apps_api_src_opsmindai_shared_llm_base_helpers_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_shared_llm_base_helpers_py_file -->|imports| ext_re
+    apps_api_src_opsmindai_shared_llm_base_helpers_py_file -->|imports| ext_typing
+    apps_api_src_opsmindai_shared_llm_base_models_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_shared_llm_base_models_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_shared_llm_base_models_py_file -->|imports| ext_typing
+    apps_api_src_opsmindai_shared_llm_base_provider_py_file -->|imports| ext_abc
+    apps_api_src_opsmindai_shared_llm_base_provider_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_shared_llm_client_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_shared_llm_client_py_file -->|imports| ext_opsmindai_shared_llm_base_models
+    apps_api_src_opsmindai_shared_llm_client_py_file -->|imports| ext_opsmindai_shared_llm_factory
+    apps_api_src_opsmindai_shared_llm_factory_py_file -->|imports| ext_opsmindai_shared_llm_registry
+    apps_api_src_opsmindai_shared_llm_registry_py_file -->|imports| ext_opsmindai_shared_llm_adapters_bedrock_adapter
+    apps_api_src_opsmindai_shared_llm_registry_py_file -->|imports| ext_opsmindai_shared_llm_adapters_claude_adapter
+    apps_api_src_opsmindai_shared_llm_registry_py_file -->|imports| ext_opsmindai_shared_llm_adapters_deepseek_adapter
+    apps_api_src_opsmindai_shared_llm_registry_py_file -->|imports| ext_opsmindai_shared_llm_adapters_groq_adapter
+    apps_api_src_opsmindai_shared_llm_registry_py_file -->|imports| ext_opsmindai_shared_llm_adapters_ollama_adapter
+    apps_api_src_opsmindai_shared_llm_registry_py_file -->|imports| ext_opsmindai_shared_llm_adapters_openai_adapter
+    apps_api_src_opsmindai_shared_llm_registry_py_file -->|imports| ext_opsmindai_shared_llm_adapters_openrouter_adapter
+    apps_api_src_opsmindai_shared_llm_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_shared_logging_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_shared_logging_py_file -->|imports| ext_datetime
+    apps_api_src_opsmindai_shared_logging_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_shared_logging_py_file -->|imports| ext_logging
+    apps_api_src_opsmindai_shared_logging_py_file -->|imports| ext_opsmindai_shared_trace
+    apps_api_src_opsmindai_shared_responses_py_file -->|imports| ext_opsmindai_shared_trace
+    apps_api_src_opsmindai_shared_trace_py_file -->|imports| ext_contextvars
+    apps_api_src_opsmindai_shared_trace_py_file -->|imports| ext_uuid
+    apps_api_src_opsmindai_tools_aws_service_py_file -->|imports| ext_opsmindai_tools_aws_tool
+    apps_api_src_opsmindai_tools_aws_tool_py_file -->|imports| ext_opsmindai_tools_base_schemas
+    apps_api_src_opsmindai_tools_aws_tool_py_file -->|imports| ext_opsmindai_tools_base_tool
+    apps_api_src_opsmindai_tools_base_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_tools_base_tool_py_file -->|imports| ext_abc
+    apps_api_src_opsmindai_tools_base_tool_py_file -->|imports| ext_opsmindai_tools_base_schemas
+    apps_api_src_opsmindai_tools_github_client_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_tools_github_client_py_file -->|imports| ext_base64
+    apps_api_src_opsmindai_tools_github_client_py_file -->|imports| ext_httpx
+    apps_api_src_opsmindai_tools_github_client_py_file -->|imports| ext_opsmindai_shared_config
+    apps_api_src_opsmindai_tools_github_client_py_file -->|imports| ext_re
+    apps_api_src_opsmindai_tools_github_client_py_file -->|imports| ext_typing
+    apps_api_src_opsmindai_tools_github_schemas_py_file -->|imports| ext_pydantic
+    apps_api_src_opsmindai_tools_github_service_py_file -->|imports| ext_opsmindai_tools_github_tool
+    apps_api_src_opsmindai_tools_github_tool_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_tools_github_tool_py_file -->|imports| ext_json
+    apps_api_src_opsmindai_tools_github_tool_py_file -->|imports| ext_opsmindai_tools_base_schemas
+    apps_api_src_opsmindai_tools_github_tool_py_file -->|imports| ext_opsmindai_tools_base_tool
+    apps_api_src_opsmindai_tools_github_tool_py_file -->|imports| ext_opsmindai_tools_github_client
+    apps_api_src_opsmindai_tools_jenkins_service_py_file -->|imports| ext_opsmindai_tools_jenkins_tool
+    apps_api_src_opsmindai_tools_jenkins_tool_py_file -->|imports| ext_opsmindai_tools_base_schemas
+    apps_api_src_opsmindai_tools_jenkins_tool_py_file -->|imports| ext_opsmindai_tools_base_tool
+    apps_api_src_opsmindai_tools_jenkins_tool_py_file -->|imports| ext_uuid
+    apps_api_src_opsmindai_tools_logs_service_py_file -->|imports| ext_opsmindai_tools_logs_tool
+    apps_api_src_opsmindai_tools_logs_tool_py_file -->|imports| ext_opsmindai_tools_base_schemas
+    apps_api_src_opsmindai_tools_logs_tool_py_file -->|imports| ext_opsmindai_tools_base_tool
+    apps_api_src_opsmindai_tools_ops___init___py_file -->|imports| ext_opsmindai_tools_ops_tool
+    apps_api_src_opsmindai_tools_ops_tool_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_tools_ops_tool_py_file -->|imports| ext_hashlib
+    apps_api_src_opsmindai_tools_ops_tool_py_file -->|imports| ext_opsmindai_tools_base_schemas
+    apps_api_src_opsmindai_tools_ops_tool_py_file -->|imports| ext_opsmindai_tools_base_tool
+    apps_api_src_opsmindai_tools_registry_py_file -->|imports| ext_opsmindai_tools_aws_tool
+    apps_api_src_opsmindai_tools_registry_py_file -->|imports| ext_opsmindai_tools_github_tool
+    apps_api_src_opsmindai_tools_registry_py_file -->|imports| ext_opsmindai_tools_jenkins_tool
+    apps_api_src_opsmindai_tools_registry_py_file -->|imports| ext_opsmindai_tools_logs_tool
+    apps_api_src_opsmindai_tools_registry_py_file -->|imports| ext_opsmindai_tools_sanity_tool
+    apps_api_src_opsmindai_tools_registry_py_file -->|imports| ext_opsmindai_tools_startup_tool
+    apps_api_src_opsmindai_tools_registry_py_file -->|imports| ext_opsmindai_tools_traces_tool
+    apps_api_src_opsmindai_tools_sanity_service_py_file -->|imports| ext_opsmindai_tools_sanity_tool
+    apps_api_src_opsmindai_tools_sanity_tool_py_file -->|imports| ext_opsmindai_tools_base_schemas
+    apps_api_src_opsmindai_tools_sanity_tool_py_file -->|imports| ext_opsmindai_tools_base_tool
+    apps_api_src_opsmindai_tools_startup_service_py_file -->|imports| ext_opsmindai_tools_startup_tool
+    apps_api_src_opsmindai_tools_startup_tool_py_file -->|imports| ext_opsmindai_tools_base_schemas
+    apps_api_src_opsmindai_tools_startup_tool_py_file -->|imports| ext_opsmindai_tools_base_tool
+    apps_api_src_opsmindai_tools_traces_service_py_file -->|imports| ext_opsmindai_tools_traces_tool
+    apps_api_src_opsmindai_tools_traces_tool_py_file -->|imports| ext___future__
+    apps_api_src_opsmindai_tools_traces_tool_py_file -->|imports| ext_opsmindai_tools_base_schemas
+    apps_api_src_opsmindai_tools_traces_tool_py_file -->|imports| ext_opsmindai_tools_base_tool
+    compose_docker_compose_yml_service_api -->|depends_on| compose_docker_compose_yml_service_redis
+    json_apps_api__codegraph_cache_index_v1_manifest_json -->|contains| json_apps_api__codegraph_cache_index_v1_manifest_json_buildOptions
+    json_apps_api__codegraph_cache_index_v1_manifest_json -->|contains| json_apps_api__codegraph_cache_index_v1_manifest_json_configHash
+    json_apps_api__codegraph_cache_index_v1_manifest_json -->|contains| json_apps_api__codegraph_cache_index_v1_manifest_json_files
+    json_apps_api__codegraph_cache_index_v1_manifest_json -->|contains| json_apps_api__codegraph_cache_index_v1_manifest_json_graphOptions
+    json_apps_api__codegraph_cache_index_v1_manifest_json -->|contains| json_apps_api__codegraph_cache_index_v1_manifest_json_lastCommit
+    json_apps_api__codegraph_cache_index_v1_manifest_json -->|contains| json_apps_api__codegraph_cache_index_v1_manifest_json_projectRoot
+    json_apps_api__codegraph_cache_index_v1_manifest_json -->|contains| json_apps_api__codegraph_cache_index_v1_manifest_json_updatedAt
+    json_apps_api__codegraph_cache_index_v1_manifest_json -->|contains| json_apps_api__codegraph_cache_index_v1_manifest_json_version
+    json_apps_video_package_lock_json -->|contains| json_apps_video_package_lock_json_lockfileVersion
+    json_apps_video_package_lock_json -->|contains| json_apps_video_package_lock_json_name
+    json_apps_video_package_lock_json -->|contains| json_apps_video_package_lock_json_packages
+    json_apps_video_package_lock_json -->|contains| json_apps_video_package_lock_json_requires
+    json_apps_video_package_lock_json -->|contains| json_apps_video_package_lock_json_version
+    json_apps_video_package_json -->|contains| json_apps_video_package_json_dependencies
+    json_apps_video_package_json -->|contains| json_apps_video_package_json_devDependencies
+    json_apps_video_package_json -->|contains| json_apps_video_package_json_name
+    json_apps_video_package_json -->|contains| json_apps_video_package_json_private
+    json_apps_video_package_json -->|contains| json_apps_video_package_json_scripts
+    json_apps_video_package_json -->|contains| json_apps_video_package_json_version
+    json_apps_video_tsconfig_json -->|contains| json_apps_video_tsconfig_json_compilerOptions
+    json_apps_video_tsconfig_json -->|contains| json_apps_video_tsconfig_json_include
+    json_apps_web_package_lock_json -->|contains| json_apps_web_package_lock_json_lockfileVersion
+    json_apps_web_package_lock_json -->|contains| json_apps_web_package_lock_json_name
+    json_apps_web_package_lock_json -->|contains| json_apps_web_package_lock_json_packages
+    json_apps_web_package_lock_json -->|contains| json_apps_web_package_lock_json_requires
+    json_apps_web_package_lock_json -->|contains| json_apps_web_package_lock_json_version
+    json_apps_web_package_json -->|contains| json_apps_web_package_json_dependencies
+    json_apps_web_package_json -->|contains| json_apps_web_package_json_devDependencies
+    json_apps_web_package_json -->|contains| json_apps_web_package_json_name
+    json_apps_web_package_json -->|contains| json_apps_web_package_json_private
+    json_apps_web_package_json -->|contains| json_apps_web_package_json_scripts
+    json_apps_web_package_json -->|contains| json_apps_web_package_json_type
+    json_apps_web_package_json -->|contains| json_apps_web_package_json_version
+    json_apps_web_tsconfig_json -->|contains| json_apps_web_tsconfig_json_files
+    json_apps_web_tsconfig_json -->|contains| json_apps_web_tsconfig_json_references
+    json_codeiq_call_graph_json -->|contains| json_codeiq_call_graph_json_count
+    json_codeiq_call_graph_json -->|contains| json_codeiq_call_graph_json_rows
+    json_codeiq_full_graph_json -->|contains| json_codeiq_full_graph_json_edges
+    json_codeiq_full_graph_json -->|contains| json_codeiq_full_graph_json_nodes
+    json_codeiq_full_graph_json -->|contains| json_codeiq_full_graph_json_stats
+    json_codeiq_method_entity_edges_json -->|contains| json_codeiq_method_entity_edges_json_count
+    json_codeiq_method_entity_edges_json -->|contains| json_codeiq_method_entity_edges_json_rows
+    json_codeiq_stats_architecture_json -->|contains| json_codeiq_stats_architecture_json_classes
+    json_codeiq_stats_architecture_json -->|contains| json_codeiq_stats_architecture_json_methods
+    json_codeiq_stats_architecture_json -->|contains| json_codeiq_stats_architecture_json_modules
+    json_codeiq_stats_connections_json -->|contains| json_codeiq_stats_connections_json_consumers
+    json_codeiq_stats_connections_json -->|contains| json_codeiq_stats_connections_json_grpc
+    json_codeiq_stats_connections_json -->|contains| json_codeiq_stats_connections_json_producers
+    json_codeiq_stats_connections_json -->|contains| json_codeiq_stats_connections_json_rest
+    json_codeiq_stats_connections_json -->|contains| json_codeiq_stats_connections_json_websocket
+    json_codeiq_stats_frameworks_json -->|contains| json_codeiq_stats_frameworks_json_fastapi
+    json_codeiq_stats_frameworks_json -->|contains| json_codeiq_stats_frameworks_json_pydantic
+    json_codeiq_stats_frameworks_json -->|contains| json_codeiq_stats_frameworks_json_sqlalchemy
+    json_codeiq_stats_graph_json -->|contains| json_codeiq_stats_graph_json_edges
+    json_codeiq_stats_graph_json -->|contains| json_codeiq_stats_graph_json_edges_by_kind
+    json_codeiq_stats_graph_json -->|contains| json_codeiq_stats_graph_json_files
+    json_codeiq_stats_graph_json -->|contains| json_codeiq_stats_graph_json_nodes
+    json_codeiq_stats_languages_json -->|contains| json_codeiq_stats_languages_json_python
+    json_codeiq_stats_languages_json -->|contains| json_codeiq_stats_languages_json_toml
+    json_railway_json -->|contains| json_railway_json__schema
+    json_railway_json -->|contains| json_railway_json_build
+    json_railway_json -->|contains| json_railway_json_deploy
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_1
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_123
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_142
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_15
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_167
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_186
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_203
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_234
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_266
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_301
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_33
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_335
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_355
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_368
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_59
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_77
+    md_BUILD_JOURNAL_md -->|contains| md_BUILD_JOURNAL_md_heading_99
+    md_CHANGELOG_md -->|contains| md_CHANGELOG_md_heading_1
+    md_DEMO_md -->|contains| md_DEMO_md_heading_1
+    md_DEMO_md -->|contains| md_DEMO_md_heading_10
+    md_DEMO_md -->|contains| md_DEMO_md_heading_12
+    md_DEMO_md -->|contains| md_DEMO_md_heading_17
+    md_DEMO_md -->|contains| md_DEMO_md_heading_29
+    md_DEMO_md -->|contains| md_DEMO_md_heading_41
+    md_DEMO_md -->|contains| md_DEMO_md_heading_48
+    md_DEMO_md -->|contains| md_DEMO_md_heading_5
+    md_DEMO_md -->|contains| md_DEMO_md_heading_56
+    md_DEMO_md -->|contains| md_DEMO_md_heading_70
+    md_DEMO_md -->|contains| md_DEMO_md_heading_79
+    md_DEMO_md -->|contains| md_DEMO_md_heading_87
+    md_DEPLOY_md -->|contains| md_DEPLOY_md_heading_1
+    md_DEPLOY_md -->|contains| md_DEPLOY_md_heading_10
+    md_DEPLOY_md -->|contains| md_DEPLOY_md_heading_19
+    md_DEPLOY_md -->|contains| md_DEPLOY_md_heading_38
+    md_IMPLEMENTATION_LOG_md -->|contains| md_IMPLEMENTATION_LOG_md_heading_1
+    md_IMPLEMENTATION_LOG_md -->|contains| md_IMPLEMENTATION_LOG_md_heading_105
+    md_IMPLEMENTATION_LOG_md -->|contains| md_IMPLEMENTATION_LOG_md_heading_114
+    md_IMPLEMENTATION_LOG_md -->|contains| md_IMPLEMENTATION_LOG_md_heading_29
+    md_IMPLEMENTATION_LOG_md -->|contains| md_IMPLEMENTATION_LOG_md_heading_6
+    md_IMPLEMENTATION_LOG_md -->|contains| md_IMPLEMENTATION_LOG_md_heading_60
+    md_IMPLEMENTATION_LOG_md -->|contains| md_IMPLEMENTATION_LOG_md_heading_74
+    md_IMPLEMENTATION_LOG_md -->|contains| md_IMPLEMENTATION_LOG_md_heading_87
+    md_README_md -->|contains| md_README_md_heading_1
+    md_README_md -->|contains| md_README_md_heading_14
+    md_README_md -->|contains| md_README_md_heading_26
+    md_README_md -->|contains| md_README_md_heading_46
+    md_README_md -->|contains| md_README_md_heading_48
+    md_README_md -->|contains| md_README_md_heading_55
+    md_README_md -->|contains| md_README_md_heading_62
+    md_README_md -->|contains| md_README_md_heading_63
+    md_README_md -->|contains| md_README_md_heading_64
+    md_README_md -->|contains| md_README_md_heading_65
+    md_README_md -->|contains| md_README_md_heading_66
+    md_README_md -->|contains| md_README_md_heading_74
+    md_README_md -->|contains| md_README_md_heading_86
+    md_README_md -->|contains| md_README_md_heading_98
+    md_apps_video_README_md -->|contains| md_apps_video_README_md_heading_1
+    md_apps_video_README_md -->|contains| md_apps_video_README_md_heading_17
+    md_apps_video_README_md -->|contains| md_apps_video_README_md_heading_6
+    md_apps_web_README_md -->|contains| md_apps_web_README_md_heading_1
+    md_apps_web_README_md -->|contains| md_apps_web_README_md_heading_10
+    md_apps_web_README_md -->|contains| md_apps_web_README_md_heading_14
+    md_codeiq_README_md -->|contains| md_codeiq_README_md_heading_1
+    md_codeiq_README_md -->|contains| md_codeiq_README_md_heading_22
+    md_codeiq_README_md -->|contains| md_codeiq_README_md_heading_32
+    md_codeiq_README_md -->|contains| md_codeiq_README_md_heading_42
+    md_codeiq_README_md -->|contains| md_codeiq_README_md_heading_5
+    md_codeiq_README_md -->|contains| md_codeiq_README_md_heading_64
+    md_context_md -->|contains| md_context_md_heading_1
+    md_context_md -->|contains| md_context_md_heading_19
+    md_context_md -->|contains| md_context_md_heading_26
+    md_context_md -->|contains| md_context_md_heading_28
+    md_context_md -->|contains| md_context_md_heading_3
+    md_context_md -->|contains| md_context_md_heading_41
+    md_context_md -->|contains| md_context_md_heading_54
+    md_context_md -->|contains| md_context_md_heading_9
+    md_docs_architecture_md -->|contains| md_docs_architecture_md_heading_1
+    md_docs_architecture_md -->|contains| md_docs_architecture_md_heading_16
+    md_docs_architecture_md -->|contains| md_docs_architecture_md_heading_26
+    md_docs_architecture_md -->|contains| md_docs_architecture_md_heading_3
+    md_docs_architecture_md -->|contains| md_docs_architecture_md_heading_32
+    md_docs_architecture_md -->|contains| md_docs_architecture_md_heading_40
+    md_docs_architecture_md -->|contains| md_docs_architecture_md_heading_46
+    md_docs_cognitive_runtime_md -->|contains| md_docs_cognitive_runtime_md_heading_1
+    md_docs_cognitive_runtime_md -->|contains| md_docs_cognitive_runtime_md_heading_11
+    md_docs_cognitive_runtime_md -->|contains| md_docs_cognitive_runtime_md_heading_3
+    md_docs_onboarding_agent_md -->|contains| md_docs_onboarding_agent_md_heading_1
+    md_docs_onboarding_agent_md -->|contains| md_docs_onboarding_agent_md_heading_13
+    md_docs_onboarding_agent_md -->|contains| md_docs_onboarding_agent_md_heading_19
+    md_docs_onboarding_agent_md -->|contains| md_docs_onboarding_agent_md_heading_23
+    md_docs_onboarding_agent_md -->|contains| md_docs_onboarding_agent_md_heading_3
+    md_docs_onboarding_agent_md -->|contains| md_docs_onboarding_agent_md_heading_6
+    md_docs_onboarding_agent_md -->|contains| md_docs_onboarding_agent_md_heading_9
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_1
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_15
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_21
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_29
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_3
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_31
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_34
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_37
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_40
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_43
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_46
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_6
+    md_docs_phase_1_foundation_plan_md -->|contains| md_docs_phase_1_foundation_plan_md_heading_8
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_1
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_13
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_18
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_23
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_26
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_28
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_3
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_33
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_39
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_46
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_53
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_6
+    md_docs_phase_2_runtime_plan_md -->|contains| md_docs_phase_2_runtime_plan_md_heading_8
